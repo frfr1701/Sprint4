@@ -13,5 +13,9 @@ nbproject/genfiles.properties
 *.properties
 *.properties
 *.xml
+<<<<<<< HEAD
 .DS_Store
 manifest.mf.textClipping
+=======
+/build/
+>>>>>>> Jakob
