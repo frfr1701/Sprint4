@@ -13,3 +13,5 @@ nbproject/genfiles.properties
 *.properties
 *.properties
 *.xml
+.DS_Store
+manifest.mf.textClipping
