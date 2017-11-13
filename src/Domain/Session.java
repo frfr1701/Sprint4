@@ -6,14 +6,15 @@ import java.io.Serializable;
 public class Session implements Serializable{
     
     protected State state;
-    //Sätts initialt av servern
-    protected String riddle;
-    //SÄtts av klienten
+    protected String question;
     protected String answer = "";
     protected Boolean verdict;
+    protected int scoreRond = 0;
+    protected int scoreTotal = 0;
+    protected String whatCategory = "";
     
     public Session (String r){
-        riddle = r;
+        question = r;
         verdict = null;
         state = State.WAITING;
     }
@@ -26,12 +27,19 @@ public class Session implements Serializable{
         return verdict;
     }
     
-    public String getRiddle(){
-        return riddle;
+    public String getQuestion(){
+        return question;
     }
     
     public String getAnswer(){
         return answer;
+    }
+    public String getwhatCategory(){
+        return whatCategory;
+    }
+    
+    public void setWhatCategory(String subject){
+        whatCategory = subject;
     }
     
     public void setState(State s){
@@ -42,11 +50,21 @@ public class Session implements Serializable{
         verdict = b;
     }
     
-    public void setRiddle(String s){
-        riddle = s;
+    public void setQuestion(String s){
+        question = s;
     }
     
     public void setAnswer(String s){
         answer = s;
+    }
+    
+    public void addScoreRond(){
+        scoreRond++;
+    }
+    public void addScoreTotal(){
+        scoreTotal++;
+    }
+    public void resetScoreRond(){
+        scoreRond=0;
     }
 }

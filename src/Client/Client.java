@@ -22,11 +22,11 @@ public class Client {
             Session session;
             
             while ((session = (Session) ois.readObject()) != null) {
-                //There should be error handling for WAITING and CLIENTSENTANSWER 
-                if(session.getState() == State.SERVERSENTRIDDLE){
+                //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
+                if(session.getState() == State.SERVERSENTQUESTION){
                     System.out.println("Server: " + session.getRiddle());
                     session.setAnswer(stdIn.readLine());
-                    session.setState(State.CLIENTSENTANSWER);
+                    session.setState(State.CLIENTCLICKEDANSWER);
                 }
                 else if(session.getState() == State.SERVERSENTANSWER) {
                     if (session.getVerdict()){
