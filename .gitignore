@@ -1,0 +1,15 @@
+
+*.xml
+build.xml
+build/built-jar.properties
+build/classes/sprint4/Sprint4.class
+*.TXT
+*.jar
+*.mf
+*.mf
+*.mf
+*.xml
+nbproject/genfiles.properties
+*.properties
+*.properties
+*.xml
