@@ -1,0 +1,5 @@
+package Domain;
+
+public enum  State {
+     WAITING, SERVERSENTRIDDLE, CLIENTSENTANSWER, SERVERSENTANSWER;
+}

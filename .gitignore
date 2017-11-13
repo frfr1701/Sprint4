@@ -13,3 +13,4 @@ nbproject/genfiles.properties
 *.properties
 *.properties
 *.xml
+/build/
