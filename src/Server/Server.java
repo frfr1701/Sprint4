@@ -4,19 +4,21 @@ import Domain.Session;
 import java.net.*;
 import java.io.*;
 
-public class Server {
-    public static void main(String[] args) throws IOException {
-        
-        int portNumber = 44444;
-
+public class Server extends Thread{
+    Socket socketToClient;
+    Protocol protocol = new Protocol();
+    
+    public Server(Socket socketToClient) {
+        this.socketToClient=socketToClient;
+    }
+    
+    @Override
+    public void run(){
         try ( 
-            ServerSocket serverSocket = new ServerSocket(portNumber);
-            Socket clientSocket = serverSocket.accept();
-
+              ObjectOutputStream oos= new ObjectOutputStream(socketToClient.getOutputStream());
+              ObjectInputStream ois = new ObjectInputStream(socketToClient.getInputStream());
         ) {
-            
-            ObjectOutputStream oos= new ObjectOutputStream(clientSocket.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+
             Session input, output;
             
             // Initiate conversation with client
@@ -31,13 +33,13 @@ public class Server {
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "
-                + portNumber + " or listening for a connection");
+                + socketToClient.getPort() + " or listening for a connection");
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
         catch (ClassNotFoundException e) {
             System.out.println("Class not found when trying to listen on port "
-                + portNumber + " or listening for a connection");
+                + socketToClient.getPort() + " or listening for a connection");
             System.out.println(e.getMessage());
         }
     }
