@@ -1,15 +1,10 @@
 package Server;
 
-import Domain.Session;
+
 import java.net.*;
 import java.io.*;
 
 public class Server {
-<<<<<<< HEAD
-     public static void main(String[] args) {
-        
-         System.out.println("hej");
-=======
     public static void main(String[] args) throws IOException {
         
         int portNumber = 44444;
@@ -45,6 +40,5 @@ public class Server {
                 + portNumber + " or listening for a connection");
             System.out.println(e.getMessage());
         }
->>>>>>> master
     }
 } 
