@@ -11,15 +11,15 @@ public class Protocol {
     private String[] answers = { "Klockan",
                                  "Skorstenen",
                                  "Nålsögat" };
-    
+
     public Session getInitialSession(){
         return new Session(clues[currentRiddle]);
     }
-    
+
     public Session processInput(Session s) {
         State state = s.getState();
         System.out.println("Server: "+state);
-        
+
         //There should be error handling for SERVERSENTRIDDLE state
 
         if (state == State.WAITING || state == State.SERVERSENTANSWER) {
