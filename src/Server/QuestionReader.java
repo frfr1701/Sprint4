@@ -6,17 +6,6 @@ import java.util.*;
 import java.util.stream.*;
 
 public class QuestionReader {
-    public static void main(String[] args) {
-        
-        QuestionReader go = new QuestionsAndSubjects(1, 2);
-        
-        List<String[]> ra = go.getQuestions("Hej");
-        ra.forEach((string) -> {
-            for (String string1 : string) {
-                System.out.println(string1);
-            }
-        });
-    }
 
     Path dir = Paths.get("src\\Resources");
     DirectoryStream<Path> directoryStream;
@@ -28,7 +17,7 @@ public class QuestionReader {
             directoryStream = Files.newDirectoryStream(dir, "*.{txt}");
             directoryStream.forEach((path) -> {
                 subjects.add(path.getFileName().toString().replace(".txt", ""));
-                FileReader(path);
+                fileReader(path);
             });
         } catch (IOException ex) {
             System.out.println("Fel vid inläsning av textfiler från " + dir.toString());
@@ -46,7 +35,7 @@ public class QuestionReader {
      * //plats 5 är fel svar
      * @param p path för filen som ska läsas in
      */
-    private void FileReader(Path p) {
+    private void fileReader(Path p) {
         String[] temp = new String[6];
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(p))) {
             while (((temp[0] = br.readLine()) != null)
@@ -63,17 +52,10 @@ public class QuestionReader {
         }
     }
     
-    /**
-     * @return ALLA kategorier som finns att välja på
-     */
     public List<String> getSubjects() {
         return subjects;
     }
     
-    /**
-     * @param subject vilken kategori man vill ha frågor på
-     * @return returnerar ALLA frågor på specifierad kategori
-     */
     public List<String[]> getQuestions(String subject) {
         List<String[]> temp = questions.stream()
                 .filter((index) -> index[0]
@@ -87,55 +69,49 @@ class QuestionsAndSubjects extends QuestionReader {
 
     private final int NumberOfQuestions;
     private final int NumberOfSubjects;
+    private List<String[]> SubjectSpecificQuestions;
 
     public QuestionsAndSubjects(int NumberOfQuestions, int NumberOfSubjects) {
-        if (NumberOfSubjects > subjects.size()) {
-            throw new IllegalArgumentException("Det finns inte så många kategorier"
-                    + "\navalible:" + subjects.size() 
-                    + "\nrequested:" + NumberOfSubjects);
-        }
         this.NumberOfQuestions = NumberOfQuestions;
         this.NumberOfSubjects = NumberOfSubjects;
     }
-    /**
-     * @return Speciferat antal subjects (se konstruktor)
-     */
+    
+    
     @Override
     public List<String> getSubjects() {
-        Set<String> randomIndexSet = new HashSet<>();
-        while (randomIndexSet.size()<NumberOfSubjects) {
-            randomIndexSet.add(subjects.get((int)(Math.random() * subjects.size())));
-        }
-        List<String> returnList = randomIndexSet.stream().collect(Collectors.toList());
-        Collections.shuffle(returnList);
-        return returnList;
+        return shuffleMaList(makeToList(differentElements(subjects, NumberOfSubjects)));
     }
-    /**
-     * @param subject vilken kategori man vill ha frågor på
-     * @return specifierat antal frågor (se konstruktor)
-     */
+    
+    
     @Override
     public List<String[]> getQuestions(String subject) {
-        List<String[]> filteredList = questions.stream().filter(indexOfList -> indexOfList[0]
-                .equalsIgnoreCase(subject))
-                .collect(Collectors.toList());
+        SubjectSpecificQuestions = filteredBoiSubject(subject);
         
-        if (NumberOfQuestions > filteredList.size()) {
-            throw new IllegalArgumentException("\nDet finns inte tillräckligt många frågor "
-                    + "i den här kategorin!\navalible:" 
-                    + filteredList.size() 
-                    + "\nrequested:" + NumberOfQuestions);
+        return shuffleMaList(makeToList(differentElements(SubjectSpecificQuestions, NumberOfQuestions)));
+    }
+    
+    private Set differentElements(List fromList, int antal){
+        Set<Object> UniqueElements = new HashSet<>();
+        while (UniqueElements.size() < antal) {
+            UniqueElements.add(giveRandomElement(fromList));
         }
-        
-
-        Set<String[]> randomIndexSet = new HashSet<>();
-        while (randomIndexSet.size()<NumberOfQuestions) {
-            randomIndexSet.add(filteredList.get((int)(Math.random() * filteredList.size())));
-        }
-        
-        List<String[]> returnList = randomIndexSet.stream().collect(Collectors.toList());
-        Collections.shuffle(returnList);
-        return returnList;
-        
+        return UniqueElements;
+    }
+    
+    private Object giveRandomElement(List chosenOne){
+        return chosenOne.get((int) (Math.random() * chosenOne.size()));
+    }
+    
+    private List<String[]> filteredBoiSubject(String filterBy){
+        return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterBy)).collect(Collectors.toList());
+    }
+    
+    private List makeToList(Set set){
+        return (List)set.stream().collect(Collectors.toList());
+    }
+    
+    private List shuffleMaList(List shuffleMe){
+        Collections.shuffle(shuffleMe);
+        return shuffleMe;
     }
 }
