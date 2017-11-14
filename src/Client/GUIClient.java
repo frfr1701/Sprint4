@@ -159,13 +159,13 @@ public class GUIClient extends JFrame implements ActionListener{
     
    
     
-          JOptionPane.showMessageDialog(null," spela ");
+          //JOptionPane.showMessageDialog(null," spela ");
     
     
     }
     
     
-    
+////////  
     }}
 
 
