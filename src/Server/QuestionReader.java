@@ -2,10 +2,11 @@ package Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.*;
 import java.util.*;
 
-public class QuestionReader {
+public class QuestionReader implements Serializable{
 
     Path dir = Paths.get("src\\Resources");
     DirectoryStream<Path> directoryStream;

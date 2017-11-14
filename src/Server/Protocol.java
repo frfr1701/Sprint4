@@ -1,19 +1,20 @@
 package Server;
 
 import Domain.*;
+import static Domain.State.SERVERSENTANSWER;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Protocol {
     QuestionReader qr = new QuestionReader();
-    String [] rond = getQuestions();    //Skickar in 3 frågor
-    //private static final int NUMRIDDLES = 3;
-    
+    String [] threeSubjects;
     
     String [] fråga1Test = {"Matte", "Vad är 1 + 1", "2", "1100", "1010", "90098"};
     String [] fråga2Test = {"Matte", "Vad är 3 + 1", "4", "1100", "1010", "90098"};
     String [] rondCategoryTest = {"historia", "teknik", "matte"};
+    
     List<String[]> questions = new ArrayList<>();
    // String [][] matte = {fråga1Test, fråga2Test};
     private int category = 0;
@@ -22,66 +23,73 @@ public class Protocol {
     
     private int currentQuestionInRond = 0;
      private int randomQuestion = 0; 
- 
-   Protocol(){
-       questions.add(fråga1Test);
-       questions.add(fråga2Test);
-   }
-   
+     
+    Protocol(){
+       
+    }
+
     
     public Session getInitialSession(){
-        return new Session("ttt");
+        return new Session(rondCategoryTest); //här ska array av 3 ämnen ksickas in
     }
     
     public Session processInput(Session s) {
         State state = s.getState();
         System.out.println("Server: "+ state);
+        System.out.println(questions.get(currentQuestionInRond)[question]);
         
         //There should be error handling for SERVERSENTQUESTION state
-        if (state == State.WAITING){
+        if (state == State.WAITING ){
+             s.setSubjectChoices(rondCategoryTest);
+            //randomizeCategories(qr.getSubjects())
             //Randomisera kategorinamn och spara ner 3 i array o skicka över till klienten
-            if(s.getwhatCategory().equalsIgnoreCase(rondCategoryTest[0])){    //Klienten kommer välja kategory och setta setwhatCategory
-               //randomizeQuestions(gr.getQuestion());
-                randomizeQuestions(questions);
-                // metod som randomiserar array med ämnet
-                s.setState(State.SERVERSENTCATEGORYQUESTION);
-            } else if(s.getwhatCategory().equalsIgnoreCase(rondCategoryTest[1])){
-                
-                //setcategory till jakob
-                s.setState(State.SERVERSENTCATEGORYQUESTION);
-            } else if(s.getwhatCategory().equalsIgnoreCase(rondCategoryTest[2])) {
-               
-                //setcategory till jakob
-                s.setState(State.SERVERSENTCATEGORYQUESTION);
+             //s.setWhatSubject();  
+            s.setState(State.SERVERSENTWHATCATEGORYQUESTION);
+            
+        }else if (state == State.CLIENTPICKEDSUBJECT) { 
+            System.out.println("Klienten: valde " + s.getwhatSubject());
+            if(s.getwhatSubject().equalsIgnoreCase(rondCategoryTest[0])){    //Klienten kommer välja kategory och setta setwhatCategory
+                System.out.println("Klienten valde " + rondCategoryTest[0]);
+                questions = qr.getQuestions();
+                s.setQuestion(questions.get(currentQuestionInRond)[question]);
+                s.setState(State.SERVERSENTQUESTION);
+            } else if(s.getwhatSubject().equalsIgnoreCase(rondCategoryTest[1])){
+                System.out.println("Klienten valde " + rondCategoryTest[1]);
+                questions= qr.getQuestions();
+                s.setQuestion(questions.get(currentQuestionInRond)[question]);
+                s.setState(State.SERVERSENTQUESTION);
+            } else if(s.getwhatSubject().equalsIgnoreCase(rondCategoryTest[2])) {
+                System.out.println("Klienten valde " + rondCategoryTest[2]);
+                questions = qr.getQuestions();
+                s.setQuestion(questions.get(currentQuestionInRond)[question]);
+                s.setState(State.SERVERSENTQUESTION);
             }
          
-        } else if(state == State.SERVERSENTCATEGORYQUESTION || state == State.SERVERSENTANSWER) {
-              s.setQuestion(questions.get(currentQuestionInRond)[question]);
-              s.setState(State.SERVERSENTQUESTION);
-            
         } else if (state == State.CLIENTCLICKEDANSWER) {
-            if (s.getAnswer().equalsIgnoreCase(matte[currentQuestionInRond][correctAnswer])) {
+            if (s.getAnswer().equalsIgnoreCase(questions.get(currentQuestionInRond)[correctAnswer])) {
                 s.setVerdict(true);
                 s.addScoreRond();
                 s.addScoreTotal();
             } else {
                 s.setVerdict(false);
             }
-            s.setState(State.SERVERSENTANSWER);
             currentQuestionInRond++;
+            s.setState(State.SERVERSENTANSWER);
             
-
-
-
-
-//SKA egenetligen randomiseras
-           // efter rondens slut ska rond scoren reseta s.resetScoreRond();
+            
+        
         }
         return s;
     }
+//    public String [] randomizeCategories(String [] subjects){
+  
+//      threeSubjects
+//        
+//    }
     
-    public List randomizeQuestions(List questions){
-        return questions;
-    }
+//    public List randomizeQuestions(List questions){
+//        Collections.shuffle(questions);
+//        return questions;
+//    }
 
 }
