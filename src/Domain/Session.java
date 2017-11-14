@@ -1,13 +1,15 @@
 package Domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 public class Session implements Serializable{
    static final long serialVersionUID = -7588980448693010399L;
     protected State state;
     protected String question;
-    protected String [] subjectChoices;
+    protected List<String> subjectChoices;
+    protected List<String> questionsInARond;
     protected String answer = "";
     protected Boolean verdict;
     protected int scoreRond = 0;
@@ -15,7 +17,7 @@ public class Session implements Serializable{
     protected String whatSubject = "";
     
     
-    public Session (String [] subjectChoices){
+    public Session (List subjectChoices){
         
         this.subjectChoices = subjectChoices;
         verdict = null;
@@ -42,13 +44,19 @@ public class Session implements Serializable{
         return whatSubject;
     }
     
-    public String [] getsubjectChoices(){
+    public List getsubjectChoices(){
         return subjectChoices;
     }
     
+    public List getQuestionsInARond(){
+        return questionsInARond;
+    }
     
     
-    public void setSubjectChoices(String [] categoryChoies) {
+    public void setquestionsInARond (List questionsInARond){
+        this.questionsInARond = questionsInARond;
+    }
+    public void setSubjectChoices(List subjectChoices) {
         this.subjectChoices= subjectChoices;
     }
     

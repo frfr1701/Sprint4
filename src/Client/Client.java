@@ -25,13 +25,13 @@ public class Client {
             while ((session = (Session) ois.readObject()) != null) {
                 //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
                 if(session.getState() == State.SERVERSENTWHATCATEGORYQUESTION){
-                    System.out.println("Server: " + Arrays.toString(session.getsubjectChoices()) + "         State: " + session.getState());
+                    System.out.println("Server: " + session.getsubjectChoices() + "         State: " + session.getState());
                     session.setWhatSubject(stdIn.readLine());
                     session.setState(State.CLIENTPICKEDSUBJECT);
                 }
                 else if(session.getState() == State.SERVERSENTQUESTION) {
                     
-                    System.out.println("Server: " + session.getwhatSubject() + session.getQuestion() + "         State: " + session.getState());
+                    System.out.println("Server: " + session.getwhatSubject() +": "+ session.getQuestion() + "         State: " + session.getState());
                     session.setAnswer(stdIn.readLine());
                     session.setState(State.CLIENTCLICKEDANSWER);
                 } else if(session.getState() == State.SERVERSENTANSWER){     
@@ -42,7 +42,7 @@ public class Client {
                     else{
                         System.out.println("Server: Du gissade FEL!");
                     }
-                    session.setState(State.CLIENTPICKEDSUBJECT);
+                    session.setState(State.ANOTHERQUESTION);
                 }
                 
                 oos.writeObject(session);
