@@ -14,7 +14,7 @@ public class Server {
             Socket clientSocket = serverSocket.accept();
 
         ) {//
-            
+            //
             ObjectOutputStream oos= new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
             Session input, output;

@@ -11,7 +11,7 @@ public class Session implements Serializable{
     //SÄtts av klienten
     protected String answer = "";
     protected Boolean verdict;
-    ///
+    //////
     public Session (String r){
         riddle = r;
         verdict = null;
