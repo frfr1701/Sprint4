@@ -15,7 +15,7 @@ public class Protocol {
     public Session getInitialSession(){
         return new Session(clues[currentRiddle]);
     }
-    
+    ////
     public Session processInput(Session s) {
         State state = s.getState();
         System.out.println("Server: "+state);
