@@ -7,10 +7,10 @@ import java.util.stream.*;
 <<<<<<< HEAD
 public class QuestionReader implements Serializable{
 
-    Path dir = Paths.get("src\\Resources");
-    DirectoryStream<Path> directoryStream;
-    List<String> subjects = new ArrayList<>();
-    List<String[]> questions = new ArrayList<>();
+    private final Path dir = Paths.get("src\\Resources");
+    private DirectoryStream<Path> directoryStream;
+    protected List<String> subjects = new ArrayList<>();
+    protected List<String[]> questions = new ArrayList<>();
 
     public QuestionReader() {
         try {
@@ -38,12 +38,12 @@ public class QuestionReader implements Serializable{
     private void fileReader(Path p) {
         String[] temp = new String[6];
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(p))) {
-            while (((temp[0] = br.readLine()) != null)
-                    && ((temp[1] = br.readLine()) != null)
+            while (((temp[1] = br.readLine()) != null)
                     && ((temp[2] = br.readLine()) != null)
                     && ((temp[3] = br.readLine()) != null)
                     && ((temp[4] = br.readLine()) != null)
                     && ((temp[5] = br.readLine()) != null)) {
+                temp[0] = p.getFileName().toString().replace(".txt", "");
                 questions.add(Arrays.copyOf(temp, temp.length));
             }
         } catch (IOException ex) {
@@ -85,17 +85,22 @@ class QuestionsAndSubjects extends QuestionReader {
     
     @Override
     public List<String> getSubjects() {
+<<<<<<< HEAD
         Set<String> randomIndexSet = new HashSet<>();
         while (randomIndexSet.size()<NumberOfSubjects) {
             randomIndexSet.add(subjects.get((int)(Math.random() * subjects.size())));
         Collections.shuffle(returnList);
         return returnList;
+=======
+        return shuffleMaList(makeListFromSet(differentElements(subjects, NumberOfSubjects)));
+>>>>>>> Jakob
     }
      * @param subject vilken kategori man vill ha frågor på
      * @return specifierat antal frågor (se konstruktor)
      */
     @Override
     public List<String[]> getQuestions(String subject) {
+<<<<<<< HEAD
         List<String[]> filteredList = questions.stream().filter(indexOfList -> indexOfList[0]
                 .equalsIgnoreCase(subject))
                 .collect(Collectors.toList());
@@ -105,6 +110,15 @@ class QuestionsAndSubjects extends QuestionReader {
                     + "i den här kategorin!\navalible:" 
                     + filteredList.size() 
                     + "\nrequested:" + NumberOfQuestions);
+=======
+        return shuffleMaList(makeListFromSet(differentElements(filteredBoiSubject(subject), NumberOfQuestions)));
+    }
+    
+    private Set differentElements(List fromList, int antal){
+        Set<Object> UniqueElements = new HashSet<>();
+        while (UniqueElements.size() < antal) {
+            UniqueElements.add(giveRandomElement(fromList));
+>>>>>>> Jakob
         }
 
         Set<String[]> randomIndexSet = new HashSet<>();
@@ -117,11 +131,12 @@ class QuestionsAndSubjects extends QuestionReader {
         return returnList;
         
     
-    private List<String[]> filteredBoiSubject(String filterBy){
-        return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterBy)).collect(Collectors.toList());
+    private List<String[]> filteredBoiSubject(String filterByThisSubject){
+        
+        return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterByThisSubject)).collect(Collectors.toList());
     }
     
-    private List makeToList(Set set){
+    private List makeListFromSet(Set set){
         return (List)set.stream().collect(Collectors.toList());
     }
     
