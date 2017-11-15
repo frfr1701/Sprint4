@@ -6,7 +6,7 @@ import java.util.stream.*;
 
 public class QuestionReader implements Serializable{
 
-    private final Path dir = Paths.get("src\\Resources");
+    private final Path dir = Paths.get("src\\Server\\Resources");
     private DirectoryStream<Path> directoryStream;
     protected List<String> subjects = new ArrayList<>();
     protected List<String[]> questions = new ArrayList<>();

@@ -15,7 +15,7 @@ public class Client {
         int portNumber = 44444;
 
         try (
-            Socket kkSocket = new Socket(hostName, portNumber);) {
+                Socket kkSocket = new Socket(hostName, portNumber);) {
             ObjectOutputStream oos = new ObjectOutputStream(kkSocket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(kkSocket.getInputStream());
 
@@ -26,12 +26,12 @@ public class Client {
             while ((session = (Session) ois.readObject()) != null) {
                 //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
                 if (session.getState() == State.SERVERSENTWHATCATEGORYQUESTION) {
-                    System.out.println("Server State: "+ session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
+                    System.out.println("Server State: " + session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
                     session.setWhatSubject(stdIn.readLine());
                     session.setState(State.CLIENTPICKEDSUBJECT);
                 } else if (session.getState() == State.SERVERSENTQUESTION) {
 
-                    System.out.println("Server: "+ session.getState() + "\nValtämne:  " + session.getwhatSubject() + "\nFråga:  " + session.getQuestion());
+                    System.out.println("Server: " + session.getState() + "\nValtämne:  " + session.getwhatSubject() + "\nFråga:  " + session.getQuestion());
                     session.setAnswer(stdIn.readLine());
                     session.setState(State.CLIENTCLICKEDANSWER);
                 } else if (session.getState() == State.SERVERSENTANSWER) {
@@ -40,7 +40,7 @@ public class Client {
                         System.out.println("Server: Du gissade RÄTT! Poäng: " + session.getScoreTotal());
                         System.out.println("------------------------------------------");
                     } else {
-                        System.out.println("Server: Du gissade FEL! Poäng: "  + session.getScoreTotal());
+                        System.out.println("Server: Du gissade FEL! Poäng: " + session.getScoreTotal());
                         System.out.println("------------------------------------------");
                     }
                     session.setState(State.ANOTHERQUESTION);
