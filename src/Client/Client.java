@@ -31,7 +31,7 @@ public class Client {
                     session.setState(State.CLIENTPICKEDSUBJECT);
                 } else if (session.getState() == State.SERVERSENTQUESTION) {
 
-                    System.out.println("Server: "+ session.getState() + "\nValtämne:  " + session.getwhatSubject() + "\n Fråga:  " + session.getQuestion());
+                    System.out.println("Server: "+ session.getState() + "\nValtämne:  " + session.getwhatSubject() + "\nFråga:  " + session.getQuestion());
                     session.setAnswer(stdIn.readLine());
                     session.setState(State.CLIENTCLICKEDANSWER);
                 } else if (session.getState() == State.SERVERSENTANSWER) {
