@@ -8,7 +8,7 @@ public class Session implements Serializable{
     protected State state;
     //Sätts initialt av servern
     protected String riddle;
-    //SÄtts av klienten
+    //Sätts av klienten
     protected String answer = "";
     protected Boolean verdict;
     
