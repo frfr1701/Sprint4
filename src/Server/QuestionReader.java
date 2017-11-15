@@ -4,7 +4,6 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
 
-<<<<<<< HEAD
 public class QuestionReader implements Serializable{
 
     private final Path dir = Paths.get("src\\Resources");
@@ -55,7 +54,7 @@ public class QuestionReader implements Serializable{
     public List<String> getSubjects() {
         return subjects;
     }
-    
+     /*
      * @return returnerar ALLA frågor på specifierad kategori
      */
     public List<String[]> getQuestions(String subject) {
@@ -73,9 +72,6 @@ class QuestionsAndSubjects extends QuestionReader {
     private final int NumberOfSubjects;
 
     public QuestionsAndSubjects(int NumberOfQuestions, int NumberOfSubjects) {
-        if (NumberOfSubjects > subjects.size()) {
-                    + "\nrequested:" + NumberOfSubjects);
-        }
         this.NumberOfQuestions = NumberOfQuestions;
         this.NumberOfSubjects = NumberOfSubjects;
     }
@@ -85,32 +81,10 @@ class QuestionsAndSubjects extends QuestionReader {
     
     @Override
     public List<String> getSubjects() {
-<<<<<<< HEAD
-        Set<String> randomIndexSet = new HashSet<>();
-        while (randomIndexSet.size()<NumberOfSubjects) {
-            randomIndexSet.add(subjects.get((int)(Math.random() * subjects.size())));
-        Collections.shuffle(returnList);
-        return returnList;
-=======
         return shuffleMaList(makeListFromSet(differentElements(subjects, NumberOfSubjects)));
->>>>>>> Jakob
     }
-     * @param subject vilken kategori man vill ha frågor på
-     * @return specifierat antal frågor (se konstruktor)
-     */
     @Override
     public List<String[]> getQuestions(String subject) {
-<<<<<<< HEAD
-        List<String[]> filteredList = questions.stream().filter(indexOfList -> indexOfList[0]
-                .equalsIgnoreCase(subject))
-                .collect(Collectors.toList());
-        
-        if (NumberOfQuestions > filteredList.size()) {
-            throw new IllegalArgumentException("\nDet finns inte tillräckligt många frågor "
-                    + "i den här kategorin!\navalible:" 
-                    + filteredList.size() 
-                    + "\nrequested:" + NumberOfQuestions);
-=======
         return shuffleMaList(makeListFromSet(differentElements(filteredBoiSubject(subject), NumberOfQuestions)));
     }
     
@@ -118,9 +92,9 @@ class QuestionsAndSubjects extends QuestionReader {
         Set<Object> UniqueElements = new HashSet<>();
         while (UniqueElements.size() < antal) {
             UniqueElements.add(giveRandomElement(fromList));
->>>>>>> Jakob
         }
 
+    
         Set<String[]> randomIndexSet = new HashSet<>();
         while (randomIndexSet.size()<NumberOfQuestions) {
             randomIndexSet.add(filteredList.get((int)(Math.random() * filteredList.size())));
@@ -132,7 +106,6 @@ class QuestionsAndSubjects extends QuestionReader {
         
     
     private List<String[]> filteredBoiSubject(String filterByThisSubject){
-        
         return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterByThisSubject)).collect(Collectors.toList());
     }
     
