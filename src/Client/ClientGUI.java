@@ -2,12 +2,10 @@ package Client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
@@ -27,39 +25,53 @@ public class ClientGUI extends JFrame implements ActionListener {
     JPanel btn4 = new JPanel();
     JButton question = new JButton(logo);
     JButton giveUp = new JButton("Ge upp");
+    List<JPanel> listpanel = new ArrayList<>();
     
     ClientGUI(){
+       giveUp.setFont(new Font("Sanserif", Font.PLAIN, 20));
+       giveUp.addActionListener(this);
+       listpanel.add(btn1);
+       listpanel.add(btn2);
+       listpanel.add(btn3);
+       listpanel.add(btn4);
         
-        btn1.addMouseListener(ma);
-        btn2.addMouseListener(ma);
-        btn3.addMouseListener(ma);
-        btn4.addMouseListener(ma);
-        giveUp.addActionListener(this);
-        panel.add(btn1);
-        panel.add(btn2);
-        panel.add(btn3);
-        panel.add(btn4);
+        
+        for (JPanel answers : listpanel) {
+            answers.addMouseListener(ma);
+            panel.add(answers);
+        }
+     
         panel.setLayout(new GridLayout(2,2));
         setVisible(true);
         setSize(800, 600);
         panel2.setLayout(new BorderLayout());
-        
-        
         panel2.add("Center", panel);
         panel2.add("North", question);
         panel2.add("South", giveUp);
         add(panel2);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-       btn1.addMouseListener(ma);
-       btn2.addMouseListener(ma);
-       btn3.addMouseListener(ma);
-       btn4.addMouseListener(ma);
+    
+
+    
+        
+     
                 
     }
+        public void shuffle(List<JPanel> answers, JPanel panel) {
+        Collections.shuffle(answers);
+        for (JPanel a : answers) {
+            panel.add(a);
+        }
+        panel.revalidate();
+        panel.repaint();
+    }
+    
+   
     
     public static void main(String[] args) {
         ClientGUI m = new ClientGUI();
+        
     }
     MouseAdapter ma = new MouseAdapter() {
         @Override
@@ -77,6 +89,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                     
                 }
             
+     @Override
      public void mouseReleased(MouseEvent e) {
              
                     if (e.getSource() == btn1) 
