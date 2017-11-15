@@ -79,7 +79,7 @@ class QuestionsAndSubjects extends QuestionReader {
     
     @Override
     public List<String> getSubjects() {
-        return shuffleMaList(makeToList(differentElements(subjects, NumberOfSubjects)));
+        return shuffleMaList(makeListFromSet(differentElements(subjects, NumberOfSubjects)));
     }
     
     
@@ -87,7 +87,7 @@ class QuestionsAndSubjects extends QuestionReader {
     public List<String[]> getQuestions(String subject) {
         SubjectSpecificQuestions = filteredBoiSubject(subject);
         
-        return shuffleMaList(makeToList(differentElements(SubjectSpecificQuestions, NumberOfQuestions)));
+        return shuffleMaList(makeListFromSet(differentElements(SubjectSpecificQuestions, NumberOfQuestions)));
     }
     
     private Set differentElements(List fromList, int antal){
@@ -106,7 +106,7 @@ class QuestionsAndSubjects extends QuestionReader {
         return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterBy)).collect(Collectors.toList());
     }
     
-    private List makeToList(Set set){
+    private List makeListFromSet(Set set){
         return (List)set.stream().collect(Collectors.toList());
     }
     
