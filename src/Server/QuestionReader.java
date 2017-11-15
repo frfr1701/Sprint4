@@ -69,7 +69,6 @@ class QuestionsAndSubjects extends QuestionReader {
 
     private final int NumberOfQuestions;
     private final int NumberOfSubjects;
-    private List<String[]> SubjectSpecificQuestions;
 
     public QuestionsAndSubjects(int NumberOfQuestions, int NumberOfSubjects) {
         this.NumberOfQuestions = NumberOfQuestions;
@@ -85,9 +84,7 @@ class QuestionsAndSubjects extends QuestionReader {
     
     @Override
     public List<String[]> getQuestions(String subject) {
-        SubjectSpecificQuestions = filteredBoiSubject(subject);
-        
-        return shuffleMaList(makeListFromSet(differentElements(SubjectSpecificQuestions, NumberOfQuestions)));
+        return shuffleMaList(makeListFromSet(differentElements(filteredBoiSubject(subject), NumberOfQuestions)));
     }
     
     private Set differentElements(List fromList, int antal){
