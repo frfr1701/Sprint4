@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Created by https://www.gitignore.io/api/netbeans,intellij
 
 ### Intellij ###
@@ -94,6 +95,7 @@ nbproject/genfiles.properties
 manifest.mf.textClipping
 /build/
 /dist/
+=======
 Created by https://www.gitignore.io/api/netbeans,intellij
 
 ### Intellij ###

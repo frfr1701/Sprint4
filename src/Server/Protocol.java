@@ -11,6 +11,7 @@ public class Protocol {
 
     QuestionReader qr;
 
+<<<<<<< HEAD
     private String[] clues = { "Vad är det som går och går men aldrig kommer till dörren?", "Vilken sten är alltid ihålig?", "Vilket öga kan inte se?"};
     private String[] answers = { "Klockan",
                                  "Skorstenen",
@@ -31,6 +32,7 @@ public class Protocol {
             s.setState(State.SERVERSENTRIDDLE);
         } else if (state == State.CLIENTSENTANSWER) {
             if (s.getAnswer().equalsIgnoreCase(answers[currentRiddle])) {
+=======
 
     List<String[]> questionsRondTemp = new ArrayList<>();
     List<String> subjectsRondTemp = new ArrayList<>();
@@ -86,6 +88,7 @@ public class Protocol {
         } else if (state == State.CLIENTCLICKEDANSWER) {
             if (s.getAnswer().equalsIgnoreCase(questionsRondTemp.get(currentQuestionInRond)[correctAnswer])) {
 
+>>>>>>> ElinasBranch
                 s.setVerdict(true);
                 s.addScoreRond();
                 s.addScoreTotal();

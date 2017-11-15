@@ -100,7 +100,10 @@ class QuestionsAndSubjects extends QuestionReader {
     }    
     
     private List<String[]> filteredBoiSubject(String filterByThisSubject){
+<<<<<<< HEAD
         
+=======
+>>>>>>> ElinasBranch
         return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterByThisSubject)).collect(Collectors.toList());
     }
     
