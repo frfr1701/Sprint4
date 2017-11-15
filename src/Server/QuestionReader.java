@@ -93,17 +93,11 @@ class QuestionsAndSubjects extends QuestionReader {
         while (UniqueElements.size() < antal) {
             UniqueElements.add(giveRandomElement(fromList));
         }
-
-    
-        Set<String[]> randomIndexSet = new HashSet<>();
-        while (randomIndexSet.size()<NumberOfQuestions) {
-            randomIndexSet.add(filteredList.get((int)(Math.random() * filteredList.size())));
-        }
-        
-        List<String[]> returnList = randomIndexSet.stream().collect(Collectors.toList());
-        Collections.shuffle(returnList);
-        return returnList;
-        
+        return UniqueElements;
+    }
+    private Object giveRandomElement(List chosenOne){
+        return chosenOne.get((int)(Math.random() * chosenOne.size()));
+    }    
     
     private List<String[]> filteredBoiSubject(String filterByThisSubject){
         return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterByThisSubject)).collect(Collectors.toList());
