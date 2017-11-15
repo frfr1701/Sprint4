@@ -11,7 +11,6 @@ public class Client {
     public static void main(String[] args) throws IOException {
 
         String hostName = "127.0.0.1"; //localhost
-        //String hostName = "172.20.200.194"; //localhost
         int portNumber = 44444;
 
         try (
@@ -59,9 +58,9 @@ public class Client {
                   
                 } else if (session.getState() == State.RESULTSCREEN){
                     
-                     System.out.println("Server: "+ session.getState()+"\nRunda: "+ session.getRond() + "\n" + "Resultat för ronden: "+ session.getScoreRond()+ "\nResultat totalt: "+ session.getScoreTotal());
+                     System.out.println("Server: "+ session.getState()+"\nRunda: "+ session.getRondAt() + "\n" + "Resultat för ronden: "+ session.getScoreRond()+ "\nResultat totalt: "+ session.getScoreTotal());
                      session.resetScoreRond();
-                     session.setMessege("Ny omgång tryck J");
+                     session.setMessege("För starta ny runda tryck J");
                      System.out.println(session.getMessege());
                      session.setAnswer(stdIn.readLine());
                      System.out.println("------------------------------------------");
@@ -69,10 +68,13 @@ public class Client {
                      session.setState(State.CLIENTSTARTSGAME);
                      
                 } else if (session.getState() == State.FINISHEDGAME){
+                    
                     System.out.println("Server: "+ session.getState()+"\nSpelet är avslutat du fick totalt:  "+ session.getScoreTotal() 
-                            + "\nTEST - Vad står ronder på nu: " + session.getRond() 
+                            + "\nTEST - Vad står ronder på nu: " + session.getRondAt() 
                             + "\n" + "Resultat för ronden: "+ session.getScoreRond());
+                    session.resetRondCounter();
                     session.setMessege("Vill du starta nytt spel J");
+                    System.out.println("------------------------------------------");
                 }
 
                 oos.writeObject(session); 

@@ -33,7 +33,7 @@ public class Protocol {
 
     public Session getInitialSession() {
         //subjectsRondTemp = qr.getSubjects();
-        return new Session("Vill du starta nytt spel J");
+        return new Session("Vill du starta nytt spel skriv J");
     }
 
     public Session processInput(Session s) {
@@ -49,8 +49,8 @@ public class Protocol {
             }
             
         } else if (state == State.CLIENTPICKEDSUBJECT) {
-
-            if (s.getwhatSubject().equalsIgnoreCase(subjectsRondTemp.get(0))) {    //Klienten kommer välja kategory och setta setwhatCategory
+               
+            if (s.getwhatSubject().equalsIgnoreCase(subjectsRondTemp.get(0))) {  
 
                 System.out.println("Klienten valde " + subjectsRondTemp.get(0));
                 questionsRondTemp = qr.getQuestions(subjectsRondTemp.get(0));
@@ -88,12 +88,11 @@ public class Protocol {
             s.setState(State.SERVERSENTANSWER);
 
         } else if (state == State.ANOTHERQUESTION) { 
-            if(currentQuestionInRond == c.getQuestionsPerRound()){ // 4an ska bytas ut mot getter av antal valda frågor
+            if(currentQuestionInRond == c.getQuestionsPerRound()){ 
                currentQuestionInRond = 0;
-               s.addRond();
-               if (s.getRond() == c.getNumberOfRounds()){
+               s.addOneToRoundCounter();
+               if (s.getRondAt() == c.getNumberOfRounds()){
                  s.setState(State.FINISHEDGAME);
-                 s.resetRond();
                } else {
                  s.setState(State.RESULTSCREEN);
                }
