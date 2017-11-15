@@ -90,8 +90,8 @@ public class Protocol {
         } else if (state == State.ANOTHERQUESTION) { 
             if(currentQuestionInRond == c.getQuestionsPerRound()){ 
                currentQuestionInRond = 0;
-               s.addOneToRoundCounter();
-               if (s.getRondAt() == c.getNumberOfRounds()){
+               s.nextRond();
+               if (s.getCurrentRond() == c.getNumberOfRounds()){
                  s.setState(State.FINISHEDGAME);
                } else {
                  s.setState(State.RESULTSCREEN);

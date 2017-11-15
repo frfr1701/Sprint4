@@ -12,7 +12,7 @@ public class Session implements Serializable {
     protected List<String> questionsInARond;
     protected String answer = "";
     protected Boolean verdict;
-    protected int rondCounter = 0;
+    protected int currentRond = 0;
     protected int scoreRond = 0;
     protected int scoreTotal = 0;
     protected String whatSubject = "";
@@ -64,15 +64,15 @@ public class Session implements Serializable {
     public String getMessege(){
         return messege;
     }
-    public int getRondAt () {
-        return rondCounter;
+    public int getCurrentRond () {
+        return currentRond;
     }
-    public void addOneToRoundCounter(){
-        rondCounter++;
+    public void nextRond(){
+        currentRond++;
     }
     
     public void resetRondCounter (){
-        rondCounter = 0;
+        currentRond = 0;
     }
     public void setMessege(String text){ //tillfällig innan guin
         messege =text;

@@ -58,7 +58,7 @@ public class Client {
                   
                 } else if (session.getState() == State.RESULTSCREEN){
                     
-                     System.out.println("Server: "+ session.getState()+"\nRunda: "+ session.getRondAt() + "\n" + "Resultat för ronden: "+ session.getScoreRond()+ "\nResultat totalt: "+ session.getScoreTotal());
+                     System.out.println("Server: "+ session.getState()+"\nRunda: "+ session.getCurrentRond() + "\n" + "Resultat för ronden: "+ session.getScoreRond()+ "\nResultat totalt: "+ session.getScoreTotal());
                      session.resetScoreRond();
                      session.setMessege("För starta ny runda tryck J");
                      System.out.println(session.getMessege());
@@ -70,7 +70,7 @@ public class Client {
                 } else if (session.getState() == State.FINISHEDGAME){
                     
                     System.out.println("Server: "+ session.getState()+"\nSpelet är avslutat du fick totalt:  "+ session.getScoreTotal() 
-                            + "\nTEST - Vad står ronder på nu: " + session.getRondAt() 
+                            + "\nTEST - Vad står ronder på nu: " + session.getCurrentRond() 
                             + "\n" + "Resultat för ronden: "+ session.getScoreRond());
                     session.resetRondCounter();
                     session.setMessege("Vill du starta nytt spel J");
