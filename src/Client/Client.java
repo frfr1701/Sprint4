@@ -27,7 +27,7 @@ public class Client {
                 //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
                 if(session.getState() == State.SERVERSTART){
                         
-                    System.out.println("Server: "+ session.getState() + "\n" + session.getStarta());
+                    System.out.println("Server: "+ session.getState() + "\n" + session.getMessege());
                     session.setAnswer(stdIn.readLine());
                     System.out.println("------------------------------------------");
                     session.setState(State.CLIENTSTARTSGAME);
@@ -61,8 +61,8 @@ public class Client {
                     
                      System.out.println("Server: "+ session.getState()+"\nRunda: "+ session.getRond() + "\n" + "Resultat för ronden: "+ session.getScoreRond()+ "\nResultat totalt: "+ session.getScoreTotal());
                      session.resetScoreRond();
-                     session.setStarta("Ny omgång tryck J");
-                     System.out.println(session.getStarta());
+                     session.setMessege("Ny omgång tryck J");
+                     System.out.println(session.getMessege());
                      session.setAnswer(stdIn.readLine());
                      System.out.println("------------------------------------------");
                      
@@ -72,7 +72,7 @@ public class Client {
                     System.out.println("Server: "+ session.getState()+"\nSpelet är avslutat du fick totalt:  "+ session.getScoreTotal() 
                             + "\nTEST - Vad står ronder på nu: " + session.getRond() 
                             + "\n" + "Resultat för ronden: "+ session.getScoreRond());
-                    session.setStarta("Vill du starta nytt spel J");
+                    session.setMessege("Vill du starta nytt spel J");
                 }
 
                 oos.writeObject(session); 

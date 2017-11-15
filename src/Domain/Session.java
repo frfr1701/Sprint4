@@ -16,11 +16,11 @@ public class Session implements Serializable {
     protected int scoreRond = 0;
     protected int scoreTotal = 0;
     protected String whatSubject = "";
-    protected String starta;
+    protected String messege;
    
 
     public Session(String startaMatch) {
-        this.starta = startaMatch;
+        this.messege = startaMatch;
         verdict = null;
         state = State.WAITING;
 
@@ -61,8 +61,8 @@ public class Session implements Serializable {
     public int getScoreRond(){
         return scoreRond;
     }
-    public String getStarta(){
-        return starta;
+    public String getMessege(){
+        return messege;
     }
     public int getRond () {
         return rond;
@@ -73,8 +73,8 @@ public class Session implements Serializable {
     public void resetRond (){
         rond = 0;
     }
-    public void setStarta(String text){
-        starta =text;
+    public void setMessege(String text){
+        messege =text;
     }
   
     public void setquestionsInARond(List questionsInARond) {
