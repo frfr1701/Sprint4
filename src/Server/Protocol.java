@@ -1,7 +1,7 @@
 package Server;
 
 import Domain.*;
-import static Domain.State.SERVERSENTANSWER;
+import static Domain.State.*;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
