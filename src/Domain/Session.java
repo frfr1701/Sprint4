@@ -16,7 +16,7 @@ public class Session implements Serializable {
     protected int scoreRond = 0;
     protected int scoreTotal = 0;
     protected String whatSubject = "";
-    protected String messege;
+    protected String messege; //tillfällig innan guin
    
 
     public Session(String startaMatch) {
@@ -74,7 +74,7 @@ public class Session implements Serializable {
     public void resetRondCounter (){
         rondCounter = 0;
     }
-    public void setMessege(String text){
+    public void setMessege(String text){ //tillfällig innan guin
         messege =text;
     }
   
