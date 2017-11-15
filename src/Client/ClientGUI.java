@@ -93,13 +93,13 @@ public class ClientGUI extends JFrame implements ActionListener {
      public void mouseReleased(MouseEvent e) {
              
                     if (e.getSource() == btn1) 
-                        btn1.setBackground(Color.BLACK);
+                        btn1.setBackground(Color.white);
                     if (e.getSource() == btn2)
-                        btn2.setBackground(Color.BLACK);
+                        btn2.setBackground(Color.white);
                     if (e.getSource() == btn3)
-                        btn3.setBackground(Color.BLACK);
+                        btn3.setBackground(Color.white);
                     if (e.getSource() == btn4)
-                        btn4.setBackground(Color.BLACK);
+                        btn4.setBackground(Color.white);
                         
         }                 
     };
