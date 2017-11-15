@@ -72,7 +72,7 @@ public class Client {
                     System.out.println("Server: "+ session.getState()+"\nSpelet är avslutat du fick totalt:  "+ session.getScoreTotal() 
                             + "\nTEST - Vad står ronder på nu: " + session.getCurrentRond() 
                             + "\n" + "Resultat för ronden: "+ session.getScoreRond());
-                    session.resetRondCounter();
+                    session.resetRonds();
                     session.setMessege("Vill du starta nytt spel J");
                     System.out.println("------------------------------------------");
                 }

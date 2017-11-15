@@ -71,7 +71,7 @@ public class Session implements Serializable {
         currentRond++;
     }
     
-    public void resetRondCounter (){
+    public void resetRonds (){
         currentRond = 0;
     }
     public void setMessege(String text){ //tillfällig innan guin
