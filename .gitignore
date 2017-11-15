@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Created by https://www.gitignore.io/api/netbeans,intellij
 
@@ -75,4 +76,8 @@ dist/
 nbdist/
 .nb-gradle/
 
-# End of https://www.gitignore.io/api/netbeans,intellij
+# End of https://www.gitignore.io/api/netbeans,intellij=======
+<<<<<<< HEAD
+=======
+>>>>>>> Jakob
+>>>>>>> Jakob
