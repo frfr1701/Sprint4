@@ -3,13 +3,8 @@ package Server;
 import Domain.Session;
 import Domain.test.Question;
 import Server.config.Config;
-<<<<<<< HEAD
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-=======
 //import com.fasterxml.jackson.databind.DeserializationFeature;
 //import com.fasterxml.jackson.databind.ObjectMapper;
->>>>>>> ElinasBranch
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,15 +28,9 @@ public class Server {
 
 
 
-<<<<<<< HEAD
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
-            Question[] questions = objectMapper.readValue(new FileInputStream("src/Domain/test/Questions.json"), Question[].class);
-=======
 //            ObjectMapper objectMapper = new ObjectMapper();
 //            objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
 //            Question[] questions = objectMapper.readValue(new FileInputStream("src/Domain/test/Questions.json"), Question[].class);
->>>>>>> ElinasBranch
 
 
             ObjectOutputStream oos= new ObjectOutputStream(clientSocket.getOutputStream());
