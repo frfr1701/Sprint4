@@ -1,8 +1,17 @@
 package Server;
 
 import Domain.Session;
-import java.net.*;
-import java.io.*;
+import Domain.test.Question;
+import Server.config.Config;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
     public static void main(String[] args) throws IOException {
@@ -14,7 +23,16 @@ public class Server {
             Socket clientSocket = serverSocket.accept();
 
         ) {
-            
+
+            Config config = new Config(); //TODO: Vart borde denna ligga?
+
+
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
+            Question[] questions = objectMapper.readValue(new FileInputStream("src/Domain/test/Questions.json"), Question[].class);
+
+
             ObjectOutputStream oos= new ObjectOutputStream(clientSocket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
             Session input, output;
