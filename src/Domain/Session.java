@@ -12,13 +12,15 @@ public class Session implements Serializable {
     protected List<String> questionsInARond;
     protected String answer = "";
     protected Boolean verdict;
+    protected int rond = 0;
     protected int scoreRond = 0;
     protected int scoreTotal = 0;
     protected String whatSubject = "";
+    protected String starta;
+   
 
-    public Session(List subjectChoices) {
-
-        this.subjectChoices = subjectChoices;
+    public Session(String startaMatch) {
+        this.starta = startaMatch;
         verdict = null;
         state = State.WAITING;
 
@@ -59,7 +61,22 @@ public class Session implements Serializable {
     public int getScoreRond(){
         return scoreRond;
     }
-
+    public String getStarta(){
+        return starta;
+    }
+    public int getRond () {
+        return rond;
+    }
+    public void addRond(){
+        rond++;
+    }
+    public void resetRond (){
+        rond = 0;
+    }
+    public void setStarta(String text){
+        starta =text;
+    }
+  
     public void setquestionsInARond(List questionsInARond) {
         this.questionsInARond = questionsInARond;
     }

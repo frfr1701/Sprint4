@@ -25,28 +25,57 @@ public class Client {
 
             while ((session = (Session) ois.readObject()) != null) {
                 //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
-                if (session.getState() == State.SERVERSENTWHATCATEGORYQUESTION) {
-                    System.out.println("Server State: "+ session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
+                if(session.getState() == State.SERVERSTART){
+                        
+                    System.out.println("Server: "+ session.getState() + "\n" + session.getStarta());
+                    session.setAnswer(stdIn.readLine());
+                    System.out.println("------------------------------------------");
+                    session.setState(State.CLIENTSTARTSGAME);
+                    
+                } else if (session.getState() == State.SERVERSENTWHATCATEGORYQUESTION) {
+                        
+                    System.out.println("Server: "+ session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
                     session.setWhatSubject(stdIn.readLine());
+                    System.out.println("------------------------------------------");
                     session.setState(State.CLIENTPICKEDSUBJECT);
+                        
                 } else if (session.getState() == State.SERVERSENTQUESTION) {
 
                     System.out.println("Server: "+ session.getState() + "\nValtämne:  " + session.getwhatSubject() + "\nFråga:  " + session.getQuestion());
                     session.setAnswer(stdIn.readLine());
                     session.setState(State.CLIENTCLICKEDANSWER);
+                    
                 } else if (session.getState() == State.SERVERSENTANSWER) {
 
                     if (session.getVerdict()) {
-                        System.out.println("Server: Du gissade RÄTT! Poäng: " + session.getScoreTotal());
+                        System.out.println("Server: Du gissade RÄTT! Poäng denna runda: " + session.getScoreRond());
                         System.out.println("------------------------------------------");
+                        session.setState(State.ANOTHERQUESTION);
                     } else {
-                        System.out.println("Server: Du gissade FEL! Poäng: "  + session.getScoreTotal());
+                        System.out.println("Server: Du gissade FEL! Poäng denna runda: " + session.getScoreRond());
                         System.out.println("------------------------------------------");
+                        session.setState(State.ANOTHERQUESTION); 
                     }
-                    session.setState(State.ANOTHERQUESTION);
+                  
+                } else if (session.getState() == State.RESULTSCREEN){
+                    
+                     System.out.println("Server: "+ session.getState()+"\nRunda: "+ session.getRond() + "\n" + "Resultat för ronden: "+ session.getScoreRond()+ "\nResultat totalt: "+ session.getScoreTotal());
+                     session.resetScoreRond();
+                     session.setStarta("Ny omgång tryck J");
+                     System.out.println(session.getStarta());
+                     session.setAnswer(stdIn.readLine());
+                     System.out.println("------------------------------------------");
+                     
+                     session.setState(State.CLIENTSTARTSGAME);
+                     
+                } else if (session.getState() == State.FINISHEDGAME){
+                    System.out.println("Server: "+ session.getState()+"\nSpelet är avslutat du fick totalt:  "+ session.getScoreTotal() 
+                            + "\nTEST - Vad står ronder på nu: " + session.getRond() 
+                            + "\n" + "Resultat för ronden: "+ session.getScoreRond());
+                    session.setStarta("Vill du starta nytt spel J");
                 }
 
-                oos.writeObject(session);
+                oos.writeObject(session); 
             }
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
