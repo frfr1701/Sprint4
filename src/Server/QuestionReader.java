@@ -1,11 +1,10 @@
 package Server;
-
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.*;
 
-public class QuestionReader {
+public class QuestionReader implements Serializable{
 
     private final Path dir = Paths.get("src\\Resources");
     private DirectoryStream<Path> directoryStream;
@@ -55,7 +54,9 @@ public class QuestionReader {
     public List<String> getSubjects() {
         return subjects;
     }
-    
+     /*
+     * @return returnerar ALLA frågor på specifierad kategori
+     */
     public List<String[]> getQuestions(String subject) {
         List<String[]> temp = questions.stream()
                 .filter((index) -> index[0]
@@ -74,14 +75,14 @@ class QuestionsAndSubjects extends QuestionReader {
         this.NumberOfQuestions = NumberOfQuestions;
         this.NumberOfSubjects = NumberOfSubjects;
     }
-    
+    /**
+     * @return Speciferat antal subjects (se konstruktor)
+     */
     
     @Override
     public List<String> getSubjects() {
         return shuffleMaList(makeListFromSet(differentElements(subjects, NumberOfSubjects)));
     }
-    
-    
     @Override
     public List<String[]> getQuestions(String subject) {
         return shuffleMaList(makeListFromSet(differentElements(filteredBoiSubject(subject), NumberOfQuestions)));
@@ -94,10 +95,9 @@ class QuestionsAndSubjects extends QuestionReader {
         }
         return UniqueElements;
     }
-    
     private Object giveRandomElement(List chosenOne){
-        return chosenOne.get((int) (Math.random() * chosenOne.size()));
-    }
+        return chosenOne.get((int)(Math.random() * chosenOne.size()));
+    }    
     
     private List<String[]> filteredBoiSubject(String filterByThisSubject){
         

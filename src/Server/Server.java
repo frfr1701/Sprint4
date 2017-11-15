@@ -5,6 +5,8 @@ import Domain.test.Question;
 import Server.config.Config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.DeserializationFeature;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -31,6 +33,9 @@ public class Server {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
             Question[] questions = objectMapper.readValue(new FileInputStream("src/Domain/test/Questions.json"), Question[].class);
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
+//            Question[] questions = objectMapper.readValue(new FileInputStream("src/Domain/test/Questions.json"), Question[].class);
 
 
             ObjectOutputStream oos= new ObjectOutputStream(clientSocket.getOutputStream());
