@@ -7,10 +7,10 @@ import java.util.stream.*;
 
 public class QuestionReader {
 
-    Path dir = Paths.get("src\\Resources");
-    DirectoryStream<Path> directoryStream;
-    List<String> subjects = new ArrayList<>();
-    List<String[]> questions = new ArrayList<>();
+    private final Path dir = Paths.get("src\\Resources");
+    private DirectoryStream<Path> directoryStream;
+    protected List<String> subjects = new ArrayList<>();
+    protected List<String[]> questions = new ArrayList<>();
 
     public QuestionReader() {
         try {
@@ -38,12 +38,12 @@ public class QuestionReader {
     private void fileReader(Path p) {
         String[] temp = new String[6];
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(p))) {
-            while (((temp[0] = br.readLine()) != null)
-                    && ((temp[1] = br.readLine()) != null)
+            while (((temp[1] = br.readLine()) != null)
                     && ((temp[2] = br.readLine()) != null)
                     && ((temp[3] = br.readLine()) != null)
                     && ((temp[4] = br.readLine()) != null)
                     && ((temp[5] = br.readLine()) != null)) {
+                temp[0] = p.getFileName().toString().replace(".txt", "");
                 questions.add(Arrays.copyOf(temp, temp.length));
             }
         } catch (IOException ex) {
@@ -99,8 +99,9 @@ class QuestionsAndSubjects extends QuestionReader {
         return chosenOne.get((int) (Math.random() * chosenOne.size()));
     }
     
-    private List<String[]> filteredBoiSubject(String filterBy){
-        return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterBy)).collect(Collectors.toList());
+    private List<String[]> filteredBoiSubject(String filterByThisSubject){
+        
+        return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterByThisSubject)).collect(Collectors.toList());
     }
     
     private List makeListFromSet(Set set){
