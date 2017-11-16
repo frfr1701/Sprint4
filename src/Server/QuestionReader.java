@@ -17,7 +17,7 @@ public class QuestionReader implements Serializable {
             directoryStream = Files.newDirectoryStream(dir, "*.{txt}");
             directoryStream.forEach((path) -> {
                 subjects.add(path.getFileName().toString().replace(".txt", ""));
-                questions.addAll(fileReader(path));
+                fileReader(path);
             });
         } catch (IOException ex) {
             System.out.println("Fel vid inläsning av textfiler från " + dir.toString());
@@ -35,8 +35,7 @@ public class QuestionReader implements Serializable {
      * //(Plats 0 i arrayen blir kategorin)
      * @param p path för filen som ska läsas in
      */
-    private List<String[]> fileReader(Path p) {
-        List<String[]> tempQuestions = new ArrayList<>();
+    private void fileReader(Path p) {
         String[] temp = new String[6];
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(p))) {
             while (((temp[1] = br.readLine()) != null)
@@ -45,13 +44,12 @@ public class QuestionReader implements Serializable {
                     && ((temp[4] = br.readLine()) != null)
                     && ((temp[5] = br.readLine()) != null)) {
                 temp[0] = p.getFileName().toString().replace(".txt", "");
-                tempQuestions.add(Arrays.copyOf(temp, temp.length));
+                questions.add(Arrays.copyOf(temp, temp.length));
             }
         } catch (IOException ex) {
             System.out.println("Fel vid inläsning av filen " + p.getFileName());
             System.out.println(ex.getCause());
         }
-        return tempQuestions;
     }
 
     public List<String> getSubjects() {
