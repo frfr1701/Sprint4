@@ -33,6 +33,9 @@ public class GamePanel extends JFrame implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == newGame) {
+            remove(sp);
+            this.add(qp);
+        }
     }
-
 }

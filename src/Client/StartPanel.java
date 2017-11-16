@@ -1,13 +1,16 @@
 package Client;
 
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 class StartPanel extends JPanel {
 
-    JLabel hej = new JLabel("hej");
+    JButton newGame = new JButton("Nytt spel");
+    
 
-    public StartPanel() {
-        add(hej);
+    public StartPanel(ActionListener al) {
+        
+        newGame.addActionListener(al);
     }
     
 
