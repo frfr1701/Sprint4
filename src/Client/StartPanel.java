@@ -16,10 +16,6 @@ class StartPanel extends JPanel {
         exitGame.addActionListener(al);
         
     }
-
-    StartPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     public void setPanel(){
         

@@ -12,7 +12,7 @@ public class GamePanel extends JFrame implements ActionListener {
 
     public GamePanel() {
         this.sp = new StartPanel(this);
-        this.qp = new QuestionPanel();
+        this.qp = new QuestionPanel(ma);
         this.rp = new ResultPanel();
     }
 
@@ -33,12 +33,54 @@ public class GamePanel extends JFrame implements ActionListener {
         GamePanel go = new GamePanel();
         go.setPanel();
     }
+    MouseListener ma = new MouseAdapter() {
+        
+        @Override
+        public void mousePressed(MouseEvent e){
+            
+            if(e.getSource() == qp.answer1){
+                
+            }
+            if(e.getSource() == qp.answer2){
+                
+            }
+            if(e.getSource() == qp.answer3){
+                
+            }
+            if(e.getSource() == qp.answer4){
+                
+            }
+            
+        }
+        @Override
+        public void mouseReleased(MouseEvent e){
+            
+            if(e.getSource() == qp.answer1){
+                
+            }
+            if(e.getSource() == qp.answer2){
+                
+            }
+            if(e.getSource() == qp.answer3){
+                
+            }
+            if(e.getSource() == qp.answer4){
+                
+            }
+            
+        }
+    
+    
+    };
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == sp.newGame) {
             remove(sp);
             this.add(qp);
+            qp.setPanel();
+            revalidate();
+            repaint();
         }
         if (ae.getSource() == sp.exitGame) {
             System.exit(0);
