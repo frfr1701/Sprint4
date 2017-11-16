@@ -13,64 +13,45 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
  *
  * @author Ian
  */
-public class QuestionBoard extends JFrame implements ActionListener {
+public class GamePanel extends JFrame implements ActionListener {
     
-    String filepath = "/Users/Ian/Desktop/test/export.png";
-    ImageIcon logo = new ImageIcon(filepath);
-    JPanel panel = new JPanel();
-    JPanel panel2 = new JPanel();
-    Label answer1 = new Label("Fråga 1", Label.CENTER);
-    Label answer2 = new Label("Fråga 2", Label.CENTER);
-    Label answer3 = new Label("Fråga 3", Label.CENTER);
-    Label answer4 = new Label("Fråga 4", Label.CENTER);
-    JButton question = new JButton("EN SVÅR FRÅGA");
+    Label answer1 = new Label("fråga 1", Label.CENTER);
+    Label answer2 = new Label("fråga 2", Label.CENTER);
+    Label answer3 = new Label("fråga 3", Label.CENTER);
+    Label answer4 = new Label("fråga 3", Label.CENTER);
     JButton giveUp = new JButton("Ge upp");
+    JButton startGame = new JButton("Start game yo");
+    
+    private final Color backgroundColor = new Color(175, 175, 255);
     
     
-    QuestionBoard(){
-        question.setFont(new Font("Arial", Font.PLAIN, 20));
+    GamePanel(){
+        
+        ResultPanel rp = new ResultPanel();
+        QuestionPanel qp = new QuestionPanel(answer1, answer2, answer3, answer4, giveUp, backgroundColor);
+        StartMenu sm = new StartMenu(startGame, backgroundColor);
+        
+        
+        
+        
+    }
+    
+    public void setGameFrame(){
+        setTitle("SUPERQUIZ");
+        setSize(750, 500);
+        setVisible(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         answer1.addMouseListener(ma);
         answer2.addMouseListener(ma);
         answer3.addMouseListener(ma);
         answer4.addMouseListener(ma);
-        giveUp.addActionListener(this);
-        panel.add(answer1);
-        panel.add(answer2);
-        panel.add(answer3);
-        panel.add(answer4);
-        panel.setLayout(new GridLayout(2,2));
-        setVisible(true);
-        setSize(500, 400);
-        panel2.setLayout(new BorderLayout());
-        Color lightBlue = new Color(175, 175, 255);
-        panel2.setBackground(lightBlue);
-        panel2.setOpaque(false);
-        
-        
-        
-        panel2.add("Center", panel);
-        panel2.add("North", question);
-        panel2.add("South", giveUp);
-        add(panel2);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
-       answer1.addMouseListener(ma);
-       answer2.addMouseListener(ma);
-       answer3.addMouseListener(ma);
-       answer4.addMouseListener(ma);
                 
+        
+        
     }
-    
-    public static void main(String[] args) {
-        QuestionBoard m = new QuestionBoard();
-    }
-    
-    
-    
-    
-    
-    
-    MouseAdapter ma = new MouseAdapter() {
+
+   
+        MouseAdapter ma = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
            
@@ -108,23 +89,23 @@ public class QuestionBoard extends JFrame implements ActionListener {
         }                 
     };
     
+    @Override
     public void actionPerformed(ActionEvent ae){
         
         JButton pushed = (JButton) ae.getSource();
         
-        if(giveUp == pushed){
+        if(pushed == giveUp){
             System.exit(0);
-                         
         }
-        
-        
-        
         
         
         
     }
     
 }
+  
+    
+
     
 
             
