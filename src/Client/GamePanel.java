@@ -38,5 +38,6 @@ public class GamePanel extends JFrame implements ActionListener {
             remove(sp);
             this.add(qp);
         }
+        repaint();
     }
 }
