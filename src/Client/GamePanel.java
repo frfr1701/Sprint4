@@ -2,12 +2,10 @@ package Client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
@@ -25,11 +23,12 @@ public class QuestionBoard extends JFrame implements ActionListener {
     Label answer2 = new Label("Fråga 2", Label.CENTER);
     Label answer3 = new Label("Fråga 3", Label.CENTER);
     Label answer4 = new Label("Fråga 4", Label.CENTER);
-    JButton question = new JButton(logo);
+    JButton question = new JButton("EN SVÅR FRÅGA");
     JButton giveUp = new JButton("Ge upp");
     
+    
     QuestionBoard(){
-        
+        question.setFont(new Font("Arial", Font.PLAIN, 20));
         answer1.addMouseListener(ma);
         answer2.addMouseListener(ma);
         answer3.addMouseListener(ma);
@@ -43,6 +42,9 @@ public class QuestionBoard extends JFrame implements ActionListener {
         setVisible(true);
         setSize(500, 400);
         panel2.setLayout(new BorderLayout());
+        Color lightBlue = new Color(175, 175, 255);
+        panel2.setBackground(lightBlue);
+        panel2.setOpaque(false);
         
         
         
@@ -62,33 +64,47 @@ public class QuestionBoard extends JFrame implements ActionListener {
     public static void main(String[] args) {
         QuestionBoard m = new QuestionBoard();
     }
+    
+    
+    
+    
+    
+    
     MouseAdapter ma = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
            
-                    if (e.getSource() == answer1) 
+                    if (e.getSource() == answer1) {
                         answer1.setBackground(Color.GREEN);
-                    if (e.getSource() == answer2)
+                    }
+                    if (e.getSource() == answer2){
                         answer2.setBackground(Color.GREEN);
-                    if (e.getSource() == answer3)
+                    }
+                    if (e.getSource() == answer3){
                         answer3.setBackground(Color.GREEN);
-                    if (e.getSource() == answer4)
+                    }
+                    if (e.getSource() == answer4){
                         answer4.setBackground(Color.GREEN);
+                    }
                      
                     
                 }
             
         public void mouseReleased(MouseEvent e) {
              
-                    if (e.getSource() == answer1) 
+                    if (e.getSource() == answer1) {
                         answer1.setBackground(Color.WHITE);
-                    if (e.getSource() == answer2)
+                    }
+                    if (e.getSource() == answer2){
                         answer2.setBackground(Color.WHITE);
-                    if (e.getSource() == answer3)
+                    }
+                    if (e.getSource() == answer3){
                         answer3.setBackground(Color.WHITE);
-                    if (e.getSource() == answer4)
+                    }
+                    if (e.getSource() == answer4){
                         answer4.setBackground(Color.WHITE);
-                        
+                    } 
+                       
         }                 
     };
     
