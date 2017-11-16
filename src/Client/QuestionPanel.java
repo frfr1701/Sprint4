@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -30,6 +33,10 @@ public class QuestionPanel extends JPanel{
         this.giveUp = giveUp;
         this.backgroundColor = backgroundColor;
     }
+
+    public QuestionPanel() {
+    }
+    
     
     
    public void setPanel(){
@@ -43,12 +50,21 @@ public class QuestionPanel extends JPanel{
        questionpanel.add(answer3);
        questionpanel.add(answer4);
        
+       
+       
        panel.add("Center", questionpanel);
        panel.add("North", question);
        panel.add("South", giveUp);
        
-          
+       panel.setBackground(backgroundColor);
     }
+   
+  
+       
+       
+       
+       
+   }
 
     
   
@@ -57,4 +73,4 @@ public class QuestionPanel extends JPanel{
     
     
     
-}
+

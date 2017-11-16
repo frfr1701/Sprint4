@@ -21,15 +21,14 @@ public class StartMenu extends JPanel {
        this.backgroundColor = backgroundColor;
        
     }
-    
+
     public void setPanel(){
-    JPanel startmenu = new JPanel();
-    startmenu.setLayout(new BorderLayout());
+    this.setLayout(new BorderLayout());
+        setSize(300, 300);
+    this.add("North", startGame);
+    this.add("Center", team);
     
-    startmenu.add("North", startGame);
-    startmenu.add("Center", team);
-    
-    
+    setBackground(backgroundColor);
     
     
     

@@ -13,6 +13,13 @@ public class ResultPanel extends JPanel {
     
     
     //Evelines
+
+    public ResultPanel(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    ResultPanel() {
+    }
 }
 
 

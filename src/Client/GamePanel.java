@@ -26,7 +26,7 @@ public class GamePanel extends JFrame implements ActionListener {
     
     
     private final Color backgroundColor = new Color(175, 175, 255);
-    StartMenu sm;
+    StartMenu sm = new StartMenu(startGame, backgroundColor, team);
     QuestionPanel qp;
     ResultPanel rp;
     
@@ -34,32 +34,40 @@ public class GamePanel extends JFrame implements ActionListener {
     
     GamePanel(){
         
-        ResultPanel rp = new ResultPanel();
-        QuestionPanel qp = new QuestionPanel(answer1, answer2, answer3, answer4, question, giveUp, backgroundColor);
-        StartMenu sm = new StartMenu(startGame, backgroundColor, team);
+        rp = new ResultPanel(backgroundColor);
+        qp = new QuestionPanel(answer1, answer2, answer3, answer4, question, giveUp, backgroundColor);
+
         
         
-        
-        
+    
     }
     
     public void setGameFrame(){
         setTitle("SUPERQUIZ");
         setSize(750, 500);
         setVisible(true);
+        //setLayout(new BorderLayout());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         answer1.addMouseListener(ma);
         answer2.addMouseListener(ma);
         answer3.addMouseListener(ma);
         answer4.addMouseListener(ma);
-       
-        qp.setPanel();       
-        add(qp);
+        JPanel hej = new JPanel();
+        hej.add(new JLabel("suo"));
+        add(hej);
+        add(sm, BorderLayout.CENTER);
+        pack();
         
         
         
                 
         
+        
+    }
+    
+    public static void main(String[] args) {
+        GamePanel mmm = new GamePanel();
+        mmm.setGameFrame();
         
     }
 
@@ -108,19 +116,25 @@ public class GamePanel extends JFrame implements ActionListener {
         
         JButton pushed = (JButton) ae.getSource();
         
+        if (ae.getSource() == sm.startGame) {
+            remove(sm);
+            add(qp);
+        
+        
         if(pushed == giveUp){
             System.exit(0);
         }
+        revalidate();
+        repaint();
         
         
         
     }
-    public static void main(String[] args){
-        GamePanel gp = new GamePanel();
-        gp.setGameFrame();
     }
-    
 }
+   
+    
+
   
     
 
