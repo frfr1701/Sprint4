@@ -1,12 +1,9 @@
 package Server;
 
 import Domain.*;
-import static Domain.State.SERVERSENTANSWER;
 import Server.config.Config;
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Protocol {
