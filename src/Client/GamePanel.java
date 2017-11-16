@@ -26,17 +26,17 @@ public class GamePanel extends JFrame implements ActionListener {
     
     
     private final Color backgroundColor = new Color(175, 175, 255);
-    StartMenu sm = new StartMenu(startGame, backgroundColor, team);
+    StartMenu sm;
     QuestionPanel qp;
     ResultPanel rp;
     
     
     
-    GamePanel(){
+   public GamePanel(){
         
         rp = new ResultPanel(backgroundColor);
         qp = new QuestionPanel(answer1, answer2, answer3, answer4, question, giveUp, backgroundColor);
-
+        sm = new StartMenu(startGame, backgroundColor, team);
         
         
     
