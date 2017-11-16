@@ -1,5 +1,7 @@
 package Client;
 
-    class QuestionPanel {
+import javax.swing.*;
+
+    class QuestionPanel extends JPanel{
     
 }
