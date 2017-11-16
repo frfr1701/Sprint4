@@ -13,6 +13,8 @@ public class QuestionReader implements Serializable {
     protected List<String[]> questions;
 
     public QuestionReader() {
+        questions = new ArrayList<>();
+        subjects = new ArrayList<>();
         try {
             directoryStream = Files.newDirectoryStream(dir, "*.{txt}");
             directoryStream.forEach((path) -> {
