@@ -1,19 +1,19 @@
-﻿Vad för slags djur är en råka?*
-En Fisk
+﻿Vad för slags djur är en råka?
 En fågel
+En Fisk
 Ett kräldjur
 En Apa
-Vilken är Sveriges minsta uggla?*
+Vilken är Sveriges minsta uggla?
 Sparvuggla
 Berguv
 Kattuggla
 Råttuggla
-Var i kroppen sitter gula fläcken?*
-Örat
+Var i kroppen sitter gula fläcken?
 Ögat
+Örat
 Näsan
 Njuren
-Hur många månar har planeten Mars?*
+Hur många månar har planeten Mars?
 Två
 Tre
 Fyra
@@ -38,49 +38,47 @@ Klorofyll
 Fotosyntes
 Koldioxid
 Klor
-Hur många ben har en fluga?*
+Hur många ben har en fluga?
 Fyra ben
 Sex ben
 Åtta ben
 Nio ben
-Fråga 10
 Vilket ämne består kroppen till störst del av?
+Vatten
 Blod
 Vitaminer
-Vatten
 Vad kallas det sista utvecklingsstadiet innan en larv blir en fjäril?
-Stekel
 Puppa
+Stekel
 Kokong
-Vilka spannmålsslag är vanligast i världen?
-Havre och raps
-Vete, ris och majs
-Majs och havre
+Larv
 Vad är mossor för något?
 Växter
 Insekter
 Vattenlevande djur
+Svamp
 Vilken är Sveriges fjärde största sjö?
-Mälaren
 Hjälmaren
+Mälaren
 Storsjön
+Nordsjön
 Hur många horn kan en noshörning ha som mest?
 Två
 Tre
 Ett
+Fyra
 En kajman liknar ett annat djur. Vilket?
 Krokodil
 Gam
 Brunbjörn
+Groda
 Vilka fiskar lever vanligen i stim?
-Gäddor
 Makrillar
+Gäddor
+Inga
 Vithajar
-Vad utmärker sjön Döda havet i Asien?
-Den är mycket grund
-Den saknar idag vatten
-Vattnet är väldigt salt
 Vad kan vara en orsak till att haven försuras?
+Förstörd berggrund
 Oljeutsläpp
 Överfiskning
 Luftföroreningar
