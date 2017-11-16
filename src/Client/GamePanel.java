@@ -20,6 +20,7 @@ public class GamePanel extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(3);
         add(sp);
+        sp.setPanel();
        
         
     }
@@ -37,5 +38,6 @@ public class GamePanel extends JFrame implements ActionListener {
             remove(sp);
             this.add(qp);
         }
+        repaint();
     }
 }
