@@ -15,5 +15,8 @@ import javax.swing.*;
         
         answer1.addMouseListener(ma);
     }
+
+    QuestionPanel() {
+    }
         
 }

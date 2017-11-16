@@ -7,15 +7,9 @@ public class Session implements Serializable {
 
     static final long serialVersionUID = -7588980448693010399L;
     protected State state;
-<<<<<<< HEAD
-    //Sätts initialt av servern
-    protected String riddle;
-    //Sätts av klienten
-=======
     protected String question;
     protected List<String> subjectChoices;
     protected List<String> questionsInARond;
->>>>>>> Jakob
     protected String answer = "";
     protected Boolean verdict;
     protected int currentRond = 0;
