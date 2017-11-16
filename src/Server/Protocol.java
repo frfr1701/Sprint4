@@ -1,15 +1,15 @@
 package Server;
 
 import Domain.*;
-import static Domain.State.SERVERSENTANSWER;
-import java.sql.Array;
+import Server.config.Config;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Protocol {
 
     QuestionReader qr;
+    Config c;
 
 
     List<String[]> questionsRondTemp = new ArrayList<>();
@@ -19,27 +19,35 @@ public class Protocol {
     private int question = 1;
     private int correctAnswer = 2;
     private int currentQuestionInRond = 0;
-    private int randomQuestion = 0;
+    private int currentRond = 0;
+    
 
-    Protocol() {
-        qr = new QuestionsAndSubjects(4, 2);
+    Protocol() throws IOException {
+        c = new Config();
+        qr = new QuestionsAndSubjects(c.getQuestionsPerRound(), 2);
+        
     }
 
     public Session getInitialSession() {
-        subjectsRondTemp = qr.getSubjects();
-        return new Session(subjectsRondTemp);
+        //subjectsRondTemp = qr.getSubjects();
+        return new Session("Vill du starta nytt spel skriv J");
     }
 
     public Session processInput(Session s) {
         State state = s.getState();
-
         System.out.println("Server: " + state);
-
-        s.setState(State.SERVERSENTWHATCATEGORYQUESTION);
-
-        if (state == State.CLIENTPICKEDSUBJECT) {
-
-            if (s.getwhatSubject().equalsIgnoreCase(subjectsRondTemp.get(0))) {    //Klienten kommer välja kategory och setta setwhatCategory
+        s.setState(State.SERVERSTART);
+        
+        if (state == State.CLIENTSTARTSGAME ){
+            if(s.getAnswer().equalsIgnoreCase("J")){
+                s.setSubjectChoices(qr.getSubjects());
+                subjectsRondTemp = s.getsubjectChoices(); // tillkalla metod isätllet
+                s.setState(state.SERVERSENTWHATCATEGORYQUESTION);
+            }
+            
+        } else if (state == State.CLIENTPICKEDSUBJECT) {
+               
+            if (s.getwhatSubject().equalsIgnoreCase(subjectsRondTemp.get(0))) {  
 
                 System.out.println("Klienten valde " + subjectsRondTemp.get(0));
                 questionsRondTemp = qr.getQuestions(subjectsRondTemp.get(0));
@@ -61,6 +69,7 @@ public class Protocol {
                 s.setQuestion(questionsRondTemp.get(currentQuestionInRond)[question]);
 
             }
+            System.out.println("Size " +s.getQuestionsInARond().size());
             s.setState(State.SERVERSENTQUESTION);
 
         } else if (state == State.CLIENTCLICKEDANSWER) {
@@ -75,10 +84,19 @@ public class Protocol {
             currentQuestionInRond++;
             s.setState(State.SERVERSENTANSWER);
 
-        } else if (state == State.ANOTHERQUESTION) { //längd på listan?
-            s.setQuestion(questionsRondTemp.get(currentQuestionInRond)[question]);
-            s.setState(State.SERVERSENTQUESTION);
-
+        } else if (state == State.ANOTHERQUESTION) { 
+            if(currentQuestionInRond == c.getQuestionsPerRound()){ 
+               currentQuestionInRond = 0;
+               s.nextRond();
+               if (s.getCurrentRond() == c.getNumberOfRounds()){
+                 s.setState(State.FINISHEDGAME);
+               } else {
+                 s.setState(State.RESULTSCREEN);
+               }
+            }else {
+               s.setQuestion(questionsRondTemp.get(currentQuestionInRond)[question]);
+               s.setState(State.SERVERSENTQUESTION);
+            } 
         }
         return s;
     }
