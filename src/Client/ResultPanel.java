@@ -11,6 +11,8 @@ public class ResultPanel extends JPanel {
     
     Color backgroundColor;
     
+    
+    //Evelines
 }
 
 

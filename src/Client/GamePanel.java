@@ -21,15 +21,22 @@ public class GamePanel extends JFrame implements ActionListener {
     Label answer4 = new Label("svar 3", Label.CENTER);
     JButton giveUp = new JButton("Ge upp");
     JButton startGame = new JButton("Start game yo");
+    ImageIcon logo = new ImageIcon("/Users/Ian/Desktop/test");
+    JButton team = new JButton(logo);
+    
     
     private final Color backgroundColor = new Color(175, 175, 255);
+    StartMenu sm;
+    QuestionPanel qp;
+    ResultPanel rp;
+    
     
     
     GamePanel(){
         
         ResultPanel rp = new ResultPanel();
         QuestionPanel qp = new QuestionPanel(answer1, answer2, answer3, answer4, question, giveUp, backgroundColor);
-        StartMenu sm = new StartMenu(startGame, backgroundColor);
+        StartMenu sm = new StartMenu(startGame, backgroundColor, team);
         
         
         
@@ -45,6 +52,9 @@ public class GamePanel extends JFrame implements ActionListener {
         answer2.addMouseListener(ma);
         answer3.addMouseListener(ma);
         answer4.addMouseListener(ma);
+       
+        qp.setPanel();       
+        add(qp);
         
         
         
@@ -74,6 +84,7 @@ public class GamePanel extends JFrame implements ActionListener {
                     
                 }
             
+        @Override
         public void mouseReleased(MouseEvent e) {
              
                     if (e.getSource() == answer1) {
@@ -103,6 +114,10 @@ public class GamePanel extends JFrame implements ActionListener {
         
         
         
+    }
+    public static void main(String[] args){
+        GamePanel gp = new GamePanel();
+        gp.setGameFrame();
     }
     
 }
