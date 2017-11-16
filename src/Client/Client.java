@@ -22,7 +22,10 @@ public class Client {
 
             while ((session = (Session) ois.readObject()) != null) {
                 //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 114d2edc91cc671209fd3ede7bc04e789a256876
                 if(session.getState() == State.SERVERSTART){
                         
                     System.out.println("Server: "+ session.getState() + "\n" + session.getMessege());
@@ -50,7 +53,10 @@ public class Client {
                         System.out.println("------------------------------------------");
                         session.setState(State.ANOTHERQUESTION);
                     } else {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 114d2edc91cc671209fd3ede7bc04e789a256876
                         System.out.println("Server: Du gissade FEL! Poäng denna runda: " + session.getScoreRond());
                         System.out.println("------------------------------------------");
                         session.setState(State.ANOTHERQUESTION); 
