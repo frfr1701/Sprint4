@@ -20,6 +20,7 @@ public class GamePanel extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(3);
         add(sp);
+        sp.setPanel();
        
         
     }
