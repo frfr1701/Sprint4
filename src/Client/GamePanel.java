@@ -9,7 +9,7 @@ public class GamePanel extends JFrame implements ActionListener {
     ResultPanel rp;
 
     public GamePanel() {
-        this.sp = new StartPanel();
+        this.sp = new StartPanel(this);
         this.qp = new QuestionPanel();
         this.rp = new ResultPanel();
     }
@@ -20,7 +20,7 @@ public class GamePanel extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(3);
         add(sp);
-        pack();
+       
         
     }
     
@@ -33,7 +33,7 @@ public class GamePanel extends JFrame implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == newGame) {
+        if (ae.getSource() == sp.newGame) {
             remove(sp);
             this.add(qp);
         }
