@@ -25,11 +25,7 @@ class StartPanel extends JPanel {
         panel.add("Center", team);
         panel.add("South", exitGame);
         add(panel);
-        
-        
-        
-        
-        
+         
         
     }
     
