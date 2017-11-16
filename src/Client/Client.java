@@ -9,7 +9,6 @@ public class Client {
     public static void main(String[] args) throws IOException {
 
         String hostName = "127.0.0.1"; //localhost
-        //String hostName = "172.20.200.194"; //localhost
         int portNumber = 44444;
 
         try (
@@ -23,28 +22,69 @@ public class Client {
 
             while ((session = (Session) ois.readObject()) != null) {
                 //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
+<<<<<<< HEAD
                 if (session.getState() == State.SERVERSENTWHATCATEGORYQUESTION) {
                     System.out.println("Server State: " + session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
+=======
+                if(session.getState() == State.SERVERSTART){
+                        
+                    System.out.println("Server: "+ session.getState() + "\n" + session.getMessege());
+                    session.setAnswer(stdIn.readLine());
+                    System.out.println("------------------------------------------");
+                    session.setState(State.CLIENTSTARTSGAME);
+                    
+                } else if (session.getState() == State.SERVERSENTWHATCATEGORYQUESTION) {
+                        
+                    System.out.println("Server: "+ session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
+>>>>>>> ElinasBranch
                     session.setWhatSubject(stdIn.readLine());
+                    System.out.println("------------------------------------------");
                     session.setState(State.CLIENTPICKEDSUBJECT);
+                        
                 } else if (session.getState() == State.SERVERSENTQUESTION) {
 
                     System.out.println("Server: " + session.getState() + "\nValtämne:  " + session.getwhatSubject() + "\nFråga:  " + session.getQuestion());
                     session.setAnswer(stdIn.readLine());
                     session.setState(State.CLIENTCLICKEDANSWER);
+                    
                 } else if (session.getState() == State.SERVERSENTANSWER) {
 
                     if (session.getVerdict()) {
-                        System.out.println("Server: Du gissade RÄTT! Poäng: " + session.getScoreTotal());
+                        System.out.println("Server: Du gissade RÄTT! Poäng denna runda: " + session.getScoreRond());
                         System.out.println("------------------------------------------");
+                        session.setState(State.ANOTHERQUESTION);
                     } else {
+<<<<<<< HEAD
                         System.out.println("Server: Du gissade FEL! Poäng: " + session.getScoreTotal());
+=======
+                        System.out.println("Server: Du gissade FEL! Poäng denna runda: " + session.getScoreRond());
+>>>>>>> ElinasBranch
                         System.out.println("------------------------------------------");
+                        session.setState(State.ANOTHERQUESTION); 
                     }
-                    session.setState(State.ANOTHERQUESTION);
+                  
+                } else if (session.getState() == State.RESULTSCREEN){
+                    
+                     System.out.println("Server: "+ session.getState()+"\nRunda: "+ session.getCurrentRond() + "\n" + "Resultat för ronden: "+ session.getScoreRond()+ "\nResultat totalt: "+ session.getScoreTotal());
+                     session.resetScoreRond();
+                     session.setMessege("För starta ny runda tryck J");
+                     System.out.println(session.getMessege());
+                     session.setAnswer(stdIn.readLine());
+                     System.out.println("------------------------------------------");
+                     
+                     session.setState(State.CLIENTSTARTSGAME);
+                     
+                } else if (session.getState() == State.FINISHEDGAME){
+                    
+                    System.out.println("Server: "+ session.getState()+"\nSpelet är avslutat du fick totalt:  "+ session.getScoreTotal() 
+                            + "\nTEST - Vad står ronder på nu: " + session.getCurrentRond() 
+                            + "\n" + "Resultat för ronden: "+ session.getScoreRond());
+                    session.resetRonds();
+                    session.setMessege("Vill du starta nytt spel J");
+                    System.out.println("------------------------------------------");
                 }
 
-                oos.writeObject(session);
+                oos.writeObject(session); 
             }
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
