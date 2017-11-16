@@ -14,11 +14,11 @@ import static javax.swing.JFrame.EXIT_ON_CLOSE;
  * @author Ian
  */
 public class GamePanel extends JFrame implements ActionListener {
-    
-    Label answer1 = new Label("fråga 1", Label.CENTER);
-    Label answer2 = new Label("fråga 2", Label.CENTER);
-    Label answer3 = new Label("fråga 3", Label.CENTER);
-    Label answer4 = new Label("fråga 3", Label.CENTER);
+    Label question = new Label("Fråga");
+    Label answer1 = new Label("svar 1", Label.CENTER);
+    Label answer2 = new Label("svar 2", Label.CENTER);
+    Label answer3 = new Label("svar 3", Label.CENTER);
+    Label answer4 = new Label("svar 3", Label.CENTER);
     JButton giveUp = new JButton("Ge upp");
     JButton startGame = new JButton("Start game yo");
     
@@ -28,7 +28,7 @@ public class GamePanel extends JFrame implements ActionListener {
     GamePanel(){
         
         ResultPanel rp = new ResultPanel();
-        QuestionPanel qp = new QuestionPanel(answer1, answer2, answer3, answer4, giveUp, backgroundColor);
+        QuestionPanel qp = new QuestionPanel(answer1, answer2, answer3, answer4, question, giveUp, backgroundColor);
         StartMenu sm = new StartMenu(startGame, backgroundColor);
         
         
@@ -45,6 +45,9 @@ public class GamePanel extends JFrame implements ActionListener {
         answer2.addMouseListener(ma);
         answer3.addMouseListener(ma);
         answer4.addMouseListener(ma);
+        
+        
+        
                 
         
         
