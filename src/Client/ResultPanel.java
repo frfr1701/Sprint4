@@ -1,5 +1,6 @@
 package Client;
 
+<<<<<<< HEAD
 import java.awt.Color;
 import javax.swing.JPanel;
 
@@ -27,3 +28,8 @@ public class ResultPanel extends JPanel {
 
 
 
+=======
+    class ResultPanel {
+    
+}
+>>>>>>> Jakob

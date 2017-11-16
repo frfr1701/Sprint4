@@ -1,5 +1,6 @@
 package Client;
 
+<<<<<<< HEAD
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -74,3 +75,9 @@ public class QuestionPanel extends JPanel{
     
     
 
+=======
+import javax.swing.*;
+
+    class QuestionPanel extends JPanel {
+}
+>>>>>>> Jakob
