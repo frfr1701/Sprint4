@@ -1,5 +1,5 @@
 package Client;
 
-    class QuestionPanel {
+    class QuestionPanel extends Jlabel {
     
 }
