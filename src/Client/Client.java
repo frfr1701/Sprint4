@@ -22,10 +22,7 @@ public class Client {
 
             while ((session = (Session) ois.readObject()) != null) {
                 //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
-<<<<<<< HEAD
-                if (session.getState() == State.SERVERSENTWHATCATEGORYQUESTION) {
-                    System.out.println("Server State: " + session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
-=======
+
                 if(session.getState() == State.SERVERSTART){
                         
                     System.out.println("Server: "+ session.getState() + "\n" + session.getMessege());
@@ -36,7 +33,6 @@ public class Client {
                 } else if (session.getState() == State.SERVERSENTWHATCATEGORYQUESTION) {
                         
                     System.out.println("Server: "+ session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
->>>>>>> ElinasBranch
                     session.setWhatSubject(stdIn.readLine());
                     System.out.println("------------------------------------------");
                     session.setState(State.CLIENTPICKEDSUBJECT);
@@ -54,11 +50,8 @@ public class Client {
                         System.out.println("------------------------------------------");
                         session.setState(State.ANOTHERQUESTION);
                     } else {
-<<<<<<< HEAD
-                        System.out.println("Server: Du gissade FEL! Poäng: " + session.getScoreTotal());
-=======
+
                         System.out.println("Server: Du gissade FEL! Poäng denna runda: " + session.getScoreRond());
->>>>>>> ElinasBranch
                         System.out.println("------------------------------------------");
                         session.setState(State.ANOTHERQUESTION); 
                     }
