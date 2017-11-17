@@ -1,6 +1,5 @@
 package Client;
 
-
 import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.*;
@@ -10,6 +9,7 @@ public class GamePanel extends JFrame implements ActionListener {
     StartPanel sp;
     QuestionPanel qp;
     ResultPanel rp;
+    Color background = new Color(238, 238, 238);
 
     public GamePanel() {
         this.sp = new StartPanel(this);
@@ -35,43 +35,57 @@ public class GamePanel extends JFrame implements ActionListener {
         go.setPanel();
     }
     MouseListener ma = new MouseAdapter() {
-        
+
         @Override
-        public void mousePressed(MouseEvent e){
-            
-            if(e.getSource() == qp.answer1){
+        public void mousePressed(MouseEvent e) {
+
+            if (e.getSource() == qp.answer1) {
+
                 qp.answer1.setBackground(Color.GREEN);
             }
-            if(e.getSource() == qp.answer2){
+            if (e.getSource() == qp.answer2) {
                 
+                qp.answer2.setBackground(Color.GREEN);
+
             }
-            if(e.getSource() == qp.answer3){
+            if (e.getSource() == qp.answer3) {
+               
+                qp.answer3.setBackground(Color.GREEN);
+
+            }
+            if (e.getSource() == qp.answer4) {
                 
+                qp.answer4.setBackground(Color.GREEN);
+
             }
-            if(e.getSource() == qp.answer4){
-                
-            }
-            
+
         }
+
         @Override
-        public void mouseReleased(MouseEvent e){
-            
-            if(e.getSource() == qp.answer1){
-                qp.answer1.setBackground(Color.lightGray);
+        public void mouseReleased(MouseEvent e) {
+
+            if (e.getSource() == qp.answer1) {
+
+                qp.answer1.setBackground(background);
             }
-            if(e.getSource() == qp.answer2){
+            if (e.getSource() == qp.answer2) {
                 
+                qp.answer2.setBackground(background);
+
             }
-            if(e.getSource() == qp.answer3){
+            if (e.getSource() == qp.answer3) {
                 
+                qp.answer3.setBackground(background);
+
             }
-            if(e.getSource() == qp.answer4){
+            if (e.getSource() == qp.answer4) {
                 
+                qp.answer4.setBackground(background);
+
             }
-            
+
         }
-    
-    
+
     };
 
     @Override
