@@ -1,6 +1,7 @@
 package Client;
 
 
+import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -17,7 +18,7 @@ public class GamePanel extends JFrame implements ActionListener {
     }
 
     public void setPanel() {
-        setSize(350, 400);
+        setSize(450, 550);
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(3);
@@ -39,7 +40,7 @@ public class GamePanel extends JFrame implements ActionListener {
         public void mousePressed(MouseEvent e){
             
             if(e.getSource() == qp.answer1){
-                
+                qp.answer1.setBackground(Color.GREEN);
             }
             if(e.getSource() == qp.answer2){
                 
@@ -56,7 +57,7 @@ public class GamePanel extends JFrame implements ActionListener {
         public void mouseReleased(MouseEvent e){
             
             if(e.getSource() == qp.answer1){
-                
+                qp.answer1.setBackground(Color.lightGray);
             }
             if(e.getSource() == qp.answer2){
                 

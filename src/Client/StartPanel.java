@@ -8,9 +8,10 @@ class StartPanel extends JPanel {
     JButton exitGame = new JButton("Avsluta");
     JButton newGame = new JButton("Nytt spel");
     JPanel panel = new JPanel();
+    JPanel panel2 = new JPanel();
+    JPanel panel3 = new JPanel();
     JLabel team = new JLabel(new ImageIcon("/Users/Ian/Desktop/test/export.png"));
-    Color background = new Color(175, 175, 175);
-    
+   
     public StartPanel(ActionListener al) {
         newGame.addActionListener(al);
         exitGame.addActionListener(al);
@@ -19,15 +20,19 @@ class StartPanel extends JPanel {
     }
     
     public void setPanel(){
-        
+        setSize(600, 600);
         setLayout(new BorderLayout());
         panel.setLayout(new BorderLayout());
-        panel.add("North", newGame);
+        newGame.setPreferredSize(new Dimension(100, 100));
+        exitGame.setPreferredSize(new Dimension(100, 100));
+        panel2.add("Center", newGame);
+        panel3.add("Center", exitGame);
+        panel.add("North", panel2);
         panel.add("Center", team);
-        panel.add("South", exitGame);
+        panel.add("South", panel3);
         add("Center", panel);
-        setBackground(background);
-         
+        setBorder(BorderFactory.createLineBorder((new Color(175, 175, 200)), 10));
+        
         
         
     }

@@ -12,6 +12,7 @@ import javax.swing.*;
         Label answer4 = new Label("Svar 4", Label.CENTER);
         JPanel panel = new JPanel();
         
+        
 
     public QuestionPanel(MouseListener ma) {
         
@@ -22,6 +23,9 @@ import javax.swing.*;
     }
     
     public void setPanel(){
+        question.setPreferredSize(new Dimension(100, 200));
+        
+        
         setLayout(new BorderLayout());
         panel.setLayout(new GridLayout(2,2));
         add("North", question);
@@ -30,6 +34,8 @@ import javax.swing.*;
         panel.add(answer2);
         panel.add(answer3);
         panel.add(answer4);
+        setBorder(BorderFactory.createLineBorder((new Color(175, 175, 200)), 10));
+        
         
         
         
