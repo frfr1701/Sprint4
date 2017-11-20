@@ -2,7 +2,13 @@ package Domain.test;
 
 public enum Category {
 
-    HISTORY,
-    MUSIC,
-    GAMES,
+    HISTORIA,
+    MUSIK,
+    SPORT,
+    SAMHÄLLE,
+    GEOGRAFI,
+    DJUROCHNATUR,
+    TEKNIK,
+    FILMOCHBÖCKER,
+
 }
