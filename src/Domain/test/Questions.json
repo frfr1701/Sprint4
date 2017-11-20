@@ -1,0 +1,56 @@
+[
+  {
+    "category": "MUSIC",
+    "questionText": "vad är det som går och går",
+    "answers": [
+      {
+        "text": "bapelsiner",
+        "correct": true
+      },
+      {
+        "text": "mandariner",
+        "correct": false
+      },
+      {
+        "text": "gröt",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "category": "MUSIC",
+    "questionText": "vad är det som går och går",
+    "answers": [
+      {
+        "text": "bapelsiner",
+        "correct": true
+      },
+      {
+        "text": "mandariner",
+        "correct": false
+      },
+      {
+        "text": "gröt",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "category": "MUSIC",
+    "questionText": "vad är det som går och går",
+    "answers": [
+      {
+        "text": "bapelsiner",
+        "correct": true
+      },
+      {
+        "text": "mandariner",
+        "correct": false
+      },
+      {
+        "text": "gröt",
+        "correct": false
+      }
+    ]
+  }
+]
