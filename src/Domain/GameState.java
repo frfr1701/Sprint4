@@ -1,0 +1,5 @@
+package Domain;
+
+public enum GameState {
+    SERVERFIRST, CLIENTFIRST , SERVERMIDDLE , CLIENTMIDDLE , SERVERFINAL , CLIENTFINAL;
+}

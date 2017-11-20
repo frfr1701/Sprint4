@@ -23,7 +23,6 @@ public class Server extends Thread {
                 ObjectInputStream ois2 = new ObjectInputStream(socketToClient2.getInputStream());) {
             Session input, input2 = null, output, output2;
 
-            // Initiate conversation with client
             Protocol protocol = new Protocol();
             output = protocol.processInput(protocol.getInitialSession());
             output2 = protocol.processInput(protocol.getInitialSession());

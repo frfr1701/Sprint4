@@ -5,100 +5,109 @@ import Server.config.Config;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Protocol {
 
     QuestionReader qr;
     Config c;
+    protected boolean whichPlayer;
 
-
-    List<String[]> questionsRondTemp = new ArrayList<>();
-    List<String> subjectsRondTemp = new ArrayList<>();
     // String [][] matte = {fråga1Test, fråga2Test};
     private int category = 0;
     private int question = 1;
     private int correctAnswer = 2;
     private int currentQuestionInRond = 0;
     private int currentRond = 0;
+    private State state;
+    private GameState gameState;
+    
+    protected List<String> allSubjects;
+    protected List<String[]> allQuestions;
     
 
-    Protocol() throws IOException {
+    Protocol(){
         c = new Config();
-        qr = new QuestionsAndSubjects(c.getQuestionsPerRound(), 2);
+        int questionsperround =  c.getQuestionsPerRound();
         
     }
 
     public Session getInitialSession() {
-        //subjectsRondTemp = qr.getSubjects();
-        return new Session("Vill du starta nytt spel skriv J");
+        return new Session();
     }
 
     public Session processInput(Session s) {
-        State state = s.getState();
-        System.out.println("Server: " + state);
-        s.setState(State.SERVERSTART);
+        state = s.getState();
+        gameState = s.getGameState();
+        printState();
         
-        if (state == State.CLIENTSTARTSGAME ){
-            if(s.getAnswer().equalsIgnoreCase("J")){
-                s.setSubjectChoices(qr.getSubjects());
-                subjectsRondTemp = s.getsubjectChoices(); // tillkalla metod isätllet
-                s.setState(state.SERVERSENTWHATCATEGORYQUESTION);
-            }
-            
-        } else if (state == State.CLIENTPICKEDSUBJECT) {
-               
-            if (s.getwhatSubject().equalsIgnoreCase(subjectsRondTemp.get(0))) {  
+        s.setAllSubjects(allSubjects);
+        s.setQuestionsThisRound(allQuestions);
+        
+        
+        switch (gameState) {
+            case SERVERFIRST:
+                //val kategeri
+                
+                //svara
+                //svara
+                //svara
+                //(DYNAMISKT)
 
-                System.out.println("Klienten valde " + subjectsRondTemp.get(0));
-                questionsRondTemp = qr.getQuestions(subjectsRondTemp.get(0));
-                s.setquestionsInARond(questionsRondTemp);
-                s.setQuestion(questionsRondTemp.get(currentQuestionInRond)[question]);
 
-            } else if (s.getwhatSubject().equalsIgnoreCase(subjectsRondTemp.get(1))) {
+                //SWTICHPLAYER
+                break;
+            case SERVERMIDDLE:
+                
+                //svara
+                //svara
+                //svara
+                //(DYNAMISKT)
+                
+                //val kategeri
 
-                System.out.println("Klienten valde " + subjectsRondTemp.get(1));
-                questionsRondTemp = qr.getQuestions(subjectsRondTemp.get(1));
-                s.setquestionsInARond(questionsRondTemp);
-                s.setQuestion(questionsRondTemp.get(currentQuestionInRond)[question]);
+                //svara
+                //svara
+                //svara
+                //(DYNAMISKT)
 
-            } else if (s.getwhatSubject().equalsIgnoreCase(subjectsRondTemp.get(2))) {
 
-                System.out.println("Klienten valde " + subjectsRondTemp.get(2));
-                questionsRondTemp = qr.getQuestions(subjectsRondTemp.get(2));
-                s.setquestionsInARond(questionsRondTemp);
-                s.setQuestion(questionsRondTemp.get(currentQuestionInRond)[question]);
+                
+                //SWTICHPLAYER
+                break;
+            case SERVERFINAL:
 
-            }
-            System.out.println("Size " +s.getQuestionsInARond().size());
-            s.setState(State.SERVERSENTQUESTION);
-
-        } else if (state == State.CLIENTCLICKEDANSWER) {
-            if (s.getAnswer().equalsIgnoreCase(questionsRondTemp.get(currentQuestionInRond)[correctAnswer])) {
-
-                s.setVerdict(true);
-                s.addScoreRond();
-                s.addScoreTotal();
-            } else {
-                s.setVerdict(false);
-            }
-            currentQuestionInRond++;
-            s.setState(State.SERVERSENTANSWER);
-
-        } else if (state == State.ANOTHERQUESTION) { 
-            if(currentQuestionInRond == c.getQuestionsPerRound()){ 
-               currentQuestionInRond = 0;
-               s.nextRond();
-               if (s.getCurrentRond() == c.getNumberOfRounds()){
-                 s.setState(State.FINISHEDGAME);
-               } else {
-                 s.setState(State.RESULTSCREEN);
-               }
-            }else {
-               s.setQuestion(questionsRondTemp.get(currentQuestionInRond)[question]);
-               s.setState(State.SERVERSENTQUESTION);
-            } 
+                //svara
+                //svara
+                //svara
+                //(DYNAMISKT)
+                
+                
+                
+                //VISA RESULTAT
+                //SWTICHPLAYER
+                //VISA RESULTAT
+                break;
         }
         return s;
     }
+    
+    
+    public void answerQuestions(){
+    
+    }
+    
+    public void chooseSubject(){
+        
+    }
+    
+    
+    
+    public void printState(){
+        System.out.println("Server: " + state);
+    }
+    
+    
 
 }
