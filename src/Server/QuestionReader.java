@@ -63,7 +63,7 @@ public class QuestionReader implements Serializable {
     }
 }
 
-class QuestionsAndSubjects extends QuestionReader {
+class QuestionsAndSubjects extends QuestionReader implements Serializable{
 
     private final int NumberOfQuestions;
     private final int NumberOfSubjects;
@@ -98,7 +98,7 @@ class QuestionsAndSubjects extends QuestionReader {
     private List<String[]> filteredBoiSubject(String filterByThisSubject) {
         return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterByThisSubject)).collect(Collectors.toList());
     }
-
+    
     private List makeListFromSet(Set set) {
         return (List) set.stream().collect(Collectors.toList());
     }
