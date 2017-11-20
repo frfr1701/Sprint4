@@ -12,6 +12,7 @@ public class Session implements Serializable {
     protected List<String> questionsInARond;
     protected String answer = "";
     protected Boolean verdict;
+<<<<<<< HEAD
     protected int currentRond = 0;
     protected int scoreRond = 0;
     protected int scoreTotal = 0;
@@ -21,6 +22,11 @@ public class Session implements Serializable {
 
     public Session(String startaMatch) {
         this.messege = startaMatch;
+=======
+    //////
+    public Session (String r){
+        riddle = r;
+>>>>>>> Eveline
         verdict = null;
         state = State.WAITING;
 

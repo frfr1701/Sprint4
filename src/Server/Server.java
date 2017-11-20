@@ -9,6 +9,7 @@ public class Server extends Thread {
     Socket socketToClient;
     Socket socketToClient2;
 
+<<<<<<< HEAD
     Server(Socket socketToClient, Socket socketToClient2) {
         this.socketToClient = socketToClient;
         this.socketToClient2 = socketToClient2;
@@ -22,6 +23,12 @@ public class Server extends Thread {
             ObjectOutputStream oos2 = new ObjectOutputStream(socketToClient2.getOutputStream());
             ObjectInputStream ois2 = new ObjectInputStream(socketToClient2.getInputStream());
              ){
+=======
+        ) {//
+            //
+            ObjectOutputStream oos= new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+>>>>>>> Eveline
             Session input, output;
 
             // Initiate conversation with client

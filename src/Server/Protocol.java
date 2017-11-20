@@ -27,12 +27,16 @@ public class Protocol {
         qr = new QuestionsAndSubjects(c.getQuestionsPerRound(), 2);
         
     }
+<<<<<<< HEAD
 
     public Session getInitialSession() {
         //subjectsRondTemp = qr.getSubjects();
         return new Session("Vill du starta nytt spel skriv J");
     }
 
+=======
+    ////
+>>>>>>> Eveline
     public Session processInput(Session s) {
         State state = s.getState();
         System.out.println("Server: " + state);
@@ -101,4 +105,8 @@ public class Protocol {
         return s;
     }
 
+<<<<<<< HEAD
 }
+=======
+}///
+>>>>>>> Eveline
