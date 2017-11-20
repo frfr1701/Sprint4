@@ -17,22 +17,29 @@ public class Server extends Thread {
     @Override
     public void run() {
         try (
-            ObjectOutputStream oos = new ObjectOutputStream(socketToClient.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(socketToClient.getInputStream());
-            ObjectOutputStream oos2 = new ObjectOutputStream(socketToClient2.getOutputStream());
-            ObjectInputStream ois2 = new ObjectInputStream(socketToClient2.getInputStream());
-             ){
-            Session input, output;
+                ObjectOutputStream oos = new ObjectOutputStream(socketToClient.getOutputStream());
+                ObjectInputStream ois = new ObjectInputStream(socketToClient.getInputStream());
+                ObjectOutputStream oos2 = new ObjectOutputStream(socketToClient2.getOutputStream());
+                ObjectInputStream ois2 = new ObjectInputStream(socketToClient2.getInputStream());) {
+            Session input, input2 = null, output, output2;
 
             // Initiate conversation with client
             Protocol protocol = new Protocol();
             output = protocol.processInput(protocol.getInitialSession());
+            output2 = protocol.processInput(protocol.getInitialSession());
             oos.writeObject(output);
-
-            while ((input = (Session) ois.readObject()) != null) {
-                output = protocol.processInput(input);
-                oos.writeObject(output);
-
+            
+            while ((input = (Session) ois.readObject()) != null || (input2 = (Session) ois2.readObject()) != null) {
+                if (protocol.getWhichPlayer()) {
+                    oos.writeObject(output);
+                    output = protocol.processInput(input);
+                    oos.writeObject(output);
+                } else{
+                    oos2.writeObject(output2);
+                    output2 = protocol.processInput(input2);
+                    oos2.writeObject(output2);
+                    
+                }
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "
