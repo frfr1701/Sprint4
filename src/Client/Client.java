@@ -4,12 +4,7 @@ import Domain.*;
 import java.io.*;
 import java.net.*;
 
-<<<<<<< HEAD
 public class Client {
-
-=======
-public class Client {///
->>>>>>> Eveline
     public static void main(String[] args) throws IOException {
 
         String hostName = "127.0.0.1"; //localhost
