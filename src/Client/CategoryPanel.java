@@ -44,7 +44,7 @@ public class CategoryPanel extends JPanel implements IPanel {
         add("South", exitGame);
         add("North", goBack);
         goBack.setPreferredSize(new Dimension(50, 50));
-        exitGame.setPreferredSize(new Dimension(100, 100));
+        exitGame.setPreferredSize(new Dimension(50, 50));
          
         
         

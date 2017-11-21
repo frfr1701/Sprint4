@@ -43,14 +43,20 @@ public class ColorSettingPanel extends JPanel implements IPanel {
         add("North", goBack);
         
         
-        panel.setLayout(new GridLayout(1,4,10,10));
+        panel.setLayout(new GridLayout(2,2, 100, 60));
         panel.add(black);
         panel.add(yellow);
         panel.add(red);
         panel.add(standard);
         add("Center", panel);
+        black.setPreferredSize(new Dimension (75, 100));
+        red.setPreferredSize(new Dimension (75, 100));
+        standard.setPreferredSize(new Dimension (75, 100));
+        yellow.setPreferredSize(new Dimension (75, 100));
         
- 
+        
+       
+        
     }
     @Override
     public void setColor(Color backgroundColor){
