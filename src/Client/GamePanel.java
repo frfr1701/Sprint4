@@ -3,48 +3,49 @@ package Client;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GamePanel extends JFrame implements ActionListener {
+public class GamePanel extends Client implements ActionListener {
+
     StartPanel sp;
     QuestionPanel qp;
     ResultPanel rp;
-
-   public GamePanel() {
+    JFrame mastern;
+    public GamePanel() {
+        this.mastern = new JFrame();
         this.sp = new StartPanel(this);
         this.qp = new QuestionPanel();
         this.rp = new ResultPanel();
     }
-    
-   public void setPanel(){
-        setSize(350, 400);
-        setVisible(true);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(3);
-        add(sp);
+
+    @Override
+    public void setPanel() {
+        mastern.setSize(350, 400);
+        mastern.setVisible(true);
+        mastern.setLocationRelativeTo(null);
+        mastern.setDefaultCloseOperation(3);
+        mastern.add(sp);
         sp.setPanel();
-        
-        
-        revalidate();
-        repaint();
-        
-   }
-    
-   
-   public static void main(String[] args) {
+
+        mastern.revalidate();
+        mastern.repaint();
+
+    }
+
+    public static void main(String[] args) {
         GamePanel go = new GamePanel();
         go.setPanel();
     }
-    
-   
-   @Override
+
+    @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == sp.newGame) {
-            remove(sp);
-            this.add(qp);
+            mastern.remove(sp);
+            mastern.add(qp);
         }
-        if (ae.getSource() == sp.exitGame){
+        if (ae.getSource() == sp.exitGame) {
             System.exit(0);
         }
-        repaint();
-        
+        mastern.revalidate();
+        mastern.repaint();
+
     }
 }

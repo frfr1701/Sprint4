@@ -19,7 +19,7 @@ public class Config {
             System.out.println("fel vid inläsning av config filen");
             System.out.println(e.getCause());
         }
-        this.numberOfRounds =  Integer.valueOf(properties.getProperty("numberOfRounds", "4"));
+        this.numberOfRounds =  Integer.valueOf(properties.getProperty("numberOfRounds", "2"));
         this.questionsPerRound =  Integer.valueOf(properties.getProperty("questionsPerRound", "3"));
     }
 

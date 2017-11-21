@@ -18,11 +18,19 @@ public class Client {
     Session session;
     List<String> subjects;
     List<String[]> questions;
+    List<String> answers;
+    Client gp;
+    
+    public void setPanel(){};
+    
+    
+    
+    
     
     public void Client() {
-        
-//        GamePanel gp = new GamePanel();
+//        gp = new GamePanel();
 //        gp.setPanel();
+        answers = new ArrayList<>();
 
         try (Socket kkSocket = new Socket(HOSTNAMNE, PORTNUMBER);
             ObjectOutputStream oos = new ObjectOutputStream(kkSocket.getOutputStream());
@@ -33,13 +41,25 @@ public class Client {
                 switch (session.getGameState()) {
                     case CLIENTFIRST:
                         subjects = session.getDynamicSubjects();
+                        
                         System.out.println("FIRST");
-                        //GRAFIIIIIIK
-//                        questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
+                        System.out.println(subjects);
+                        
+                        questions = session.getDynamicQuestions(stdIn.readLine());
+                        
+                        questions.forEach((question) -> {
+                            System.out.println(question[1]);
+                    try {
+                        answers.add(stdIn.readLine());
+                    } catch (IOException ex) {
+                        System.out.println("FUCK YOU");
+                    }
+                        });
+                        
 
                         //GRAFIIIIIIK
-//                        checkAnaswers(questions);
-                        
+                        checkAnaswers(questions);
+                        answers.clear();
                         session.setGameState(SERVERMIDDLE);
                         break;
                     case CLIENTMIDDLE:
@@ -61,7 +81,6 @@ public class Client {
 
 //                        checkAnaswers(questions);
                         session.setGameState(SERVERMIDDLE);
-                        System.out.println("hit kommer jag");
                         break;
                     case CLIENTFINAL:
 
@@ -72,6 +91,8 @@ public class Client {
                         session.setGameState(SERVERFINAL);
                         break;
                     case GAMECOMPLETE:
+                            oos.writeObject(session);
+                            
                         break;
                     default:
                 }

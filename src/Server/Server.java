@@ -27,14 +27,16 @@ public class Server extends Thread {
             output = new Session();
             oos.writeObject(output);
 
-            while ((input = (Session) ois.readObject()) != null || (input = (Session) ois2.readObject()) != null) {
-                output = protocol.processInput(input);
-                if (output.getWhichPlayer()) {
-                    oos.writeObject(output);
-                } else {
-                    oos2.writeObject(output);
+            while ((input = (Session) ois.readObject()) != null) {
 
-                }
+                output = protocol.processInput(input);
+                oos2.writeObject(output);
+
+                input = (Session) ois2.readObject(); 
+                
+                output = protocol.processInput(input);
+                oos.writeObject(output);
+
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "

@@ -47,47 +47,22 @@ public class Protocol {
             case SERVERFIRST:
                 s.setAllSubjects(allSubjects);
                 s.setAllQuestions(allQuestions);
-                //val kategeri
-
-                //svara
-                //svara
-                //svara
-                //(DYNAMISKT)
                 s.changePlayer();
                 s.setGameState(CLIENTFIRST);
                 break;
             case SERVERMIDDLE:
-
-                //svara
-                //svara
-                //svara
-                //(DYNAMISKT)
-                //val kategeri
-                //svara
-                //svara
-                //svara
-                //(DYNAMISKT)
-                s.addToRoundCounter();
                 if (s.getRoundCounter() == numberOfRounds) { // TODO: Lägg till roundcounter() clienten efter varje runda
                     s.setGameState(CLIENTFINAL);
                 } else {
                     s.setGameState(CLIENTMIDDLE);
+                    s.addToRoundCounter();
                 }
-
                 s.changePlayer();
                 break;
             case SERVERFINAL:
-
-                //svara
-                //svara
-                //svara
-                //(DYNAMISKT)
-                //VISA RESULTAT
-                //SWTICHPLAYER
-                //VISA RESULTAT
                 s.changePlayer();
                 s.setGameState(GAMECOMPLETE);
-
+                
                 break;
         }
         return s;
