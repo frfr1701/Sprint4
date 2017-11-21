@@ -69,11 +69,7 @@ public class Client {
                         }
                         
                         
-                        if (session.isLastRound()) {
-                            session.setGameState(SERVERFINAL);
-                        } else {
-                            session.setGameState(SERVERMIDDLE);
-                        }
+                        
                         break;
                     case CLIENTFINAL:
                         

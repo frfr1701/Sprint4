@@ -1,12 +1,9 @@
 package Server;
 
 import Domain.*;
+import static Domain.GameState.*;
 import Server.config.Config;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Protocol {
 
@@ -72,7 +69,12 @@ public class Protocol {
                 //svara
                 //(DYNAMISKT)
 
-
+                
+                if (session.isLastRound()) {
+                            session.setGameState(SERVERFINAL);
+                        } else {
+                            session.setGameState(SERVERMIDDLE);
+                        }
                 
                 //SWTICHPLAYER
                 break;
@@ -92,16 +94,6 @@ public class Protocol {
         }
         return s;
     }
-    
-    
-    public void answerQuestions(){
-    
-    }
-    
-    public void chooseSubject(){
-        
-    }
-    
     
     
     public void printState(){
