@@ -1,196 +1,107 @@
 package Domain;
 
-import static Domain.GameState.*;
+import static Domain.State.*;
 import java.io.Serializable;
 import java.util.List;
 
 public class Session implements Serializable {
 
-    static final long serialVersionUID = -7588980448693010399L;
-    protected State state;
-    protected GameState gameState;
-    protected String question;
-    protected List<String> allSubjects;
-    protected List<String[]> allQuestions;
+    private final Player one;
+    private final Player two;
+    private boolean whichPlayer;
+
+    private List<String> allSubjects;
+    private List<String[]> allQuestions;
+    private List<String[]> questionsThisRound;
+
+    private final int numberOfQuestions;
+    private final int numberOfSubjects;
+    private final int numberOfRounds;
+
+    private State gameState;
+    private int roundCounter;
     
-    protected String roundSubject;
-    protected List<String[]> roundQuestions;
-    
-    protected String answer = "";
-    protected int currentRond = 0;
-    protected int scoreRond = 0;
-    protected int scoreTotal = 0;
-    protected Player one;
-    protected Player two;
-    protected boolean whichPlayer;
-    protected final int correctAnswer = 2;
-    protected int roundCounter = 1;
-
-
-
-    public Session() {
-        gameState = SERVERFIRST;
+    public Session(int numberOfSubjects, int numberOfQuestions, int numberOfRounds) {
+        gameState = LOADGAME;
         one = new Player();
         two = new Player();
-    }
-
-    public void setAllSubjects(List<String> allSubjects) {
-        this.allSubjects = allSubjects;
-    }
-
-    public void setQuestionsThisRound(List<String[]> allQuestions) {
-        this.allQuestions = allQuestions;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public GameState getGameState() {
-        return gameState;
-    }
-    
-    
-    public void addToRoundCounter () {
-        roundCounter++;
-    }
-    
-    public void resetRoundCounter () {
         roundCounter = 1;
-    }
-    
-    public int getRoundCounter () {
-        return roundCounter;
-    }
-
-    public List<String> getDynamicSubjects() {
-       return (List<String>)ListManger.differentElements(allSubjects, 3);
+        this.numberOfSubjects = numberOfSubjects;
+        this.numberOfQuestions = numberOfQuestions;
+        this.numberOfRounds = numberOfRounds;
     }
 
-    public List<String[]> getDynamicQuestions(String whatSubject) {
-        roundQuestions = (List<String[]>) ListManger.differentElements(ListManger.filterBySubject(allQuestions, whatSubject), 3);
-        return roundQuestions;
-    }
-    
-    public boolean getWhichPlayer(){
-        return whichPlayer;
-    }
-    
-    public void changePlayer(){
+    //--------------------------------------------------------------------------
+    //player start
+    public void changePlayer() {
         whichPlayer = !whichPlayer;
     }
 
-    public void givePoint() {
+    public void givePointToPlayer() {
         if (whichPlayer) {
             one.givePoint();
-        }else{
+        } else {
             two.givePoint();
         }
     }
-
-    public int getCorrectAnswer() {
-        return correctAnswer;
+    
+    public int getPointsFromPlayer() {
+        return whichPlayer ? one.getPoints() : two.getPoints();
     }
-    
-    
-    
-    //HHHEEELP
+    //player end
 
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
+    //--------------------------------------------------------------------------
+    //gamestate start
+    public void setGameState(State gameState) {
+        this.gameState = gameState;
     }
 
-    public List<String[]> getAllQuestions() {
-        return allQuestions;
+    public State getGameState() {
+        return gameState;
+    }
+    //gamestate end
+
+    //--------------------------------------------------------------------------
+    //roundCounter start
+    public void addToRoundCounter() {
+        roundCounter++;
+    }
+
+    public int getRoundCounter() {
+        return roundCounter;
+    }
+    
+    public boolean isFinalRound(){
+        return roundCounter == numberOfRounds;
+    }
+    //roundCounter end
+
+    //--------------------------------------------------------------------------
+    //questions and subjects start
+    public void setAllSubjects(List<String> allSubjects) {
+        this.allSubjects = allSubjects;
     }
 
     public void setAllQuestions(List<String[]> allQuestions) {
         this.allQuestions = allQuestions;
     }
 
-    public String getRoundSubject() {
-        return roundSubject;
+    public List<String> getSubjects() {
+        return ListManger.getSessionSubjects(allSubjects, numberOfSubjects);
     }
 
-    public void setRoundSubject(String roundSubject) {
-        this.roundSubject = roundSubject;
+    public List<String[]> getQuestions(String chosenSubject) {
+        return questionsThisRound = ListManger.getSessionQuestions(allQuestions, chosenSubject, numberOfQuestions);
+    }
+    
+    public void setQuestionsThisRound(List<String[]> roundQuestions) {
+        this.questionsThisRound = roundQuestions;
     }
 
-    public List<String[]> getRoundQuestions() {
-        return roundQuestions;
+    public List<String[]> getQuestionsThisRound() {
+        return questionsThisRound;
     }
+    //questions and subjects end
 
-    public void setRoundQuestions(List<String[]> roundQuestions) {
-        this.roundQuestions = roundQuestions;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public int getCurrentRond() {
-        return currentRond;
-    }
-
-    public void setCurrentRond(int currentRond) {
-        this.currentRond = currentRond;
-    }
-
-    public int getScoreRond() {
-        return scoreRond;
-    }
-
-    public void setScoreRond(int scoreRond) {
-        this.scoreRond = scoreRond;
-    }
-
-    public int getScoreTotal() {
-        return scoreTotal;
-    }
-
-    public void setScoreTotal(int scoreTotal) {
-        this.scoreTotal = scoreTotal;
-    }
-
-    public Player getOne() {
-        return one;
-    }
-
-    public void setOne(Player one) {
-        this.one = one;
-    }
-
-    public Player getTwo() {
-        return two;
-    }
-
-    public void setTwo(Player two) {
-        this.two = two;
-    }
-
-    public boolean isWhichPlayer() {
-        return whichPlayer;
-    }
-
-    public void setWhichPlayer(boolean whichPlayer) {
-        this.whichPlayer = whichPlayer;
-    }
-            
-            
+    //--------------------------------------------------------------------------
 }

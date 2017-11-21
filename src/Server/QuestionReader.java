@@ -3,22 +3,18 @@ package Server;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.*;
 
-public class QuestionReader implements Serializable {
+class QuestionReader implements Serializable {
 
     private final Path dir = Paths.get("src\\Server\\Resources");
-    private DirectoryStream<Path> directoryStream;
-    protected List<String> subjects;
-    protected List<String[]> questions;
+    private final String fileFormat = ".{txt}";
+    private List<String> subjects;
+    private List<String[]> questions;
 
-    public QuestionReader() {
-        questions = new ArrayList<>();
-        subjects = new ArrayList<>();
-        try {
-            directoryStream = Files.newDirectoryStream(dir, "*.{txt}");
+    QuestionReader() {
+        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(dir, "*" + fileFormat);) {
             directoryStream.forEach((path) -> {
-                subjects.add(path.getFileName().toString().replace(".txt", ""));
+                subjects.add(path.getFileName().toString().replace(fileFormat, ""));
                 fileReader(path);
             });
         } catch (IOException ex) {
@@ -27,16 +23,6 @@ public class QuestionReader implements Serializable {
         }
     }
 
-    /**
-     * //läser in 5 rader från en textfil och lägger dem i en array 
-     * //plats 1 är frågan 
-     * //plats 2 är RÄTT svar 
-     * //plats 3 är fel svar 
-     * //plats 4 är fel svar 
-     * //plats 5 är fel svar
-     * //(Plats 0 i arrayen blir kategorin)
-     * @param p path för filen som ska läsas in
-     */
     private void fileReader(Path p) {
         String[] temp = new String[6];
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(p))) {
@@ -45,7 +31,7 @@ public class QuestionReader implements Serializable {
                     && ((temp[3] = br.readLine()) != null)
                     && ((temp[4] = br.readLine()) != null)
                     && ((temp[5] = br.readLine()) != null)) {
-                temp[0] = p.getFileName().toString().replace(".txt", "");
+                temp[0] = p.getFileName().toString().replace(fileFormat, "");
                 questions.add(Arrays.copyOf(temp, temp.length));
             }
         } catch (IOException ex) {
@@ -54,12 +40,11 @@ public class QuestionReader implements Serializable {
         }
     }
 
-    public List<String> getSubjects() {
+    List<String> getSubjects() {
         return subjects;
     }
-    
-    public List<String[]> getQuestions() {
+
+    List<String[]> getQuestions() {
         return questions;
     }
 }
-

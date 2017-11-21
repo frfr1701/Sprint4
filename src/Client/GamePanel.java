@@ -3,7 +3,7 @@ package Client;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GamePanel extends Client implements ActionListener {
+class GamePanel extends Client implements ActionListener {
 
     StartPanel sp;
     QuestionPanel qp;
@@ -16,7 +16,6 @@ public class GamePanel extends Client implements ActionListener {
         this.rp = new ResultPanel();
     }
 
-    @Override
     public void setPanel() {
         mastern.setSize(350, 400);
         mastern.setVisible(true);

@@ -2,14 +2,15 @@ package Domain;
 
 import java.io.*;
 
-public class Player implements Serializable{
+class Player implements Serializable {
+
     int points = 0;
-    
-    public void givePoint() {
+
+    void givePoint() {
         points++;
     }
 
-    public int getPoints() {
+    int getPoints() {
         return points;
     }
 }

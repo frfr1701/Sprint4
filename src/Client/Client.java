@@ -1,129 +1,101 @@
 package Client;
 
 import Domain.*;
-import static Domain.GameState.*;
+import static Domain.State.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Client {
+class Client {
 
     public static void main(String[] args) throws IOException {
         Client start = new Client();
         start.Client();
     }
-    
+
     private static final int PORTNUMBER = 44444;
     private static final String HOSTNAMNE = "127.0.0.1";
-    Session session;
-    List<String> subjects;
-    List<String[]> questions;
-    List<String> answers;
-    Client gp;
-    
-    public void setPanel(){};
-    
-    
-    
-    
-    
-    public void Client() {
-//        gp = new GamePanel();
-//        gp.setPanel();
-        answers = new ArrayList<>();
+    private final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+    private final List<String> answers = new ArrayList<>();
 
-        try (Socket kkSocket = new Socket(HOSTNAMNE, PORTNUMBER);
-            ObjectOutputStream oos = new ObjectOutputStream(kkSocket.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(kkSocket.getInputStream());
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));){
-            
-            while ((session = (Session) ois.readObject()) != null) {
+    private Session session;
+    private List<String[]> questions;
+
+    private void Client() {
+        try (Socket socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
+                ObjectOutputStream serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
+                ObjectInputStream serverInput = new ObjectInputStream(socketToServer.getInputStream());) {
+            clientprotocol:
+            while ((session = (Session) serverInput.readObject()) != null) {
                 switch (session.getGameState()) {
-                    case CLIENTFIRST:
-                        subjects = session.getDynamicSubjects();
-                        
-                        System.out.println("FIRST");
-                        System.out.println(subjects);
-                        
-                        questions = session.getDynamicQuestions(stdIn.readLine());
-                        
-                        questions.forEach((question) -> {
-                            System.out.println(question[1]);
-                    try {
-                        answers.add(stdIn.readLine());
-                    } catch (IOException ex) {
-                        System.out.println("FUCK YOU");
-                    }
-                        });
-                        
+                    case FIRST:
+                        System.out.println(session.getSubjects());
+                        session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
+                        askQuestions();
+                        checkAnswers();
 
-                        //GRAFIIIIIIK
-                        checkAnaswers(questions);
-                        answers.clear();
-                        session.setGameState(SERVERMIDDLE);
+                        session.setGameState(MIDDLE);
+                        serverOutput.writeObject(session);
                         break;
-                    case CLIENTMIDDLE:
-                        
-                        System.out.println("MID");
-//                        questions = session.getRoundQuestions();
+                    case MIDDLE:
+                        questions = session.getQuestionsThisRound();
+                        askQuestions();
+                        checkAnswers();
+                        //next round
+                        System.out.println(session.getSubjects());
+                        session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
+                        askQuestions();
+                        checkAnswers();
 
-                        //GRAFIIIIIIK
-
-//                        checkAnaswers(questions);
-
-                        //GRAFIIIIIIK
-                        
-//                        subjects = session.getDynamicSubjects();
-
-                        //GRAFIIIIIIK
-
-//                        questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
-
-//                        checkAnaswers(questions);
-                        session.setGameState(SERVERMIDDLE);
+                        session.setGameState(MIDDLE);
+                        serverOutput.writeObject(session);
                         break;
-                    case CLIENTFINAL:
+                    case FINAL:
+                        questions = session.getQuestionsThisRound();
+                        askQuestions();
+                        checkAnswers();
 
-//                        questions = session.getRoundQuestions();
-
-//                        checkAnaswers(questions);
-                        System.out.println("LAST");
-                        session.setGameState(SERVERFINAL);
+                        session.setGameState(FINAL);
+                        serverOutput.writeObject(session);
                         break;
                     case GAMECOMPLETE:
-                            oos.writeObject(session);
-                            
-                        break;
+                        System.out.println(session.getPointsFromPlayer());
+                        socketToServer.close();
+                        break clientprotocol;
                     default:
+                        serverOutput.writeObject(session);
                 }
-
-                oos.writeObject(session);
             }
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + HOSTNAMNE);
-            System.exit(1);
+            System.out.println("Don't know about host " + HOSTNAMNE);
         } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to "
-                    + HOSTNAMNE);
-            e.printStackTrace();
-            System.exit(1);
+            System.out.println("Couldn't get I/O for the connection to " + HOSTNAMNE);
         } catch (ClassNotFoundException e) {
-            System.err.println("Couldn't find class "
-                    + HOSTNAMNE);
-            System.exit(1);
+            System.out.println("Couldn't find class " + HOSTNAMNE);
         }
     }
 
-    private void checkAnaswers(List<String[]> questions) {
-        int questionToAnswerMatcher = 0;
-
+    private void checkAnswers() {
+        int index = 0;
         for (String[] question : questions) {
-            if (question[session.getCorrectAnswer()].equalsIgnoreCase(answers.get(questionToAnswerMatcher))) {
-                session.givePoint();
+            if (question[2].equalsIgnoreCase(answers.get(index++))) {
+                session.givePointToPlayer();
             }
-            questionToAnswerMatcher++;
+        }
+        answers.clear();
+    }
+
+    private void askQuestions() {
+        try {
+            for (String[] question : questions) {
+                System.out.println(question[1]);
+                for (int i = 2; i < question.length; i++) {
+                    System.out.println(question[i]);
+                }
+                answers.add(stdIn.readLine());
+            }
+        } catch (IOException e) {
+            System.out.println("inputStreamReader IOException");
         }
     }
-    
-
 }

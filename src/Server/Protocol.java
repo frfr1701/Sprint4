@@ -1,75 +1,64 @@
 package Server;
 
+import static Domain.State.*;
 import Domain.*;
-import static Domain.GameState.*;
 import Server.config.Config;
-import java.util.List;
+import java.util.*;
 
-public class Protocol {
+class Protocol {
 
-    QuestionReader qr;
-    Config c;
-    protected boolean whichPlayer;
+    private final QuestionReader qr;
+    private final Config c;
 
-    // String [][] matte = {fråga1Test, fråga2Test};
-    private int category = 0;
-    private int question = 1;
-    private int correctAnswer = 2;
-    private int currentQuestionInRond = 0;
-    private int currentRond = 0;
-    private State state;
-    private GameState gameState;
-    int questionsperround;
-    int numberOfRounds;
-    protected List<String> allSubjects;
-    protected List<String[]> allQuestions;
+    private final List<String> allSubjects;
+    private final List<String[]> allQuestions;
+    private final int numberOfRounds;
+    private final int numberOfQuestions;
+    private final int numberOfSubjects;
 
-    Protocol() {
+    private State gameState;
+
+    protected Protocol() {
         c = new Config();
-        questionsperround = c.getQuestionsPerRound();
         numberOfRounds = c.getNumberOfRounds();
-        QuestionReader test = new QuestionReader();
-        allSubjects = test.getSubjects();
-        allQuestions = test.getQuestions();
-        System.out.println(c.getNumberOfRounds());
+        numberOfSubjects = 3;
+        numberOfQuestions = 3;
+
+        qr = new QuestionReader();
+        allSubjects = qr.getSubjects();
+        allQuestions = qr.getQuestions();
     }
 
-    public Session getInitialSession() {
-        return new Session();
+    protected Session getInitialSession() {
+        return new Session(numberOfSubjects, numberOfQuestions, numberOfRounds);
     }
 
-    public Session processInput(Session s) {
-        state = s.getState();
-        gameState = s.getGameState();
-        printState();
-
+    protected Session processSession(Session session) {
+        gameState = session.getGameState();
         switch (gameState) {
-            case SERVERFIRST:
-                s.setAllSubjects(allSubjects);
-                s.setAllQuestions(allQuestions);
-                s.changePlayer();
-                s.setGameState(CLIENTFIRST);
+            case LOADGAME:
+                session.setAllSubjects(allSubjects);
+                session.setAllQuestions(allQuestions);
+
+                session.setGameState(FIRST);
+                session.changePlayer();
                 break;
-            case SERVERMIDDLE:
-                if (s.getRoundCounter() == numberOfRounds) { // TODO: Lägg till roundcounter() clienten efter varje runda
-                    s.setGameState(CLIENTFINAL);
-                } else {
-                    s.setGameState(CLIENTMIDDLE);
-                    s.addToRoundCounter();
-                }
-                s.changePlayer();
-                break;
-            case SERVERFINAL:
-                s.changePlayer();
-                s.setGameState(GAMECOMPLETE);
+            case MIDDLE:
                 
+                if (session.isFinalRound()) {
+                    session.setGameState(FINAL);
+                    session.changePlayer();
+                    break;
+                }
+                
+                session.addToRoundCounter();
+                session.changePlayer();
+                break;
+            case FINAL:
+                session.setGameState(GAMECOMPLETE);
+                session.changePlayer();
                 break;
         }
-        return s;
+        return session;
     }
-
-    public void printState() {
-        System.out.println("Server: " + gameState);
-    }
-
 }

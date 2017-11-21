@@ -1,5 +1,5 @@
 package Domain;
 
-public enum  State {
-    
+public enum State {
+    LOADGAME, FIRST, MIDDLE, FINAL, GAMECOMPLETE;
 }
