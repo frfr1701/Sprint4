@@ -15,9 +15,6 @@ public class Client {
     
     private static final int PORTNUMBER = 44444;
     private static final String HOSTNAMNE = "127.0.0.1";
-    Socket kkSocket;
-    ObjectOutputStream oos;
-    ObjectInputStream ois;
     Session session;
     List<String> subjects;
     List<String[]> questions;
@@ -26,14 +23,11 @@ public class Client {
 
         
 
-        try (
-            Socket kkSocket = new Socket(HOSTNAMNE, PORTNUMBER);) {
+        try (Socket kkSocket = new Socket(HOSTNAMNE, PORTNUMBER);
             ObjectOutputStream oos = new ObjectOutputStream(kkSocket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(kkSocket.getInputStream());
-
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-            Session session;
-
+            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));){
+            
             while ((session = (Session) ois.readObject()) != null) {
                 switch (session.getGameState()) {
                     case CLIENTFIRST:
@@ -50,9 +44,16 @@ public class Client {
                     case CLIENTMIDDLE:
                         questions = session.getRoundQuestions();
 
+                        //GRAFIIIIIIK
+
                         checkAnaswers(questions);
 
+                        //GRAFIIIIIIK
+                        
                         subjects = session.getDynamicSubjects();
+
+                        //GRAFIIIIIIK
+
                         questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
 
                         checkAnaswers(questions);
