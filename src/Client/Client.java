@@ -56,15 +56,16 @@ public class Client {
                         questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
 
                         checkAnaswers(questions);
-
+                        session.setGameState(SERVERMIDDLE);
                         break;
                     case CLIENTFINAL:
 
                         questions = session.getRoundQuestions();
 
                         checkAnaswers(questions);
-
+                        session.setGameState(SERVERFINAL);
                         break;
+                    case GAMECOMPLETE:
                     default:
                 }
 
