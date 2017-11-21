@@ -26,14 +26,14 @@ public class Server extends Thread {
             Protocol protocol = new Protocol();
             output = new Session();
             oos.writeObject(output);
-            
+
             while ((input = (Session) ois.readObject()) != null || (input = (Session) ois2.readObject()) != null) {
                 output = protocol.processInput(input);
                 if (output.getWhichPlayer()) {
                     oos.writeObject(output);
-                } else{
+                } else {
                     oos2.writeObject(output);
-                    
+
                 }
             }
         } catch (IOException e) {
