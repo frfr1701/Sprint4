@@ -20,16 +20,16 @@ public class Session implements Serializable {
     protected int currentRond = 0;
     protected int scoreRond = 0;
     protected int scoreTotal = 0;
-    protected boolean lastRound;
     protected Player one;
     protected Player two;
     protected boolean whichPlayer;
     protected final int correctAnswer = 2;
+    protected int roundCounter = 1;
 
 
 
     public Session() {
-        gameState = SERVERFIRST;
+        gameState = CLIENTFIRST;
         one = new Player();
         two = new Player();
     }
@@ -58,8 +58,17 @@ public class Session implements Serializable {
         return gameState;
     }
     
-    public boolean isLastRound() {
-        return lastRound;
+    
+    public void addToRoundCounter () {
+        roundCounter++;
+    }
+    
+    public void resetRoundCounter () {
+        roundCounter = 1;
+    }
+    
+    public int getRoundCounter () {
+        return roundCounter;
     }
 
     public List<String> getDynamicSubjects() {
