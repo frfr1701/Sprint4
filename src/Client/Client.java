@@ -20,8 +20,9 @@ public class Client {
     List<String[]> questions;
     
     public void Client() {
-
         
+//        GamePanel gp = new GamePanel();
+//        gp.setPanel();
 
         try (Socket kkSocket = new Socket(HOSTNAMNE, PORTNUMBER);
             ObjectOutputStream oos = new ObjectOutputStream(kkSocket.getOutputStream());
@@ -32,41 +33,46 @@ public class Client {
                 switch (session.getGameState()) {
                     case CLIENTFIRST:
                         subjects = session.getDynamicSubjects();
+                        System.out.println("FIRST");
+                        //GRAFIIIIIIK
+//                        questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
 
                         //GRAFIIIIIIK
-                        questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
-
-                        //GRAFIIIIIIK
-                        checkAnaswers(questions);
+//                        checkAnaswers(questions);
                         
                         session.setGameState(SERVERMIDDLE);
                         break;
                     case CLIENTMIDDLE:
-                        questions = session.getRoundQuestions();
+                        
+                        System.out.println("MID");
+//                        questions = session.getRoundQuestions();
 
                         //GRAFIIIIIIK
 
-                        checkAnaswers(questions);
+//                        checkAnaswers(questions);
 
                         //GRAFIIIIIIK
                         
-                        subjects = session.getDynamicSubjects();
+//                        subjects = session.getDynamicSubjects();
 
                         //GRAFIIIIIIK
 
-                        questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
+//                        questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
 
-                        checkAnaswers(questions);
+//                        checkAnaswers(questions);
                         session.setGameState(SERVERMIDDLE);
+                        System.out.println("hit kommer jag");
                         break;
                     case CLIENTFINAL:
 
-                        questions = session.getRoundQuestions();
+//                        questions = session.getRoundQuestions();
 
-                        checkAnaswers(questions);
+//                        checkAnaswers(questions);
+                        System.out.println("LAST");
                         session.setGameState(SERVERFINAL);
                         break;
                     case GAMECOMPLETE:
+                        break;
                     default:
                 }
 

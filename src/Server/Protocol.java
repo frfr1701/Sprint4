@@ -23,12 +23,15 @@ public class Protocol {
     int numberOfRounds;
     protected List<String> allSubjects;
     protected List<String[]> allQuestions;
-    
 
-    Protocol(){
+    Protocol() {
         c = new Config();
-        questionsperround =  c.getQuestionsPerRound();
+        questionsperround = c.getQuestionsPerRound();
         numberOfRounds = c.getNumberOfRounds();
+        QuestionReader test = new QuestionReader();
+        allSubjects = test.getSubjects();
+        allQuestions = test.getQuestions();
+        System.out.println(c.getNumberOfRounds());
     }
 
     public Session getInitialSession() {
@@ -39,45 +42,39 @@ public class Protocol {
         state = s.getState();
         gameState = s.getGameState();
         printState();
-        
-    
+
         switch (gameState) {
             case SERVERFIRST:
                 s.setAllSubjects(allSubjects);
-                s.setQuestionsThisRound(allQuestions);
+                s.setAllQuestions(allQuestions);
                 //val kategeri
-                
+
                 //svara
                 //svara
                 //svara
                 //(DYNAMISKT)
-
-
-                //SWTICHPLAYER
+                s.changePlayer();
                 s.setGameState(CLIENTFIRST);
                 break;
             case SERVERMIDDLE:
-                
+
                 //svara
                 //svara
                 //svara
                 //(DYNAMISKT)
-                
                 //val kategeri
-
                 //svara
                 //svara
                 //svara
                 //(DYNAMISKT)
                 s.addToRoundCounter();
+                if (s.getRoundCounter() == numberOfRounds) { // TODO: Lägg till roundcounter() clienten efter varje runda
+                    s.setGameState(CLIENTFINAL);
+                } else {
+                    s.setGameState(CLIENTMIDDLE);
+                }
+
                 s.changePlayer();
-                if (s.getRoundCounter() == numberOfRounds ) { // TODO: Lägg till roundcounter() clienten efter varje runda
-                            s.setGameState(CLIENTFINAL);
-                        } else {
-                            s.setGameState(CLIENTMIDDLE);
-                        }
-                
-                //SWTICHPLAYER
                 break;
             case SERVERFINAL:
 
@@ -85,25 +82,19 @@ public class Protocol {
                 //svara
                 //svara
                 //(DYNAMISKT)
-                
-                
-                
                 //VISA RESULTAT
                 //SWTICHPLAYER
                 //VISA RESULTAT
                 s.changePlayer();
                 s.setGameState(GAMECOMPLETE);
-                
+
                 break;
         }
         return s;
     }
-    
-    
-    public void printState(){
-        System.out.println("Server: " + state);
+
+    public void printState() {
+        System.out.println("Server: " + gameState);
     }
-    
-    
 
 }

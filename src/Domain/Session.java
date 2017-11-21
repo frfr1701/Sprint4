@@ -29,7 +29,7 @@ public class Session implements Serializable {
 
 
     public Session() {
-        gameState = CLIENTFIRST;
+        gameState = SERVERFIRST;
         one = new Player();
         two = new Player();
     }
