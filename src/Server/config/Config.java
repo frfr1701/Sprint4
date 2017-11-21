@@ -9,11 +9,16 @@ public class Config {
     private Integer numberOfRounds;
     private Integer questionsPerRound;
 
-    public Config() throws IOException {
+    public Config(){
 
         Properties properties = new Properties();
-        properties.load(new FileInputStream("src/Server/config/Config.properties"));
-
+        try {
+            
+            properties.load(new FileInputStream("src/Server/config/Config.properties"));
+        } catch (IOException e) {
+            System.out.println("fel vid inläsning av config filen");
+            System.out.println(e.getCause());
+        }
         this.numberOfRounds =  Integer.valueOf(properties.getProperty("numberOfRounds", "4"));
         this.questionsPerRound =  Integer.valueOf(properties.getProperty("questionsPerRound", "3"));
     }

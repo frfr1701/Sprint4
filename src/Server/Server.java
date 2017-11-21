@@ -17,22 +17,24 @@ public class Server extends Thread {
     @Override
     public void run() {
         try (
-            ObjectOutputStream oos = new ObjectOutputStream(socketToClient.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(socketToClient.getInputStream());
-            ObjectOutputStream oos2 = new ObjectOutputStream(socketToClient2.getOutputStream());
-            ObjectInputStream ois2 = new ObjectInputStream(socketToClient2.getInputStream());
-             ){
+                ObjectOutputStream oos = new ObjectOutputStream(socketToClient.getOutputStream());
+                ObjectInputStream ois = new ObjectInputStream(socketToClient.getInputStream());
+                ObjectOutputStream oos2 = new ObjectOutputStream(socketToClient2.getOutputStream());
+                ObjectInputStream ois2 = new ObjectInputStream(socketToClient2.getInputStream());) {
             Session input, output;
 
-            // Initiate conversation with client
             Protocol protocol = new Protocol();
-            output = protocol.processInput(protocol.getInitialSession());
+            output = new Session();
             oos.writeObject(output);
 
-            while ((input = (Session) ois.readObject()) != null) {
+            while ((input = (Session) ois.readObject()) != null || (input = (Session) ois2.readObject()) != null) {
                 output = protocol.processInput(input);
-                oos.writeObject(output);
+                if (output.getWhichPlayer()) {
+                    oos.writeObject(output);
+                } else {
+                    oos2.writeObject(output);
 
+                }
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "

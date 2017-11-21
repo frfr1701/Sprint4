@@ -58,53 +58,8 @@ public class QuestionReader implements Serializable {
         return subjects;
     }
     
-    public List<String[]> getQuestions(String subject) {
-        return questions.stream().filter((index) -> index[0].equalsIgnoreCase(subject)).collect(Collectors.toList());
+    public List<String[]> getQuestions() {
+        return questions;
     }
 }
 
-class QuestionsAndSubjects extends QuestionReader {
-
-    private final int NumberOfQuestions;
-    private final int NumberOfSubjects;
-
-    public QuestionsAndSubjects(int NumberOfQuestions, int NumberOfSubjects) {
-        this.NumberOfQuestions = NumberOfQuestions;
-        this.NumberOfSubjects = NumberOfSubjects;
-    }
-
-    @Override
-    public List<String> getSubjects() {
-        return shuffleMaList(makeListFromSet(differentElements(subjects, NumberOfSubjects)));
-    }
-
-    @Override
-    public List<String[]> getQuestions(String subject) {
-        return shuffleMaList(makeListFromSet(differentElements(filteredBoiSubject(subject), NumberOfQuestions)));
-    }
-
-    private Set differentElements(List fromList, int antal) {
-        Set<Object> UniqueElements = new HashSet<>();
-        while (UniqueElements.size() < antal) {
-            UniqueElements.add(giveRandomElement(fromList));
-        }
-        return UniqueElements;
-    }
-
-    private Object giveRandomElement(List chosenOne) {
-        return chosenOne.get((int) (Math.random() * chosenOne.size()));
-    }
-
-    private List<String[]> filteredBoiSubject(String filterByThisSubject) {
-        return questions.stream().filter(indexOfList -> indexOfList[0].equalsIgnoreCase(filterByThisSubject)).collect(Collectors.toList());
-    }
-
-    private List makeListFromSet(Set set) {
-        return (List) set.stream().collect(Collectors.toList());
-    }
-
-    private List shuffleMaList(List shuffleMe) {
-        Collections.shuffle(shuffleMe);
-        return shuffleMe;
-    }
-}

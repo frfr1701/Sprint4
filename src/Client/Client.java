@@ -1,94 +1,101 @@
 package Client;
 
 import Domain.*;
+import static Domain.GameState.*;
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class Client {
 
     public static void main(String[] args) throws IOException {
+        Client start = new Client();
+        start.Client();
+    }
+    
+    private static final int PORTNUMBER = 44444;
+    private static final String HOSTNAMNE = "127.0.0.1";
+    Socket kkSocket;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
+    Session session;
+    List<String> subjects;
+    List<String[]> questions;
+    
+    public void Client() {
 
-        String hostName = "127.0.0.1"; //localhost
-        int portNumber = 44444;
+        
 
         try (
-                Socket kkSocket = new Socket(hostName, portNumber);) {
+            Socket kkSocket = new Socket(HOSTNAMNE, PORTNUMBER);) {
             ObjectOutputStream oos = new ObjectOutputStream(kkSocket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(kkSocket.getInputStream());
 
-            BufferedReader stdIn
-                    = new BufferedReader(new InputStreamReader(System.in));
+            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
             Session session;
 
             while ((session = (Session) ois.readObject()) != null) {
-                //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
-                if(session.getState() == State.SERVERSTART){
-                        
-                    System.out.println("Server: "+ session.getState() + "\n" + session.getMessege());
-                    session.setAnswer(stdIn.readLine());
-                    System.out.println("------------------------------------------");
-                    session.setState(State.CLIENTSTARTSGAME);
-                    
-                } else if (session.getState() == State.SERVERSENTWHATCATEGORYQUESTION) {
-                        
-                    System.out.println("Server: "+ session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
-                    session.setWhatSubject(stdIn.readLine());
-                    System.out.println("------------------------------------------");
-                    session.setState(State.CLIENTPICKEDSUBJECT);
-                        
-                } else if (session.getState() == State.SERVERSENTQUESTION) {
+                switch (session.getGameState()) {
+                    case CLIENTFIRST:
+                        subjects = session.getDynamicSubjects();
 
-                    System.out.println("Server: " + session.getState() + "\nValtämne:  " + session.getwhatSubject() + "\nFråga:  " + session.getQuestion());
-                    session.setAnswer(stdIn.readLine());
-                    session.setState(State.CLIENTCLICKEDANSWER);
-                    
-                } else if (session.getState() == State.SERVERSENTANSWER) {
+                        //GRAFIIIIIIK
+                        questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
 
-                    if (session.getVerdict()) {
-                        System.out.println("Server: Du gissade RÄTT! Poäng denna runda: " + session.getScoreRond());
-                        System.out.println("------------------------------------------");
-                        session.setState(State.ANOTHERQUESTION);
-                    } else {
-                        System.out.println("Server: Du gissade FEL! Poäng denna runda: " + session.getScoreRond());
-                        System.out.println("------------------------------------------");
-                        session.setState(State.ANOTHERQUESTION); 
-                    }
-                  
-                } else if (session.getState() == State.RESULTSCREEN){
-                    
-                     System.out.println("Server: "+ session.getState()+"\nRunda: "+ session.getCurrentRond() + "\n" + "Resultat för ronden: "+ session.getScoreRond()+ "\nResultat totalt: "+ session.getScoreTotal());
-                     session.resetScoreRond();
-                     session.setMessege("För starta ny runda tryck J");
-                     System.out.println(session.getMessege());
-                     session.setAnswer(stdIn.readLine());
-                     System.out.println("------------------------------------------");
-                     
-                     session.setState(State.CLIENTSTARTSGAME);
-                     
-                } else if (session.getState() == State.FINISHEDGAME){
-                    
-                    System.out.println("Server: "+ session.getState()+"\nSpelet är avslutat du fick totalt:  "+ session.getScoreTotal() 
-                            + "\nTEST - Vad står ronder på nu: " + session.getCurrentRond() 
-                            + "\n" + "Resultat för ronden: "+ session.getScoreRond());
-                    session.resetRonds();
-                    session.setMessege("Vill du starta nytt spel J");
-                    System.out.println("------------------------------------------");
+                        //GRAFIIIIIIK
+                        checkAnaswers(questions);
+                        
+                        session.setGameState(SERVERMIDDLE);
+                        break;
+                    case CLIENTMIDDLE:
+                        questions = session.getRoundQuestions();
+
+                        checkAnaswers(questions);
+
+                        subjects = session.getDynamicSubjects();
+                        questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
+
+                        checkAnaswers(questions);
+                        session.setGameState(SERVERMIDDLE);
+                        break;
+                    case CLIENTFINAL:
+
+                        questions = session.getRoundQuestions();
+
+                        checkAnaswers(questions);
+                        session.setGameState(SERVERFINAL);
+                        break;
+                    case GAMECOMPLETE:
+                    default:
                 }
 
-                oos.writeObject(session); 
+                oos.writeObject(session);
             }
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostName);
+            System.err.println("Don't know about host " + HOSTNAMNE);
             System.exit(1);
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to "
-                    + hostName);
+                    + HOSTNAMNE);
             e.printStackTrace();
             System.exit(1);
         } catch (ClassNotFoundException e) {
             System.err.println("Couldn't find class "
-                    + hostName);
+                    + HOSTNAMNE);
             System.exit(1);
         }
     }
+
+    private void checkAnaswers(List<String[]> questions) {
+        int questionToAnswerMatcher = 0;
+
+        for (String[] question : questions) {
+            if (question[session.getCorrectAnswer()].equalsIgnoreCase(answers.get(questionToAnswerMatcher))) {
+                session.givePoint();
+            }
+            questionToAnswerMatcher++;
+        }
+    }
+    
+
 }
