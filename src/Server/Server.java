@@ -21,22 +21,18 @@ public class Server extends Thread {
                 ObjectInputStream ois = new ObjectInputStream(socketToClient.getInputStream());
                 ObjectOutputStream oos2 = new ObjectOutputStream(socketToClient2.getOutputStream());
                 ObjectInputStream ois2 = new ObjectInputStream(socketToClient2.getInputStream());) {
-            Session input, input2 = null, output, output2;
+            Session input, output;
 
             Protocol protocol = new Protocol();
-            output = protocol.processInput(protocol.getInitialSession());
-            output2 = protocol.processInput(protocol.getInitialSession());
+            output = new Session();
             oos.writeObject(output);
             
-            while ((input = (Session) ois.readObject()) != null || (input2 = (Session) ois2.readObject()) != null) {
-                if (protocol.getWhichPlayer()) {
-                    oos.writeObject(output);
-                    output = protocol.processInput(input);
+            while ((input = (Session) ois.readObject()) != null || (input = (Session) ois2.readObject()) != null) {
+                output = protocol.processInput(input);
+                if (output.getWhichPlayer()) {
                     oos.writeObject(output);
                 } else{
-                    oos2.writeObject(output2);
-                    output2 = protocol.processInput(input2);
-                    oos2.writeObject(output2);
+                    oos2.writeObject(output);
                     
                 }
             }
