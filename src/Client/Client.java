@@ -9,15 +9,25 @@ import java.util.*;
 public class Client {
 
     public static void main(String[] args) throws IOException {
+        Client start = new Client();
+        start.Client();
+    }
+    
+    private static final int PORTNUMBER = 44444;
+    private static final String HOSTNAMNE = "127.0.0.1";
+    Socket kkSocket;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
+    Session session;
+    List<String> subjects;
+    List<String[]> questions;
+    
+    public void Client() {
 
-        String hostName = "127.0.0.1"; //localhost
-        int portNumber = 44444;
-
-        List<String> subjects;
-        List<String[]> questions;
+        
 
         try (
-                Socket kkSocket = new Socket(hostName, portNumber);) {
+            Socket kkSocket = new Socket(HOSTNAMNE, PORTNUMBER);) {
             ObjectOutputStream oos = new ObjectOutputStream(kkSocket.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(kkSocket.getInputStream());
 
@@ -25,81 +35,66 @@ public class Client {
             Session session;
 
             while ((session = (Session) ois.readObject()) != null) {
-                int questionToAnswerMatcher = 0;
-                
                 switch (session.getGameState()) {
                     case CLIENTFIRST:
-
                         subjects = session.getDynamicSubjects();
 
                         //GRAFIIIIIIK
                         questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
 
                         //GRAFIIIIIIK
-                        for (String[] question : questions) {
-                            if (question[session.getCorrectAnswer()].equalsIgnoreCase(answers.get(questionToAnswerMatcher))) {
-                                session.givePoint();
-                            }
-                            questionToAnswerMatcher++;
-                        }
+                        checkAnaswers(questions);
+                        
                         session.setGameState(SERVERMIDDLE);
                         break;
                     case CLIENTMIDDLE:
-                        
                         questions = session.getRoundQuestions();
-                        
-                        for (String[] question : questions) {
-                            if (question[session.getCorrectAnswer()].equalsIgnoreCase(answers.get(questionToAnswerMatcher))) {
-                                session.givePoint();
-                            }
-                            questionToAnswerMatcher++;
-                        }
 
-                        
+                        checkAnaswers(questions);
+
                         subjects = session.getDynamicSubjects();
                         questions = session.getDynamicQuestions((String) "DET HÄR SKA VARA SUBJECTET SOM ÄR VALT");
 
-                        
-                        
-                        for (String[] question : questions) {
-                            if (question[session.getCorrectAnswer()].equalsIgnoreCase(answers.get(questionToAnswerMatcher))) {
-                                session.givePoint();
-                            }
-                            questionToAnswerMatcher++;
-                        }
-                        
-                        
-                        
+                        checkAnaswers(questions);
+
                         break;
                     case CLIENTFINAL:
-                        
+
                         questions = session.getRoundQuestions();
 
-                        
-                        for (String[] question : questions) {
-                            if (question[session.getCorrectAnswer()].equalsIgnoreCase(answers.get(questionToAnswerMatcher))) {
-                                session.givePoint();
-                            }
-                            questionToAnswerMatcher++;
-                        }
+                        checkAnaswers(questions);
 
                         break;
+                    default:
                 }
 
                 oos.writeObject(session);
             }
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostName);
+            System.err.println("Don't know about host " + HOSTNAMNE);
             System.exit(1);
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to "
-                    + hostName);
+                    + HOSTNAMNE);
             e.printStackTrace();
             System.exit(1);
         } catch (ClassNotFoundException e) {
             System.err.println("Couldn't find class "
-                    + hostName);
+                    + HOSTNAMNE);
             System.exit(1);
         }
     }
+
+    private void checkAnaswers(List<String[]> questions) {
+        int questionToAnswerMatcher = 0;
+
+        for (String[] question : questions) {
+            if (question[session.getCorrectAnswer()].equalsIgnoreCase(answers.get(questionToAnswerMatcher))) {
+                session.givePoint();
+            }
+            questionToAnswerMatcher++;
+        }
+    }
+    
+
 }
