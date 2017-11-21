@@ -4,7 +4,7 @@ import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-public class ResultPanel extends JPanel {
+public class ResultPanel extends JPanel implements IPanel {
     
     
     
@@ -14,8 +14,16 @@ public class ResultPanel extends JPanel {
         
     }
     
+    @Override
     public void setPanel(){
         setBorder(BorderFactory.createLineBorder((new Color(175, 175, 200)), 10));
+        
+      
     }
+    @Override
+    public void setColor(Color backgroundColor){
+        
+    }
+
 
 }

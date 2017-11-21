@@ -2,22 +2,30 @@ package Client;
 
 import java.awt.Color;
 import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 
 public class GamePanel extends JFrame implements ActionListener {
-
+    ColorSettingPanel csp;
     StartPanel sp;
+    CategoryPanel cp;
     QuestionPanel qp;
     ResultPanel rp;
-    Color background = new Color(238, 238, 238);
+    List<IPanel> panelList;
+    Color standardColor = new Color(238, 238, 238);
+    Color backgroundColor = new Color(175, 175, 200);
+    int correctAnswer = 2;
 
     public GamePanel() {
-        this.sp = new StartPanel(this);
-        this.qp = new QuestionPanel(ma);
-        this.rp = new ResultPanel();
+        csp = new ColorSettingPanel(this);
+        sp = new StartPanel(this);
+        qp = new QuestionPanel(ma);
+        rp = new ResultPanel();
+        cp = new CategoryPanel(this);
     }
 
     public void setPanel() {
+
         setSize(450, 550);
         setVisible(true);
         setLocationRelativeTo(null);
@@ -27,6 +35,17 @@ public class GamePanel extends JFrame implements ActionListener {
 
         revalidate();
         repaint();
+
+        panelList = new ArrayList<>();
+        panelList.add(sp);
+        panelList.add(cp);
+        panelList.add(csp);
+        //panelList.add(qp);
+        panelList.add(rp);
+
+        panelList.forEach(p -> {
+            p.setPanel();
+        });
 
     }
 
@@ -40,22 +59,37 @@ public class GamePanel extends JFrame implements ActionListener {
         public void mousePressed(MouseEvent e) {
 
             if (e.getSource() == qp.answer1) {
+                if (qp.answer1.equals(correctAnswer)) {
+                    qp.answer1.setBackground(Color.GREEN);
+                } else {
+                    qp.answer1.setBackground(Color.RED);
+                }
 
-                qp.answer1.setBackground(Color.GREEN);
             }
             if (e.getSource() == qp.answer2) {
-                
-                qp.answer2.setBackground(Color.GREEN);
+
+                if (qp.answer2.equals(correctAnswer)) {
+                    qp.answer2.setBackground(Color.GREEN);
+                } else {
+                    qp.answer2.setBackground(Color.RED);
+                }
 
             }
             if (e.getSource() == qp.answer3) {
-               
-                qp.answer3.setBackground(Color.GREEN);
+                if (qp.answer3.equals(correctAnswer)) {
+                    qp.answer3.setBackground(Color.GREEN);
+                } else {
+                    qp.answer3.setBackground(Color.RED);
+                }
 
             }
             if (e.getSource() == qp.answer4) {
-                
-                qp.answer4.setBackground(Color.GREEN);
+
+                if (qp.answer4.equals(correctAnswer)) {
+                    qp.answer4.setBackground(Color.GREEN);
+                } else {
+                    qp.answer4.setBackground(Color.RED);
+                }
 
             }
 
@@ -66,21 +100,21 @@ public class GamePanel extends JFrame implements ActionListener {
 
             if (e.getSource() == qp.answer1) {
 
-                qp.answer1.setBackground(background);
+                qp.answer1.setBackground(standardColor);
             }
             if (e.getSource() == qp.answer2) {
-                
-                qp.answer2.setBackground(background);
+
+                qp.answer2.setBackground(standardColor);
 
             }
             if (e.getSource() == qp.answer3) {
-                
-                qp.answer3.setBackground(background);
+
+                qp.answer3.setBackground(standardColor);
 
             }
             if (e.getSource() == qp.answer4) {
-                
-                qp.answer4.setBackground(background);
+
+                qp.answer4.setBackground(standardColor);
 
             }
 
@@ -92,14 +126,56 @@ public class GamePanel extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == sp.newGame) {
             remove(sp);
-            this.add(qp);
-            qp.setPanel();
-            revalidate();
-            repaint();
+            add(cp);
+            cp.setPanel();
+
         }
-        if (ae.getSource() == sp.exitGame) {
+        else if (ae.getSource() == sp.exitGame || ae.getSource() == cp.exitGame) {
             System.exit(0);
         }
+        else if (ae.getSource() == cp.goBack){
+            remove(cp);
+            add(sp);
+            sp.setPanel();
+        }
+        else if (ae.getSource() == cp.category1){
+            remove(cp);
+            add(qp);
+            qp.setPanel();
+        }
+        else if (ae.getSource() == cp.category1){
+            remove(cp);
+            add(qp);
+            qp.setPanel();
+        }
+        else if (ae.getSource() == cp.category3){
+            remove(cp);
+            add(qp);
+            qp.setPanel();
+        }
+        else if (ae.getSource() == sp.settings){
+            remove(sp);
+            add(csp);
+            csp.setPanel();
+        }
+        else if (ae.getSource() == csp.black){
+            panelList.forEach(p -> p.setColor(Color.BLACK));
+        }
+        else if (ae.getSource() == csp.yellow){
+            panelList.forEach(p -> p.setColor(Color.YELLOW));
+        }
+        else if (ae.getSource() == csp.red){
+            panelList.forEach(p -> p.setColor(Color.RED));
+        }
+        else if (ae.getSource() == csp.standard){
+            panelList.forEach(p -> p.setColor(backgroundColor));
+        }
+        else if (ae.getSource() == csp.goBack){
+            remove(csp);
+            add(sp);
+            sp.setPanel();
+        }
+        revalidate();
         repaint();
 
     }
