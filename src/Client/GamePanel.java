@@ -1,6 +1,5 @@
 package Client;
 
-import Domain.Session;
 import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
@@ -16,7 +15,7 @@ class GamePanel extends Client implements ActionListener {
     List<IPanel> panelList;
     Color standardColor = new Color(238, 238, 238);
     Color backgroundColor = new Color(175, 175, 200);
-    int correctAnswer;
+    
     JFrame mastern;
     public GamePanel() {
         this.mastern = new JFrame();

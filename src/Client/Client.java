@@ -51,7 +51,6 @@ class Client {
                         askQuestions();
                         checkAnswers();
 
-                        session.setGameState(MIDDLE);
                         serverOutput.writeObject(session);
                         break;
                     case FINAL:
