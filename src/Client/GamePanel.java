@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-public class GamePanel extends JFrame implements ActionListener {
+public class GamePanel extends Client implements ActionListener {
 
     ColorSettingPanel csp;
     StartPanel sp;
@@ -15,8 +15,8 @@ public class GamePanel extends JFrame implements ActionListener {
     List<IPanel> panelList;
     Color standardColor = new Color(238, 238, 238);
     Color backgroundColor = new Color(175, 175, 200);
-    int correctAnswer = 2;
-
+    int correctAnswer;
+    
     public GamePanel() {
         csp = new ColorSettingPanel(this);
         sp = new StartPanel(this);
@@ -51,8 +51,8 @@ public class GamePanel extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        GamePanel go = new GamePanel();
-        go.setPanel();
+       GamePanel go = new GamePanel();
+       go.setPanel();
     }
     MouseListener ma = new MouseAdapter() {
 
