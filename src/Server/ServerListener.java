@@ -1,33 +1,37 @@
-    package Server;
+package Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerListener {
+class ServerListener {
 
-    private ServerSocket serverSocket;
+    private Server server;
+    private final ServerSocket socketToServer;
 
-    public ServerListener() throws IOException {
-        this.serverSocket = new ServerSocket(44444);
+    ServerListener() throws IOException {
+        this.socketToServer = new ServerSocket(44444);
     }
 
-    public void server() {
+    private void start() {
         while (true) {
             try {
-                Socket socketToClient = serverSocket.accept();
-                Socket socketToClient2 = serverSocket.accept();
-                Server clientHandler = new Server(socketToClient, socketToClient2);
-                clientHandler.start();
-                
+                Socket socketToClientOne = socketToServer.accept();
+                Socket socketToClientTwo = socketToServer.accept();
+                server = new Server(socketToClientOne, socketToClientTwo);
+                server.start();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("IOexception i serverListener");
             }
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        ServerListener start = new ServerListener();
-        start.server();
+    public static void main(String[] args) {
+        try {
+            ServerListener serverListener = new ServerListener();
+            serverListener.start();
+        } catch (IOException ex) {
+            System.out.println("IOexception trying to start server");
+        }
     }
 }

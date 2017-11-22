@@ -1,8 +1,10 @@
 package Client;
 
 import Domain.*;
+import static Domain.State.*;
 import java.io.*;
 import java.net.*;
+<<<<<<< HEAD
 import javax.swing.JFrame;
 
 public class Client extends JFrame  {
@@ -10,85 +12,103 @@ public class Client extends JFrame  {
         
         String hostName = "127.0.0.1"; //localhost
         int portNumber = 44444;
+=======
+import java.util.*;
 
-        try (
-                Socket kkSocket = new Socket(hostName, portNumber);) {
-            ObjectOutputStream oos = new ObjectOutputStream(kkSocket.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(kkSocket.getInputStream());
+class Client {
 
-            BufferedReader stdIn
-                    = new BufferedReader(new InputStreamReader(System.in));
-            Session session;
+    public static void main(String[] args) throws IOException {
+        Client start = new Client();
+        start.Client();
+    }
 
-            while ((session = (Session) ois.readObject()) != null) {
-                //There should be error handling for WAITING and CLIENTCLICKEDANSWER 
-                if(session.getState() == State.SERVERSTART){
-                        
-                    System.out.println("Server: "+ session.getState() + "\n" + session.getMessege());
-                    session.setAnswer(stdIn.readLine());
-                    System.out.println("------------------------------------------");
-                    session.setState(State.CLIENTSTARTSGAME);
-                    
-                } else if (session.getState() == State.SERVERSENTWHATCATEGORYQUESTION) {
-                        
-                    System.out.println("Server: "+ session.getState() + "\nVälj mellan ämnen:  " + session.getsubjectChoices());
-                    session.setWhatSubject(stdIn.readLine());
-                    System.out.println("------------------------------------------");
-                    session.setState(State.CLIENTPICKEDSUBJECT);
-                        
-                } else if (session.getState() == State.SERVERSENTQUESTION) {
+    private static final int PORTNUMBER = 44444;
+    private static final String HOSTNAMNE = "127.0.0.1";
+    private final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+    private final List<String> answers = new ArrayList<>();
+>>>>>>> master
 
-                    System.out.println("Server: " + session.getState() + "\nValtämne:  " + session.getwhatSubject() + "\nFråga:  " + session.getQuestion());
-                    session.setAnswer(stdIn.readLine());
-                    session.setState(State.CLIENTCLICKEDANSWER);
-                    
-                } else if (session.getState() == State.SERVERSENTANSWER) {
+    private Session session;
+    private List<String[]> questions;
 
-                    if (session.getVerdict()) {
-                        System.out.println("Server: Du gissade RÄTT! Poäng denna runda: " + session.getScoreRond());
-                        System.out.println("------------------------------------------");
-                        session.setState(State.ANOTHERQUESTION);
-                    } else {
-                        System.out.println("Server: Du gissade FEL! Poäng denna runda: " + session.getScoreRond());
-                        System.out.println("------------------------------------------");
-                        session.setState(State.ANOTHERQUESTION); 
-                    }
-                  
-                } else if (session.getState() == State.RESULTSCREEN){
-                    
-                     System.out.println("Server: "+ session.getState()+"\nRunda: "+ session.getCurrentRond() + "\n" + "Resultat för ronden: "+ session.getScoreRond()+ "\nResultat totalt: "+ session.getScoreTotal());
-                     session.resetScoreRond();
-                     session.setMessege("För starta ny runda tryck J");
-                     System.out.println(session.getMessege());
-                     session.setAnswer(stdIn.readLine());
-                     System.out.println("------------------------------------------");
-                     
-                     session.setState(State.CLIENTSTARTSGAME);
-                     
-                } else if (session.getState() == State.FINISHEDGAME){
-                    
-                    System.out.println("Server: "+ session.getState()+"\nSpelet är avslutat du fick totalt:  "+ session.getScoreTotal() 
-                            + "\nTEST - Vad står ronder på nu: " + session.getCurrentRond() 
-                            + "\n" + "Resultat för ronden: "+ session.getScoreRond());
-                    session.resetRonds();
-                    session.setMessege("Vill du starta nytt spel J");
-                    System.out.println("------------------------------------------");
+    private void Client() {
+        try (Socket socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
+                ObjectOutputStream serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
+                ObjectInputStream serverInput = new ObjectInputStream(socketToServer.getInputStream());) {
+            clientprotocol:
+            while ((session = (Session) serverInput.readObject()) != null) {
+                switch (session.getGameState()) {
+                    case FIRST:
+                        System.out.println(session.getSubjects());
+                        session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
+                        askQuestions();
+                        checkAnswers();
+
+                        session.setGameState(MIDDLE);
+                        serverOutput.writeObject(session);
+                        break;
+                    case MIDDLE:
+                        questions = session.getQuestionsThisRound();
+                        askQuestions();
+                        checkAnswers();
+                        //next round
+                        System.out.println(session.getSubjects());
+                        session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
+                        askQuestions();
+                        checkAnswers();
+
+                        session.setGameState(MIDDLE);
+                        serverOutput.writeObject(session);
+                        break;
+                    case FINAL:
+                        questions = session.getQuestionsThisRound();
+                        askQuestions();
+                        checkAnswers();
+
+                        session.setGameState(FINAL);
+                        serverOutput.writeObject(session);
+                        break;
+                    case GAMECOMPLETE:
+                        System.out.println(session.getPointsFromPlayer());
+                        socketToServer.close();
+                        break clientprotocol;
+                    default:
+                        serverOutput.writeObject(session);
                 }
-
-                oos.writeObject(session); 
             }
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostName);
-            System.exit(1);
+            System.out.println("Don't know about host " + HOSTNAMNE);
         } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to "
-                    + hostName);
-            e.printStackTrace();
-            System.exit(1);
+            System.out.println("Couldn't get I/O for the connection to " + HOSTNAMNE);
         } catch (ClassNotFoundException e) {
-            System.err.println("Couldn't find class "
-                    + hostName);
-            System.exit(1);
+            System.out.println("Couldn't find class " + HOSTNAMNE);
+        }
+    }
+
+    private void checkAnswers() {
+        int index = 0;
+        for (String[] question : questions) {
+            if   (question[2].equalsIgnoreCase(answers.get(index++))) {
+                session.givePointToPlayer();
+            }
+        }
+        answers.clear();
+    }
+
+    private void askQuestions() {
+        try {
+            for (String[] question : questions) {
+                System.out.println(question[1]);
+                List<String> temp=new ArrayList<String>();
+                for (int i = 2; i < question.length; i++) {
+                    temp.add(question[i]);
+                }
+                Collections.shuffle(temp);
+                temp.forEach((print) -> {System.out.println(print);});
+                answers.add(stdIn.readLine());
+            }
+        } catch (IOException e) {
+            System.out.println("inputStreamReader IOException");
         }
     }
 }

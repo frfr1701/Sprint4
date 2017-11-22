@@ -1,120 +1,107 @@
 package Domain;
 
+import static Domain.State.*;
 import java.io.Serializable;
 import java.util.List;
 
 public class Session implements Serializable {
 
-    static final long serialVersionUID = -7588980448693010399L;
-    protected State state;
-    protected String question;
-    protected List<String> subjectChoices;
-    protected List<String> questionsInARond;
-    protected String answer = "";
-    protected Boolean verdict;
-    protected int currentRond = 0;
-    protected int scoreRond = 0;
-    protected int scoreTotal = 0;
-    protected String whatSubject = "";
-    protected String messege; //tillfällig innan guin
-   
+    private final Player one;
+    private final Player two;
+    private boolean whichPlayer;
 
-    public Session(String startaMatch) {
-        this.messege = startaMatch;
-        verdict = null;
-        state = State.WAITING;
+    private List<String> allSubjects;
+    private List<String[]> allQuestions;
+    private List<String[]> questionsThisRound;
 
+    private final int numberOfQuestions;
+    private final int numberOfSubjects;
+    private final int numberOfRounds;
+
+    private State gameState;
+    private int roundCounter;
+    
+    public Session(int numberOfSubjects, int numberOfQuestions, int numberOfRounds) {
+        gameState = LOADGAME;
+        one = new Player();
+        two = new Player();
+        roundCounter = 1;
+        this.numberOfSubjects = numberOfSubjects;
+        this.numberOfQuestions = numberOfQuestions;
+        this.numberOfRounds = numberOfRounds;
     }
 
-    public State getState() {
-        return state;
+    //--------------------------------------------------------------------------
+    //player start
+    public void changePlayer() {
+        whichPlayer = !whichPlayer;
     }
 
-    public Boolean getVerdict() {
-        return verdict;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public String getwhatSubject() {
-        return whatSubject;
-    }
-
-    public List getsubjectChoices() {
-        return subjectChoices;
-    }
-
-    public List getQuestionsInARond() {
-        return questionsInARond;
+    public void givePointToPlayer() {
+        if (whichPlayer) {
+            one.givePoint();
+        } else {
+            two.givePoint();
+        }
     }
     
-    public int getScoreTotal(){
-        return scoreTotal;
+    public int getPointsFromPlayer() {
+        return whichPlayer ? one.getPoints() : two.getPoints();
+    }
+    //player end
+
+    //--------------------------------------------------------------------------
+    //gamestate start
+    public void setGameState(State gameState) {
+        this.gameState = gameState;
+    }
+
+    public State getGameState() {
+        return gameState;
+    }
+    //gamestate end
+
+    //--------------------------------------------------------------------------
+    //roundCounter start
+    public void addToRoundCounter() {
+        roundCounter++;
+    }
+
+    public int getRoundCounter() {
+        return roundCounter;
     }
     
-    public int getScoreRond(){
-        return scoreRond;
+    public boolean isFinalRound(){
+        return roundCounter == numberOfRounds;
     }
-    public String getMessege(){
-        return messege;
+    //roundCounter end
+
+    //--------------------------------------------------------------------------
+    //questions and subjects start
+    public void setAllSubjects(List<String> allSubjects) {
+        this.allSubjects = allSubjects;
     }
-    public int getCurrentRond () {
-        return currentRond;
+
+    public void setAllQuestions(List<String[]> allQuestions) {
+        this.allQuestions = allQuestions;
     }
-    public void nextRond(){
-        currentRond++;
+
+    public List<String> getSubjects() {
+        return ListManger.getSessionSubjects(allSubjects, numberOfSubjects);
+    }
+
+    public List<String[]> getQuestions(String chosenSubject) {
+        return questionsThisRound = ListManger.getSessionQuestions(allQuestions, chosenSubject, numberOfQuestions);
     }
     
-    public void resetRonds (){
-        currentRond = 0;
-    }
-    public void setMessege(String text){ //tillfällig innan guin
-        messege =text;
-    }
-  
-    public void setquestionsInARond(List questionsInARond) {
-        this.questionsInARond = questionsInARond;
+    public void setQuestionsThisRound(List<String[]> roundQuestions) {
+        this.questionsThisRound = roundQuestions;
     }
 
-    public void setSubjectChoices(List subjectChoices) {
-        this.subjectChoices = subjectChoices;
+    public List<String[]> getQuestionsThisRound() {
+        return questionsThisRound;
     }
+    //questions and subjects end
 
-    public void setWhatSubject(String subject) {
-        whatSubject = subject;
-    }
-
-    public void setState(State s) {
-        state = s;
-    }
-
-    public void setVerdict(Boolean b) {
-        verdict = b;
-    }
-
-    public void setQuestion(String s) {
-        question = s;
-    }
-
-    public void setAnswer(String s) {
-        answer = s;
-    }
-
-    public void addScoreRond() {
-        scoreRond++;
-    }
-
-    public void addScoreTotal() {
-        scoreTotal++;
-    }
-
-    public void resetScoreRond() {
-        scoreRond = 0;
-    }
+    //--------------------------------------------------------------------------
 }

@@ -6,13 +6,19 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
+<<<<<<< HEAD
 public class GamePanel extends Client implements ActionListener {
 
     ColorSettingPanel csp;
+=======
+class GamePanel extends Client implements ActionListener {
+
+>>>>>>> master
     StartPanel sp;
     CategoryPanel cp;
     QuestionPanel qp;
     ResultPanel rp;
+<<<<<<< HEAD
     List<IPanel> panelList;
     Color standardColor = new Color(238, 238, 238);
     Color backgroundColor = new Color(175, 175, 200);
@@ -125,16 +131,50 @@ public class GamePanel extends Client implements ActionListener {
         }
 
     };
+=======
+    JFrame mastern;
+    public GamePanel() {
+        this.mastern = new JFrame();
+        this.sp = new StartPanel(this);
+        this.qp = new QuestionPanel();
+        this.rp = new ResultPanel();
+    }
+
+    public void setPanel() {
+        mastern.setSize(350, 400);
+        mastern.setVisible(true);
+        mastern.setLocationRelativeTo(null);
+        mastern.setDefaultCloseOperation(3);
+        mastern.add(sp);
+        sp.setPanel();
+
+        mastern.revalidate();
+        mastern.repaint();
+
+    }
+
+    public static void main(String[] args) {
+        GamePanel go = new GamePanel();
+        go.setPanel();
+    }
+>>>>>>> master
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == sp.newGame) {
+<<<<<<< HEAD
             remove(sp);
             add(cp);
             cp.setPanel();
             
 
         } else if (ae.getSource() == sp.exitGame || ae.getSource() == cp.exitGame) {
+=======
+            mastern.remove(sp);
+            mastern.add(qp);
+        }
+        if (ae.getSource() == sp.exitGame) {
+>>>>>>> master
             System.exit(0);
         } else if (ae.getSource() == cp.goBack) {
             remove(cp);
@@ -169,8 +209,13 @@ public class GamePanel extends Client implements ActionListener {
             add(sp);
             sp.setPanel();
         }
+<<<<<<< HEAD
         revalidate();
         repaint();
+=======
+        mastern.revalidate();
+        mastern.repaint();
+>>>>>>> master
 
     }
 }

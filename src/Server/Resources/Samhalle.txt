@@ -3,11 +3,6 @@ Norge
 Finland
 Danmark
 Inget
-Vilken stor fest hålls i Blå hallen i Stockholms stadshus i december varje år?*
-Statsministerns nyårsfest
-Nobelfesten
-Vasafesten
-Kungens födelsedag
 Vad heter den högsta politiska chefen för ett departement, tex Utrikesdepartementet?
 Minister
 Generaldirektör
@@ -19,8 +14,8 @@ Högsta chefen för vår militära ledning förkortas ÖB. Vad står det för?
 Överbastion
 Inget
 Vilket år gick den första människan på månen?*
-1954
 1969
+1954
 1981
 1967
 Vilken myndighet ska du vända dig till om du vill ha ett pass?
@@ -28,16 +23,16 @@ Polisen
 Tullen
 Kommunen
 Utrikesdepartementet
-Vad står förkortningen SJ för?*
-Statliga Järnvägar
+Vad står förkortningen SJ för?
 Statens Järnvägar
+Statliga Järnvägar
 Samhällets Järnvägar
 Sveriges järnvägar
 Hur gammal måste man vara för att få rösta i Sverige?
 18 år
 19 år
 20 år
-23
+23 år
 Hur långt är det normalt mellan två riksdagsval i Sverige?
 4 år
 3 år
@@ -73,7 +68,7 @@ Salmonella
 Vattenkoppor
 Galan kosjukan
 Gulsot
-Vilket årtal avrättades senast en människa i Sverige som straff för ett brott?*
+Vilket årtal avrättades senast en människa i Sverige som straff för ett brott?
 1910
 1972
 1945

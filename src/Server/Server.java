@@ -1,47 +1,59 @@
 package Server;
 
+import static Domain.State.*;
 import Domain.Session;
 import java.io.*;
 import java.net.Socket;
 
-public class Server extends Thread {
+class Server extends Thread {
 
-    Socket socketToClient;
-    Socket socketToClient2;
+    private final Socket socketToClientOne;
+    private final Socket socketToClientTwo;
+    private final Protocol protocol;
+    private Session Session;
 
-    Server(Socket socketToClient, Socket socketToClient2) {
-        this.socketToClient = socketToClient;
-        this.socketToClient2 = socketToClient2;
+    Server(Socket socketToClientOne, Socket socketToClientTwo) {
+        this.socketToClientOne = socketToClientOne;
+        this.socketToClientTwo = socketToClientTwo;
+
+        this.protocol = new Protocol();
+        this.Session = protocol.getInitialSession();
     }
 
     @Override
     public void run() {
-        try (
-            ObjectOutputStream oos = new ObjectOutputStream(socketToClient.getOutputStream());
-            ObjectInputStream ois = new ObjectInputStream(socketToClient.getInputStream());
-            ObjectOutputStream oos2 = new ObjectOutputStream(socketToClient2.getOutputStream());
-            ObjectInputStream ois2 = new ObjectInputStream(socketToClient2.getInputStream());
-             ){
-            Session input, output;
+        try (ObjectOutputStream ClientOneOutput = new ObjectOutputStream(socketToClientOne.getOutputStream());
+                ObjectInputStream ClientOneInput = new ObjectInputStream(socketToClientOne.getInputStream());
+                ObjectOutputStream ClientTwoOutput = new ObjectOutputStream(socketToClientTwo.getOutputStream());
+                ObjectInputStream ClientTwoInput = new ObjectInputStream(socketToClientTwo.getInputStream());) {
 
-            // Initiate conversation with client
-            Protocol protocol = new Protocol();
-            output = protocol.processInput(protocol.getInitialSession());
-            oos.writeObject(output);
+            ClientOneOutput.writeObject(Session);
 
-            while ((input = (Session) ois.readObject()) != null) {
-                output = protocol.processInput(input);
-                oos.writeObject(output);
+            while ((Session = (Session) ClientOneInput.readObject()) != null) {
 
+                Session = protocol.processSession(Session);
+                ClientTwoOutput.writeObject(Session);
+
+                Session = (Session) ClientTwoInput.readObject();
+
+                Session = protocol.processSession(Session);
+                ClientOneOutput.writeObject(Session);
+
+                if (Session.getGameState() == GAMECOMPLETE) {
+                    Session.changePlayer();
+                    ClientTwoOutput.writeObject(Session);
+                    socketToClientOne.close();
+                    socketToClientTwo.close();
+                    break;
+                }
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "
-                    + socketToClient.getPort() + " or listening for a connection");
+                    + socketToClientOne.getPort() + " or listening for a connection");
             System.out.println(e.getMessage());
-            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             System.out.println("Class not found when trying to listen on port "
-                    + socketToClient.getPort() + " or listening for a connection");
+                    + socketToClientOne.getPort() + " or listening for a connection");
             System.out.println(e.getMessage());
         }
     }

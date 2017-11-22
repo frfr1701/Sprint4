@@ -1,38 +1,35 @@
 package Server;
 
+import static Domain.State.*;
 import Domain.*;
 import Server.config.Config;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class Protocol {
+class Protocol {
 
-    QuestionReader qr;
-    Config c;
+    private final QuestionReader qr;
+    private final Config c;
 
+    private final List<String> allSubjects;
+    private final List<String[]> allQuestions;
+    private final int numberOfRounds;
+    private final int numberOfQuestions;
+    private final int numberOfSubjects;
 
-    List<String[]> questionsRondTemp = new ArrayList<>();
-    List<String> subjectsRondTemp = new ArrayList<>();
-    // String [][] matte = {fråga1Test, fråga2Test};
-    private int category = 0;
-    private int question = 1;
-    private int correctAnswer = 2;
-    private int currentQuestionInRond = 0;
-    private int currentRond = 0;
-    
+    private State gameState;
 
-    Protocol() throws IOException {
+    protected Protocol() {
         c = new Config();
-        qr = new QuestionsAndSubjects(c.getQuestionsPerRound(), 2);
-        
+        numberOfRounds = c.getNumberOfRounds();
+        numberOfSubjects = 3;
+        numberOfQuestions = 3;
+
+        qr = new QuestionReader();
+        allSubjects = qr.getSubjects();
+        allQuestions = qr.getQuestions();
     }
 
-    public Session getInitialSession() {
-        //subjectsRondTemp = qr.getSubjects();
-        return new Session("Vill du starta nytt spel skriv J");
-    }
-
+<<<<<<< HEAD
     
     public Session processInput(Session s) {
         State state = s.getState();
@@ -84,22 +81,43 @@ public class Protocol {
             }
             currentQuestionInRond++;
             s.setState(State.SERVERSENTANSWER);
-
-        } else if (state == State.ANOTHERQUESTION) { 
-            if(currentQuestionInRond == c.getQuestionsPerRound()){ 
-               currentQuestionInRond = 0;
-               s.nextRond();
-               if (s.getCurrentRond() == c.getNumberOfRounds()){
-                 s.setState(State.FINISHEDGAME);
-               } else {
-                 s.setState(State.RESULTSCREEN);
-               }
-            }else {
-               s.setQuestion(questionsRondTemp.get(currentQuestionInRond)[question]);
-               s.setState(State.SERVERSENTQUESTION);
-            } 
-        }
-        return s;
+=======
+    protected Session getInitialSession() {
+        return new Session(numberOfSubjects, numberOfQuestions, numberOfRounds);
     }
+>>>>>>> master
+
+    protected Session processSession(Session session) {
+        gameState = session.getGameState();
+        switch (gameState) {
+            case LOADGAME:
+                session.setAllSubjects(allSubjects);
+                session.setAllQuestions(allQuestions);
+
+                session.setGameState(FIRST);
+                session.changePlayer();
+                break;
+            case MIDDLE:
+                
+                if (session.isFinalRound()) {
+                    session.setGameState(FINAL);
+                    session.changePlayer();
+                    break;
+                }
+                
+                session.addToRoundCounter();
+                session.changePlayer();
+                break;
+            case FINAL:
+                session.setGameState(GAMECOMPLETE);
+                session.changePlayer();
+                break;
+        }
+        return session;
+    }
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> master
