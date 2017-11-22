@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-<<<<<<< HEAD
-public class ResultPanel extends JPanel {
+
+public class ResultPanel extends JPanel implements IPanel {
 
    JPanel p1 = new JPanel();
    JPanel p2 = new JPanel();
@@ -53,6 +53,7 @@ public class ResultPanel extends JPanel {
    JButton b22 = new JButton();
    JButton b23 = new JButton();
    JButton b24 = new JButton();
+   Color backgroundColor;
 
    JButton bs = new JButton("Spela ");
    JButton exitGame = new JButton("Ge upp");
@@ -114,32 +115,8 @@ public class ResultPanel extends JPanel {
        
 
    }
-=======
-import java.awt.Color;
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
-public class ResultPanel extends JPanel implements IPanel {
-    
-    
-    
-
-    public ResultPanel() {
-        
-        
-    }
-    
-    @Override
-    public void setPanel(){
-        setBorder(BorderFactory.createLineBorder((new Color(175, 175, 200)), 10));
-        
-      
-    }
-    @Override
-    public void setColor(Color backgroundColor){
-        
-    }
-
->>>>>>> Ian
+   public void setColor(Color backgroundColor){
+       this.backgroundColor = backgroundColor;
+   }
 
 }

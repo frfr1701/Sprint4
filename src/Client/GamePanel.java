@@ -22,14 +22,11 @@ class GamePanel extends Client implements ActionListener {
         this.mastern = new JFrame();
         this.csp = new ColorSettingPanel(this);
         this.sp = new StartPanel(this);
-<<<<<<< HEAD
-        this.qp = new QuestionPanel();
-        this.rp = new  ResultPanel(this);
-=======
+
         this.qp = new QuestionPanel(ma);
-        this.rp = new ResultPanel();
+        this.rp = new ResultPanel(this);
         this.cp = new CategoryPanel(this);
->>>>>>> Ian
+
     }
 
     public void setPanel() {
