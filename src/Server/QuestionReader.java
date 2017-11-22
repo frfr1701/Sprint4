@@ -9,7 +9,7 @@ class QuestionReader implements Serializable {
     private final Path dir = Paths.get("src\\Server\\Resources");
     private DirectoryStream<Path> directoryStream;
     private List<String> subjects;
-    private List<String[]> questions;
+    private List<List<String>> questions;
 
     QuestionReader() {
         questions = new ArrayList<>();
@@ -18,35 +18,38 @@ class QuestionReader implements Serializable {
             directoryStream = Files.newDirectoryStream(dir, "*.{txt}");
             directoryStream.forEach((path) -> {
                 subjects.add(path.getFileName().toString().replace(".txt", ""));
-                fileReader(path);
+                questions.addAll(fileReader(path));
             });
         } catch (IOException ex) {
             System.out.println("Fel vid inläsning av textfiler från " + dir.toString());
             System.out.println(ex.getCause());
         }
     }
-    private void fileReader(Path p) {
-        String[] temp = new String[6];
+    private List<List<String>> fileReader(Path p) {
+        String[] tempArray = new String[6];
+        List<List<String>> tempList = new ArrayList<>();
+
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(p))) {
-            while (((temp[1] = br.readLine()) != null)
-                    && ((temp[2] = br.readLine()) != null)
-                    && ((temp[3] = br.readLine()) != null)
-                    && ((temp[4] = br.readLine()) != null)
-                    && ((temp[5] = br.readLine()) != null)) {
-                temp[0] = p.getFileName().toString().replace(".txt", "");
-                questions.add(Arrays.copyOf(temp, temp.length));
+            while (((tempArray[1] = br.readLine()) != null)
+                    && ((tempArray[2] = br.readLine()) != null)
+                    && ((tempArray[3] = br.readLine()) != null)
+                    && ((tempArray[4] = br.readLine()) != null)
+                    && ((tempArray[5] = br.readLine()) != null)) {
+                tempArray[0] = p.getFileName().toString().replace(".txt", "");
+                tempList.add(Arrays.asList(Arrays.copyOf(tempArray, tempArray.length)));
             }
         } catch (IOException ex) {
             System.out.println("Fel vid inläsning av filen " + p.getFileName());
             System.out.println(ex.getCause());
         }
+        return tempList;
     }
 
     List<String> getSubjects() {
         return subjects;
     }
     
-    List<String[]> getQuestions() {
+    List<List<String>> getQuestions() {
         return questions;
     }
 }

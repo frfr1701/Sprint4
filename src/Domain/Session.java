@@ -11,8 +11,8 @@ public class Session implements Serializable {
     private boolean whichPlayer;
 
     private List<String> allSubjects;
-    private List<String[]> allQuestions;
-    private List<String[]> questionsThisRound;
+    private List<List<String>> allQuestions;
+    private List<List<String>> questionsThisRound;
 
     private final int numberOfQuestions;
     private final int numberOfSubjects;
@@ -82,7 +82,7 @@ public class Session implements Serializable {
         this.allSubjects = allSubjects;
     }
 
-    public void setAllQuestions(List<String[]> allQuestions) {
+    public void setAllQuestions(List<List<String>> allQuestions) {
         this.allQuestions = allQuestions;
     }
 
@@ -90,15 +90,15 @@ public class Session implements Serializable {
         return ListManger.getSessionSubjects(allSubjects, numberOfSubjects);
     }
 
-    public List<String[]> getQuestions(String chosenSubject) {
+    public List<List<String>> getQuestions(String chosenSubject) {
         return questionsThisRound = ListManger.getSessionQuestions(allQuestions, chosenSubject, numberOfQuestions);
     }
     
-    public void setQuestionsThisRound(List<String[]> roundQuestions) {
+    public void setQuestionsThisRound(List<List<String>> roundQuestions) {
         this.questionsThisRound = roundQuestions;
     }
 
-    public List<String[]> getQuestionsThisRound() {
+    public List<List<String>> getQuestionsThisRound() {
         return questionsThisRound;
     }
     //questions and subjects end

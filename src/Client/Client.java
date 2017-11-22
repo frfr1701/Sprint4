@@ -5,6 +5,7 @@ import static Domain.State.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.stream.*;
 
 class Client {
 
@@ -16,10 +17,11 @@ class Client {
     private static final int PORTNUMBER = 44444;
     private static final String HOSTNAMNE = "127.0.0.1";
     private final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-    private final List<String> answers = new ArrayList<>();
+    private final Queue<String> answers = new LinkedList<>();
 
     private Session session;
-    private List<String[]> questions;
+    private List<List<String>> questions;
+    private List<String> subjects;
 
     private void Client() {
         try (Socket socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
@@ -29,7 +31,7 @@ class Client {
             while ((session = (Session) serverInput.readObject()) != null) {
                 switch (session.getGameState()) {
                     case FIRST:
-                        System.out.println(session.getSubjects());
+                        System.out.println(subjects = session.getSubjects());
                         session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
                         askQuestions();
                         checkAnswers();
@@ -42,7 +44,7 @@ class Client {
                         askQuestions();
                         checkAnswers();
                         //next round
-                        System.out.println(session.getSubjects());
+                        System.out.println(subjects = session.getSubjects());
                         session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
                         askQuestions();
                         checkAnswers();
@@ -76,26 +78,28 @@ class Client {
     }
 
     private void checkAnswers() {
-        int index = 0;
-        for (String[] question : questions) {
-            if (question[2].equalsIgnoreCase(answers.get(index++))) {
-                session.givePointToPlayer();
-            }
-        }
-        answers.clear();
+        questions.stream()
+                .filter((question) -> (question.get(2).equalsIgnoreCase(answers.remove())))
+                .forEach((correctAnswer) -> {
+                    session.givePointToPlayer();
+                });
+        
     }
 
     private void askQuestions() {
-        try {
-            for (String[] question : questions) {
-                System.out.println(question[1]);
-                for (int i = 2; i < question.length; i++) {
-                    System.out.println(question[i]);
-                }
+        questions.stream().map((question) -> {
+            question.stream().filter(string -> (question.indexOf(string) > 0)).collect(Collectors.toList())
+                    .stream().forEach(string -> {
+                        System.out.println(string);
+                    });
+            return question;
+        }).forEachOrdered((question) -> {
+            try {
                 answers.add(stdIn.readLine());
+            } catch (IOException ex) {
+                System.out.println("askQuestion IOException");
             }
-        } catch (IOException e) {
-            System.out.println("inputStreamReader IOException");
-        }
+        });
     }
+
 }

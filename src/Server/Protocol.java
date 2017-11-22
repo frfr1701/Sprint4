@@ -11,7 +11,7 @@ class Protocol {
     private final Config c;
 
     private final List<String> allSubjects;
-    private final List<String[]> allQuestions;
+    private final List<List<String>> allQuestions;
     private final int numberOfRounds;
     private final int numberOfQuestions;
     private final int numberOfSubjects;
