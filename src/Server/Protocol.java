@@ -1,41 +1,65 @@
 package Server;
 
+import static Domain.State.*;
 import Domain.*;
+import Server.config.Config;
+import java.util.*;
 
-public class Protocol {
+class Protocol {
 
-    //private static final int NUMRIDDLES = 3;
-    private int currentRiddle = 0;
+    private final QuestionReader qr;
+    private final Config c;
 
-    private String[] clues = { "Vad är det som går och går men aldrig kommer till dörren?", "Vilken sten är alltid ihålig?", "Vilket öga kan inte se?"};
-    private String[] answers = { "Klockan",
-                                 "Skorstenen",
-                                 "Nålsögat" };
-    
-    public Session getInitialSession(){
-        return new Session(clues[currentRiddle]);
+    private final List<String> allSubjects;
+    private final List<String[]> allQuestions;
+    private final int numberOfRounds;
+    private final int numberOfQuestions;
+    private final int numberOfSubjects;
+
+    private State gameState;
+
+    protected Protocol() {
+        c = new Config();
+        numberOfRounds = c.getNumberOfRounds();
+        numberOfSubjects = 3;
+        numberOfQuestions = 3;
+
+        qr = new QuestionReader();
+        allSubjects = qr.getSubjects();
+        allQuestions = qr.getQuestions();
     }
-    
-    public Session processInput(Session s) {
-        State state = s.getState();
-        System.out.println("Server: "+state);
-        
-        //There should be error handling for SERVERSENTRIDDLE state
 
-        if (state == State.WAITING || state == State.SERVERSENTANSWER) {
-            s.setRiddle(clues[currentRiddle]);
-            s.setState(State.SERVERSENTRIDDLE);
-        } else if (state == State.CLIENTSENTANSWER) {
-            if (s.getAnswer().equalsIgnoreCase(answers[currentRiddle])) {
-                s.setVerdict(true);
-            } else {
-                s.setVerdict(false);
-            }
-            s.setState(State.SERVERSENTANSWER);
-            currentRiddle++;
-            currentRiddle = currentRiddle%clues.length;
+
+    protected Session getInitialSession() {
+        return new Session(numberOfSubjects, numberOfQuestions, numberOfRounds);
+    }
+
+    protected Session processSession(Session session) {
+        gameState = session.getGameState();
+        switch (gameState) {
+            case LOADGAME:
+                session.setAllSubjects(allSubjects);
+                session.setAllQuestions(allQuestions);
+
+                session.setGameState(FIRST);
+                session.changePlayer();
+                break;
+            case MIDDLE:
+                
+                if (session.isFinalRound()) {
+                    session.setGameState(FINAL);
+                    session.changePlayer();
+                    break;
+                }
+                
+                session.addToRoundCounter();
+                session.changePlayer();
+                break;
+            case FINAL:
+                session.setGameState(GAMECOMPLETE);
+                session.changePlayer();
+                break;
         }
-        return s;
+        return session;
     }
-
 }
