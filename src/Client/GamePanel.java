@@ -13,7 +13,7 @@ class GamePanel extends Client implements ActionListener {
         this.mastern = new JFrame();
         this.sp = new StartPanel(this);
         this.qp = new QuestionPanel();
-        this.rp = new ResultPanel();
+        this.rp = new  ResultPanel(this);
     }
 
     public void setPanel() {
@@ -23,7 +23,8 @@ class GamePanel extends Client implements ActionListener {
         mastern.setDefaultCloseOperation(3);
         mastern.add(sp);
         sp.setPanel();
-
+//  mastern.add(rp);
+//        rp.setPanel();
         mastern.revalidate();
         mastern.repaint();
 
