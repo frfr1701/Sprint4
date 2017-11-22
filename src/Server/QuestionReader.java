@@ -7,14 +7,14 @@ import java.util.*;
 class QuestionReader implements Serializable {
 
     private final Path dir = Paths.get("src\\Server\\Resources");
-    private final String fileFormat = ".{txt}";
+    private final DirectoryStream<Path> directoryStream;
     private List<String> subjects;
     private List<String[]> questions;
-
     QuestionReader() {
-        try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(dir, "*" + fileFormat);) {
+        try {
+            directoryStream = Files.newDirectoryStream(dir, "*.{txt}");
             directoryStream.forEach((path) -> {
-                subjects.add(path.getFileName().toString().replace(fileFormat, ""));
+                subjects.add(path.getFileName().toString().replace(".txt", ""));
                 fileReader(path);
             });
         } catch (IOException ex) {
@@ -31,7 +31,7 @@ class QuestionReader implements Serializable {
                     && ((temp[3] = br.readLine()) != null)
                     && ((temp[4] = br.readLine()) != null)
                     && ((temp[5] = br.readLine()) != null)) {
-                temp[0] = p.getFileName().toString().replace(fileFormat, "");
+                temp[0] = p.getFileName().toString().replace(".txt", "");
                 questions.add(Arrays.copyOf(temp, temp.length));
             }
         } catch (IOException ex) {
