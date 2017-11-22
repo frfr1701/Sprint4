@@ -7,9 +7,10 @@ import java.util.*;
 class QuestionReader implements Serializable {
 
     private final Path dir = Paths.get("src\\Server\\Resources");
-    private final DirectoryStream<Path> directoryStream;
+    private DirectoryStream<Path> directoryStream;
     private List<String> subjects;
     private List<String[]> questions;
+
     QuestionReader() {
         questions = new ArrayList<>();
         subjects = new ArrayList<>();
@@ -24,7 +25,6 @@ class QuestionReader implements Serializable {
             System.out.println(ex.getCause());
         }
     }
-
     private void fileReader(Path p) {
         String[] temp = new String[6];
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(p))) {
@@ -45,8 +45,9 @@ class QuestionReader implements Serializable {
     List<String> getSubjects() {
         return subjects;
     }
-
+    
     List<String[]> getQuestions() {
         return questions;
     }
 }
+

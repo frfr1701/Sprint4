@@ -6,13 +6,16 @@ import java.net.Socket;
 
 class ServerListener {
 
-    private ServerSocket socketToServer;
     private Server server;
+    private final ServerSocket socketToServer;
+
+    ServerListener() throws IOException {
+        this.socketToServer = new ServerSocket(44444);
+    }
 
     private void start() {
         while (true) {
             try {
-                socketToServer = new ServerSocket(44444);
                 Socket socketToClientOne = socketToServer.accept();
                 Socket socketToClientTwo = socketToServer.accept();
                 server = new Server(socketToClientOne, socketToClientTwo);
@@ -24,7 +27,11 @@ class ServerListener {
     }
 
     public static void main(String[] args) {
-        ServerListener serverListener = new ServerListener();
-        serverListener.start();
+        try {
+            ServerListener serverListener = new ServerListener();
+            serverListener.start();
+        } catch (IOException ex) {
+            System.out.println("IOexception trying to start server");
+        }
     }
 }
