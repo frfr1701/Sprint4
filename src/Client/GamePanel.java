@@ -1,5 +1,6 @@
 package Client;
 
+import Domain.Session;
 import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
@@ -16,8 +17,9 @@ public class GamePanel extends Client implements ActionListener {
     Color standardColor = new Color(238, 238, 238);
     Color backgroundColor = new Color(175, 175, 200);
     int correctAnswer;
-    
+
     public GamePanel() {
+
         csp = new ColorSettingPanel(this);
         sp = new StartPanel(this);
         qp = new QuestionPanel(ma);
@@ -26,6 +28,7 @@ public class GamePanel extends Client implements ActionListener {
     }
 
     public void setPanel() {
+
         setTitle("VÄRLDENS BÄSTA QUIZ!");
         setSize(450, 550);
         setVisible(true);
@@ -50,11 +53,10 @@ public class GamePanel extends Client implements ActionListener {
 
     }
     public static void main(String[] args) {
-        GamePanel s = new GamePanel();
-        
+        GamePanel g = new GamePanel();
+        g.setPanel();
     }
 
-  
     MouseListener ma = new MouseAdapter() {
 
         @Override
@@ -130,6 +132,7 @@ public class GamePanel extends Client implements ActionListener {
             remove(sp);
             add(cp);
             cp.setPanel();
+            
 
         } else if (ae.getSource() == sp.exitGame || ae.getSource() == cp.exitGame) {
             System.exit(0);
