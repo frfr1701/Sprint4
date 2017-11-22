@@ -78,7 +78,7 @@ class Client {
     private void checkAnswers() {
         int index = 0;
         for (String[] question : questions) {
-            if (question[2].equalsIgnoreCase(answers.get(index++))) {
+            if   (question[2].equalsIgnoreCase(answers.get(index++))) {
                 session.givePointToPlayer();
             }
         }
@@ -89,9 +89,12 @@ class Client {
         try {
             for (String[] question : questions) {
                 System.out.println(question[1]);
+                List<String> temp=new ArrayList<String>();
                 for (int i = 2; i < question.length; i++) {
-                    System.out.println(question[i]);
+                    temp.add(question[i]);
                 }
+                Collections.shuffle(temp);
+                temp.forEach((print) -> {System.out.println(print);});
                 answers.add(stdIn.readLine());
             }
         } catch (IOException e) {
