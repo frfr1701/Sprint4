@@ -29,16 +29,16 @@ class GamePanel extends Client implements ActionListener {
 
     public void setPanel() {
 
-        setTitle("VÄRLDENS BÄSTA QUIZ!");
-        setSize(450, 550);
-        setVisible(true);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(3);
-        add(sp);
+        mastern.setTitle("VÄRLDENS BÄSTA QUIZ!");
+        mastern.setSize(450, 550);
+        mastern.setVisible(true);
+        mastern.setLocationRelativeTo(null);
+        mastern.setDefaultCloseOperation(3);
+        mastern.add(sp);
         sp.setPanel();
 
-        revalidate();
-        repaint();
+        mastern.revalidate();
+        mastern.repaint();
 
         panelList = new ArrayList<>();
         panelList.add(sp);
@@ -129,8 +129,8 @@ class GamePanel extends Client implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == sp.newGame) {
-            remove(sp);
-            add(cp);
+            mastern.remove(sp);
+            mastern.add(cp);
             cp.setPanel();
             
 
@@ -138,24 +138,24 @@ class GamePanel extends Client implements ActionListener {
 
             System.exit(0);
         } else if (ae.getSource() == cp.goBack) {
-            remove(cp);
-            add(sp);
+            mastern.remove(cp);
+            mastern.add(sp);
             sp.setPanel();
         } else if (ae.getSource() == cp.category1) {
-            remove(cp);
-            add(qp);
+            mastern.remove(cp);
+            mastern.add(qp);
             qp.setPanel();
         } else if (ae.getSource() == cp.category1) {
-            remove(cp);
-            add(qp);
+            mastern.remove(cp);
+            mastern.add(qp);
             qp.setPanel();
         } else if (ae.getSource() == cp.category3) {
-            remove(cp);
-            add(qp);
+            mastern.remove(cp);
+            mastern.add(qp);
             qp.setPanel();
         } else if (ae.getSource() == sp.settings) {
-            remove(sp);
-            add(csp);
+            mastern.remove(sp);
+            mastern.add(csp);
             csp.setPanel();
         } else if (ae.getSource() == csp.black) {
             panelList.forEach(p -> p.setColor(Color.BLACK));
@@ -166,8 +166,8 @@ class GamePanel extends Client implements ActionListener {
         } else if (ae.getSource() == csp.standard) {
             panelList.forEach(p -> p.setColor(backgroundColor));
         } else if (ae.getSource() == csp.goBack) {
-            remove(csp);
-            add(sp);
+            mastern.remove(csp);
+            mastern.add(sp);
             sp.setPanel();
         }
         mastern.revalidate();

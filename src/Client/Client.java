@@ -4,15 +4,7 @@ import Domain.*;
 import static Domain.State.*;
 import java.io.*;
 import java.net.*;
-<<<<<<< HEAD
-import javax.swing.JFrame;
 
-public class Client extends JFrame  {
-    public static void main(String[] args) throws IOException {
-        
-        String hostName = "127.0.0.1"; //localhost
-        int portNumber = 44444;
-=======
 import java.util.*;
 
 class Client {
@@ -26,7 +18,6 @@ class Client {
     private static final String HOSTNAMNE = "127.0.0.1";
     private final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
     private final List<String> answers = new ArrayList<>();
->>>>>>> master
 
     private Session session;
     private List<String[]> questions;
