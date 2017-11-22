@@ -6,31 +6,25 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-<<<<<<< HEAD
-public class GamePanel extends Client implements ActionListener {
-
-    ColorSettingPanel csp;
-=======
 class GamePanel extends Client implements ActionListener {
 
->>>>>>> master
+    ColorSettingPanel csp;
     StartPanel sp;
     CategoryPanel cp;
     QuestionPanel qp;
     ResultPanel rp;
-<<<<<<< HEAD
     List<IPanel> panelList;
     Color standardColor = new Color(238, 238, 238);
     Color backgroundColor = new Color(175, 175, 200);
     int correctAnswer;
-
+    JFrame mastern;
     public GamePanel() {
-
-        csp = new ColorSettingPanel(this);
-        sp = new StartPanel(this);
-        qp = new QuestionPanel(ma);
-        rp = new ResultPanel();
-        cp = new CategoryPanel(this);
+        this.mastern = new JFrame();
+        this.csp = new ColorSettingPanel(this);
+        this.sp = new StartPanel(this);
+        this.qp = new QuestionPanel(ma);
+        this.rp = new ResultPanel();
+        this.cp = new CategoryPanel(this);
     }
 
     public void setPanel() {
@@ -131,50 +125,17 @@ class GamePanel extends Client implements ActionListener {
         }
 
     };
-=======
-    JFrame mastern;
-    public GamePanel() {
-        this.mastern = new JFrame();
-        this.sp = new StartPanel(this);
-        this.qp = new QuestionPanel();
-        this.rp = new ResultPanel();
-    }
-
-    public void setPanel() {
-        mastern.setSize(350, 400);
-        mastern.setVisible(true);
-        mastern.setLocationRelativeTo(null);
-        mastern.setDefaultCloseOperation(3);
-        mastern.add(sp);
-        sp.setPanel();
-
-        mastern.revalidate();
-        mastern.repaint();
-
-    }
-
-    public static void main(String[] args) {
-        GamePanel go = new GamePanel();
-        go.setPanel();
-    }
->>>>>>> master
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == sp.newGame) {
-<<<<<<< HEAD
             remove(sp);
             add(cp);
             cp.setPanel();
             
 
         } else if (ae.getSource() == sp.exitGame || ae.getSource() == cp.exitGame) {
-=======
-            mastern.remove(sp);
-            mastern.add(qp);
-        }
-        if (ae.getSource() == sp.exitGame) {
->>>>>>> master
+
             System.exit(0);
         } else if (ae.getSource() == cp.goBack) {
             remove(cp);
@@ -209,13 +170,8 @@ class GamePanel extends Client implements ActionListener {
             add(sp);
             sp.setPanel();
         }
-<<<<<<< HEAD
-        revalidate();
-        repaint();
-=======
         mastern.revalidate();
         mastern.repaint();
->>>>>>> master
 
     }
 }
