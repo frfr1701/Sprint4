@@ -29,6 +29,7 @@ class Protocol {
         allQuestions = qr.getQuestions();
     }
 
+
     protected Session getInitialSession() {
         return new Session(numberOfSubjects, numberOfQuestions, numberOfRounds);
     }
