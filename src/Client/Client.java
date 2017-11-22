@@ -4,6 +4,7 @@ import Domain.*;
 import static Domain.State.*;
 import java.io.*;
 import java.net.*;
+
 import java.util.*;
 import java.util.stream.*;
 
@@ -19,11 +20,13 @@ class Client {
     private final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
     private final Queue<String> answers = new LinkedList<>();
 
-    private Session session;
-    private List<List<String>> questions;
-    private List<String> subjects;
+    Session session;
+    List<List<String>> questions;
+    List<String> subjects;
 
     private void Client() {
+        GamePanel g = new GamePanel();
+        g.setPanel();
         try (Socket socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
                 ObjectOutputStream serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
                 ObjectInputStream serverInput = new ObjectInputStream(socketToServer.getInputStream());) {
@@ -35,7 +38,6 @@ class Client {
                         session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
                         askQuestions();
                         checkAnswers();
-
                         session.setGameState(MIDDLE);
                         serverOutput.writeObject(session);
                         break;
