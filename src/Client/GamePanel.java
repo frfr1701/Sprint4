@@ -49,6 +49,10 @@ public class GamePanel extends Client implements ActionListener {
         });
 
     }
+    public static void main(String[] args) {
+        GamePanel s = new GamePanel();
+        
+    }
 
   
     MouseListener ma = new MouseAdapter() {

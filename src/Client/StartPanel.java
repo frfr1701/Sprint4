@@ -12,7 +12,7 @@ class StartPanel extends JPanel implements IPanel {
     JPanel top = new JPanel();
     JPanel mid = new JPanel();
     JPanel low = new JPanel();
-    JLabel team = new JLabel(new ImageIcon("/Users/Ian/Desktop/test/export.png"));
+    JLabel team = new JLabel(new ImageIcon("src/Client/Resources/export.png"));
     Color backgroundColor = new Color(175, 175, 200); 
 
     public StartPanel(ActionListener al) {
