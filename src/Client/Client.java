@@ -19,10 +19,13 @@ class Client {
     private final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
     private final List<String> answers = new ArrayList<>();
 
-    private Session session;
-    private List<String[]> questions;
+    Session session;
+    List<String[]> questions;
+    List<String> subjects;
 
     private void Client() {
+        GamePanel g = new GamePanel();
+        g.setPanel();
         try (Socket socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
                 ObjectOutputStream serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
                 ObjectInputStream serverInput = new ObjectInputStream(socketToServer.getInputStream());) {
@@ -30,11 +33,16 @@ class Client {
             while ((session = (Session) serverInput.readObject()) != null) {
                 switch (session.getGameState()) {
                     case FIRST:
-                        System.out.println(session.getSubjects());
-                        session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
+                        subjects=session.getSubjects();
+                        while (g.cp.subject.equals("")) {
+                            g.cp.setSubjects(subjects);
+                        }
+                        
+//                        System.out.println((subjects = session.getSubjects()));
+//                        session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
+                        g.qp.setQuestions(questions = session.getQuestions(g.cp.getSubject()));
                         askQuestions();
                         checkAnswers();
-
                         session.setGameState(MIDDLE);
                         serverOutput.writeObject(session);
                         break;
@@ -95,6 +103,7 @@ class Client {
                     temp.add(question[i]);
                 }
                 Collections.shuffle(temp);
+                
                 temp.forEach((print) -> {System.out.println(print);});
                 answers.add(stdIn.readLine());
             }

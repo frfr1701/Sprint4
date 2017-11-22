@@ -7,11 +7,11 @@ import javax.swing.*;
 
 class QuestionPanel extends JPanel implements IPanel {
     
-    Label question = new Label("Vem är längst av Jakob och?", Label.CENTER);
-    Label answer1 = new Label("1", Label.CENTER);
-    Label answer2 = new Label("Svar 2", Label.CENTER);
-    Label answer3 = new Label("Svar 3", Label.CENTER);
-    Label answer4 = new Label("Svar 4", Label.CENTER);
+    Label question = new Label("", Label.CENTER);
+    Label answer1 = new Label("", Label.CENTER);
+    Label answer2 = new Label("", Label.CENTER);
+    Label answer3 = new Label("", Label.CENTER);
+    Label answer4 = new Label("", Label.CENTER);
     JPanel panel = new JPanel();
     JPanel panel2 = new JPanel();
     Color backgroundColor = new Color(175, 175, 200);    
@@ -50,5 +50,11 @@ class QuestionPanel extends JPanel implements IPanel {
         setPanel();
         repaint();
     }
-
+    public void setQuestions(java.util.List<String[]> questions){
+        question.setText(questions.get(0)[1]);
+        answer1.setText(questions.get(0)[2]);
+        answer2.setText(questions.get(0)[3]);
+        answer3.setText(questions.get(0)[4]);
+        answer4.setText(questions.get(0)[5]);
+    }
 }

@@ -28,7 +28,6 @@ class GamePanel extends Client implements ActionListener {
     }
 
     public void setPanel() {
-
         mastern.setTitle("VÄRLDENS BÄSTA QUIZ!");
         mastern.setSize(450, 550);
         mastern.setVisible(true);
@@ -46,15 +45,10 @@ class GamePanel extends Client implements ActionListener {
         panelList.add(csp);
         panelList.add(qp);
         panelList.add(rp);
-
         panelList.forEach(p -> {
             p.setPanel();
         });
 
-    }
-    public static void main(String[] args) {
-        GamePanel g = new GamePanel();
-        g.setPanel();
     }
 
     MouseListener ma = new MouseAdapter() {
@@ -143,14 +137,18 @@ class GamePanel extends Client implements ActionListener {
             sp.setPanel();
         } else if (ae.getSource() == cp.category1) {
             mastern.remove(cp);
+            cp.subject = cp.category1.getText();
             mastern.add(qp);
             qp.setPanel();
-        } else if (ae.getSource() == cp.category1) {
+        } else if (ae.getSource() == cp.category2) {
             mastern.remove(cp);
+            System.out.println(cp.category2.getText());
+            cp.subject = cp.category2.getText();
             mastern.add(qp);
             qp.setPanel();
         } else if (ae.getSource() == cp.category3) {
             mastern.remove(cp);
+            cp.subject = cp.category3.getText();
             mastern.add(qp);
             qp.setPanel();
         } else if (ae.getSource() == sp.settings) {
