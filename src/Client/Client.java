@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 public class Client extends JFrame  {
     public static void main(String[] args) throws IOException {
-
+        
         String hostName = "127.0.0.1"; //localhost
         int portNumber = 44444;
 

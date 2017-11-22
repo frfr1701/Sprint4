@@ -7,7 +7,7 @@ import javax.swing.*;
 
 class QuestionPanel extends JPanel implements IPanel {
     
-    Label question = new Label("Vem är längst av Jakob och Fredrik?", Label.CENTER);
+    Label question = new Label("Vem är längst av Jakob och?", Label.CENTER);
     Label answer1 = new Label("1", Label.CENTER);
     Label answer2 = new Label("Svar 2", Label.CENTER);
     Label answer3 = new Label("Svar 3", Label.CENTER);

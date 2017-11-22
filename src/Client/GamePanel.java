@@ -50,17 +50,14 @@ public class GamePanel extends Client implements ActionListener {
 
     }
 
-    public static void main(String[] args) {
-       GamePanel go = new GamePanel();
-       go.setPanel();
-    }
+  
     MouseListener ma = new MouseAdapter() {
 
         @Override
         public void mousePressed(MouseEvent e) {
 
             if (e.getSource() == qp.answer1) {
-                if (qp.answer1.equals(correctAnswer)) {
+                if (1 == 1) {
                     qp.answer1.setBackground(Color.GREEN);
                 } else {
                     qp.answer1.setBackground(Color.RED);
@@ -69,7 +66,7 @@ public class GamePanel extends Client implements ActionListener {
             }
             if (e.getSource() == qp.answer2) {
 
-                if (qp.answer2.equals(correctAnswer)) {
+                if (1 == 1) {
                     qp.answer2.setBackground(Color.GREEN);
                 } else {
                     qp.answer2.setBackground(Color.RED);
@@ -77,7 +74,7 @@ public class GamePanel extends Client implements ActionListener {
 
             }
             if (e.getSource() == qp.answer3) {
-                if (qp.answer3.equals(correctAnswer)) {
+                if (1 == 2) {
                     qp.answer3.setBackground(Color.GREEN);
                 } else {
                     qp.answer3.setBackground(Color.RED);
@@ -86,7 +83,7 @@ public class GamePanel extends Client implements ActionListener {
             }
             if (e.getSource() == qp.answer4) {
 
-                if (qp.answer4.equals(correctAnswer)) {
+                if (1 == 1) {
                     qp.answer4.setBackground(Color.GREEN);
                 } else {
                     qp.answer4.setBackground(Color.RED);
