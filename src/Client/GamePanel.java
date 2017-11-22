@@ -131,7 +131,14 @@ class GamePanel extends Client implements ActionListener {
         if (ae.getSource() == sp.newGame) {
             mastern.remove(sp);
             mastern.add(cp);
+            
+            
+            
             cp.setPanel();
+            
+            
+            
+            
             
 
         } else if (ae.getSource() == sp.exitGame || ae.getSource() == cp.exitGame) {

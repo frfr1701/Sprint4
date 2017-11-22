@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.*;
 
 /**
@@ -13,10 +14,10 @@ import javax.swing.*;
  */
 public class CategoryPanel extends JPanel implements IPanel {
     
-    JButton category1 = new JButton("Sport och fritid");
-    JButton category2 = new JButton("Nöje och media");
-    JButton category3 = new JButton("I labbet");
-    JButton goBack = new JButton("Tillbaka");
+    JButton category1 = new JButton("");
+    JButton category2 = new JButton("");
+    JButton category3 = new JButton("");
+    JButton goBack = new JButton("");
     JButton exitGame = new JButton("Avsluta");
     JPanel panel = new JPanel();
     Color backgroundColor = new Color(175, 175, 200);
@@ -56,6 +57,14 @@ public class CategoryPanel extends JPanel implements IPanel {
         this.backgroundColor = backgroundColor;
         setPanel();
         repaint();
+        
+    }
+    
+    public static void getSubjectsToPanel(List<String> subjects){
+        
+        JButton category1 = new JButton("Sport och fritid");
+        JButton category2 = new JButton("Nöje och media");
+        JButton category3 = new JButton("I labbet");
         
     }
     
