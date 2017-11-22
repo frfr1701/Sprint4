@@ -11,6 +11,8 @@ class QuestionReader implements Serializable {
     private List<String> subjects;
     private List<String[]> questions;
     QuestionReader() {
+        questions = new ArrayList<>();
+        subjects = new ArrayList<>();
         try {
             directoryStream = Files.newDirectoryStream(dir, "*.{txt}");
             directoryStream.forEach((path) -> {
