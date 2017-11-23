@@ -1,7 +1,11 @@
 package Client;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.event.MouseListener;
 import java.util.*;
 import javax.swing.*;
 
@@ -14,7 +18,9 @@ class QuestionPanel extends JPanel implements IPanel {
     Label answer4 = new Label("", Label.CENTER);
     JPanel panel = new JPanel();
     JPanel panel2 = new JPanel();
-    Color backgroundColor = new Color(175, 175, 200);    
+    Color backgroundColor = new Color(175, 175, 200);   
+    
+    java.util.List<String> currentQuestion;
 
     public QuestionPanel(MouseListener ma) {
 
@@ -50,11 +56,12 @@ class QuestionPanel extends JPanel implements IPanel {
         setPanel();
         repaint();
     }
-    public void setQuestions(java.util.List<String[]> questions){
-        question.setText(questions.get(0)[1]);
-        answer1.setText(questions.get(0)[2]);
-        answer2.setText(questions.get(0)[3]);
-        answer3.setText(questions.get(0)[4]);
-        answer4.setText(questions.get(0)[5]);
+    public void setQuestions(List<String> question){
+        currentQuestion = question;
+        this.question.setText(currentQuestion.get(1));
+        answer1.setText(currentQuestion.get(2));
+        answer2.setText(currentQuestion.get(3));
+        answer3.setText(currentQuestion.get(4));
+        answer4.setText(currentQuestion.get(5));
     }
 }

@@ -1,174 +1,228 @@
 package Client;
 
+import Domain.*;
+import static Domain.State.MIDDLE;
 import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-class GamePanel extends Client implements ActionListener {
+class GamePanel extends Client implements ActionListener, IPanel {
+    Queue panelQueue;
 
-    ColorSettingPanel csp;
-    StartPanel sp;
-    CategoryPanel cp;
-    QuestionPanel qp;
-    ResultPanel rp;
+    JFrame mastern;
+    ColorSettingPanel colorSetterPanel;
+    StartPanel startPanel;
+    CategoryPanel categoryPanel;
+    QuestionPanel questionPanel;
+    ResultPanel resultPanel;
+    
+    JPanel CurrentPanel;
+
     List<IPanel> panelList;
+
     Color standardColor = new Color(238, 238, 238);
     Color backgroundColor = new Color(175, 175, 200);
-    
-    JFrame mastern;
-    public GamePanel() {
-        this.mastern = new JFrame();
-        this.csp = new ColorSettingPanel(this);
-        this.sp = new StartPanel(this);
-        this.qp = new QuestionPanel(ma);
-        this.rp = new ResultPanel();
-        this.cp = new CategoryPanel(this);
+
+
+
+    @Override
+    public void setGameStageGUI() {
+        switch (session.getGameState()) {
+            case FIRST:
+                panelQueue = new LinkedList<>();
+                panelQueue.add(categoryPanel = new CategoryPanel(this));
+                panelQueue.add(questionPanel = new QuestionPanel(ma));
+                panelQueue.add(questionPanel = new QuestionPanel(ma));
+                panelQueue.add(questionPanel = new QuestionPanel(ma));
+                
+                subjects = session.getSubjects();
+                state = session.getGameState();
+
+                session.setGameState(MIDDLE);
+                break;
+            case MIDDLE:
+                panelQueue = new LinkedList<>();
+                panelQueue.add(questionPanel = new QuestionPanel(ma));
+                panelQueue.add(questionPanel = new QuestionPanel(ma));
+                panelQueue.add(questionPanel = new QuestionPanel(ma));
+                panelQueue.add(categoryPanel = new CategoryPanel(this));
+                panelQueue.add(questionPanel = new QuestionPanel(ma));
+                panelQueue.add(questionPanel = new QuestionPanel(ma));
+                panelQueue.add(questionPanel = new QuestionPanel(ma));
+                break;
+            case FINAL:
+                panelQueue = new LinkedList<>();
+                panelQueue.add(categoryPanel = new CategoryPanel(this));
+                break;
+            case GAMECOMPLETE:
+
+                break;
+            default:
+                writeObject();
+        }
     }
 
+    
+
+    @Override
     public void setPanel() {
+        mastern = new JFrame();
         mastern.setTitle("VÄRLDENS BÄSTA QUIZ!");
         mastern.setSize(450, 550);
         mastern.setVisible(true);
         mastern.setLocationRelativeTo(null);
         mastern.setDefaultCloseOperation(3);
-        mastern.add(sp);
-        sp.setPanel();
+        mastern.add(startPanel = new StartPanel(this));
+        startPanel.setPanel();
 
         mastern.revalidate();
         mastern.repaint();
-
-        panelList = new ArrayList<>();
-        panelList.add(sp);
-        panelList.add(cp);
-        panelList.add(csp);
-        panelList.add(qp);
-        panelList.add(rp);
-        panelList.forEach(p -> {
-            p.setPanel();
-        });
-
     }
 
     MouseListener ma = new MouseAdapter() {
-
         @Override
         public void mousePressed(MouseEvent e) {
 
-            if (e.getSource() == qp.answer1) {
-                if (1 == 1) {
-                    qp.answer1.setBackground(Color.GREEN);
+            if (e.getSource() == questionPanel.answer1) {
+                if (questionPanel.answer1.getText().equalsIgnoreCase(questionPanel.currentQuestion.get(2))) {
+                    questionPanel.answer1.setBackground(Color.GREEN);
                 } else {
-                    qp.answer1.setBackground(Color.RED);
+                    questionPanel.answer1.setBackground(Color.RED);
                 }
+            } else if (e.getSource() == questionPanel.answer2) {
 
-            }
-            if (e.getSource() == qp.answer2) {
-
-                if (1 == 1) {
-                    qp.answer2.setBackground(Color.GREEN);
+                if (questionPanel.answer1.getText().equalsIgnoreCase(questionPanel.currentQuestion.get(2))) {
+                    questionPanel.answer2.setBackground(Color.GREEN);
                 } else {
-                    qp.answer2.setBackground(Color.RED);
+                    questionPanel.answer2.setBackground(Color.RED);
                 }
-
-            }
-            if (e.getSource() == qp.answer3) {
-                if (1 == 2) {
-                    qp.answer3.setBackground(Color.GREEN);
+            } else if (e.getSource() == questionPanel.answer3) {
+                if (questionPanel.answer1.getText().equalsIgnoreCase(questionPanel.currentQuestion.get(2))) {
+                    questionPanel.answer3.setBackground(Color.GREEN);
                 } else {
-                    qp.answer3.setBackground(Color.RED);
+                    questionPanel.answer3.setBackground(Color.RED);
                 }
-
-            }
-            if (e.getSource() == qp.answer4) {
-
-                if (1 == 1) {
-                    qp.answer4.setBackground(Color.GREEN);
+            } else if (e.getSource() == questionPanel.answer4) {
+                if (questionPanel.answer1.getText().equalsIgnoreCase(questionPanel.currentQuestion.get(2))) {
+                    questionPanel.answer4.setBackground(Color.GREEN);
                 } else {
-                    qp.answer4.setBackground(Color.RED);
+                    questionPanel.answer4.setBackground(Color.RED);
                 }
-
             }
-
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
+            if (questions.size() > 0) {
+                if (e.getSource() == questionPanel.answer1) {
+                    mastern.remove(questionPanel);
+                    questionPanel.answer1.setBackground(standardColor);
+                    questionPanel = new QuestionPanel(this);
 
-            if (e.getSource() == qp.answer1) {
+                    questionPanel.setQuestions(questions.remove());
+                } else if (e.getSource() == questionPanel.answer2) {
+                    mastern.remove(questionPanel);
 
-                qp.answer1.setBackground(standardColor);
+                    questionPanel.answer2.setBackground(standardColor);
+                    questionPanel = new QuestionPanel(this);
+                    questionPanel.setQuestions(questions.remove());
+                } else if (e.getSource() == questionPanel.answer3) {
+                    mastern.remove(questionPanel);
+
+                    questionPanel.answer3.setBackground(standardColor);
+                    questionPanel.setQuestions(questions.remove());
+                    questionPanel = new QuestionPanel(this);
+                } else if (e.getSource() == questionPanel.answer4) {
+                    mastern.remove(questionPanel);
+
+                    questionPanel.answer4.setBackground(standardColor);
+                    questionPanel = new QuestionPanel(this);
+                    questionPanel.setQuestions(questions.remove());
+                }
+                questionPanel.setPanel();
+                mastern.add(questionPanel);
+            } else if (state == State.MIDDLE) {
+
+            } else {
+                mastern.remove(questionPanel);
+                writeObject();
             }
-            if (e.getSource() == qp.answer2) {
 
-                qp.answer2.setBackground(standardColor);
-
-            }
-            if (e.getSource() == qp.answer3) {
-
-                qp.answer3.setBackground(standardColor);
-
-            }
-            if (e.getSource() == qp.answer4) {
-
-                qp.answer4.setBackground(standardColor);
-
-            }
-
+            mastern.revalidate();
+            mastern.repaint();
         }
-
     };
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == sp.newGame) {
-            mastern.remove(sp);
-            mastern.add(cp);
-            cp.setPanel();
-            
-
-        } else if (ae.getSource() == sp.exitGame || ae.getSource() == cp.exitGame) {
-
+        if (ae.getSource() == startPanel.newGame) {
+            mastern.remove(startPanel);
+            mastern.add(CurrentPanel = categoryPanel = (CategoryPanel)(panelQueue.remove()));
+            categoryPanel.setPanel();
+            categoryPanel.setSubjects(subjects);
+        } else if (ae.getSource() == startPanel.exitGame || ae.getSource() == categoryPanel.exitGame) {
             System.exit(0);
-        } else if (ae.getSource() == cp.goBack) {
-            mastern.remove(cp);
-            mastern.add(sp);
-            sp.setPanel();
-        } else if (ae.getSource() == cp.category1) {
-            mastern.remove(cp);
-            cp.subject = cp.category1.getText();
-            mastern.add(qp);
-            qp.setPanel();
-        } else if (ae.getSource() == cp.category2) {
-            mastern.remove(cp);
-            System.out.println(cp.category2.getText());
-            cp.subject = cp.category2.getText();
-            mastern.add(qp);
-            qp.setPanel();
-        } else if (ae.getSource() == cp.category3) {
-            mastern.remove(cp);
-            cp.subject = cp.category3.getText();
-            mastern.add(qp);
-            qp.setPanel();
-        } else if (ae.getSource() == sp.settings) {
-            mastern.remove(sp);
-            mastern.add(csp);
-            csp.setPanel();
-        } else if (ae.getSource() == csp.black) {
+        } else if (ae.getSource() == categoryPanel.goBack) {
+//            mastern.remove(categoryPanel);
+//            mastern.add(startPanel);
+//            startPanel.setPanel();
+        } else if (ae.getSource() == categoryPanel.category1) {
+            mastern.remove(CurrentPanel);
+            CurrentPanel = questionPanel = (QuestionPanel)(panelQueue.remove());
+            
+            categoryPanel.subject = categoryPanel.category1.getText();
+            questions = session.getQuestions(categoryPanel.subject);
+            session.setQuestionsThisRound(new LinkedList(questions));
+            questionPanel.setQuestions(questions.remove());
+            questionPanel.setPanel();
+            
+            mastern.add(CurrentPanel);
+        } else if (ae.getSource() == categoryPanel.category2) {
+            mastern.remove(CurrentPanel);
+            CurrentPanel = questionPanel = (QuestionPanel)(panelQueue.remove());
+            
+            categoryPanel.subject = categoryPanel.category1.getText();
+            questions = session.getQuestions(categoryPanel.subject);
+            session.setQuestionsThisRound(new LinkedList(questions));
+            questionPanel.setQuestions(questions.remove());
+            questionPanel.setPanel();
+            
+            mastern.add(CurrentPanel);
+        } else if (ae.getSource() == categoryPanel.category3) {
+            mastern.remove(CurrentPanel);
+            CurrentPanel = questionPanel = (QuestionPanel)(panelQueue.remove());
+            
+            categoryPanel.subject = categoryPanel.category1.getText();
+            questions = session.getQuestions(categoryPanel.subject);
+            session.setQuestionsThisRound(new LinkedList(questions));
+            questionPanel.setQuestions(questions.remove());
+            questionPanel.setPanel();
+            
+            mastern.add(CurrentPanel);
+        } else if (ae.getSource() == startPanel.settings) {
+            mastern.remove(startPanel);
+            mastern.add(colorSetterPanel);
+            colorSetterPanel.setPanel();
+        } else if (ae.getSource() == colorSetterPanel.black) {
             panelList.forEach(p -> p.setColor(Color.BLACK));
-        } else if (ae.getSource() == csp.yellow) {
+        } else if (ae.getSource() == colorSetterPanel.yellow) {
             panelList.forEach(p -> p.setColor(Color.YELLOW));
-        } else if (ae.getSource() == csp.red) {
+        } else if (ae.getSource() == colorSetterPanel.red) {
             panelList.forEach(p -> p.setColor(Color.RED));
-        } else if (ae.getSource() == csp.standard) {
+        } else if (ae.getSource() == colorSetterPanel.standard) {
             panelList.forEach(p -> p.setColor(backgroundColor));
-        } else if (ae.getSource() == csp.goBack) {
-            mastern.remove(csp);
-            mastern.add(sp);
-            sp.setPanel();
+        } else if (ae.getSource() == colorSetterPanel.goBack) {
+            mastern.remove(colorSetterPanel);
+            mastern.add(startPanel);
+            startPanel.setPanel();
         }
         mastern.revalidate();
         mastern.repaint();
 
+    }
+
+    @Override
+    public void setColor(Color backgroundColor) {
     }
 }

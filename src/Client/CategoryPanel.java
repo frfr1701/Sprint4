@@ -1,13 +1,11 @@
 package Client;
 
-import Domain.Session;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.util.List;
-import javax.security.auth.Subject;
+import java.util.*;
 import javax.swing.*;
 
 /**
@@ -49,7 +47,6 @@ public class CategoryPanel extends JPanel implements IPanel {
         add("North", goBack);
         goBack.setPreferredSize(new Dimension(50, 50));
         exitGame.setPreferredSize(new Dimension(50, 50));
-
     }
 
     @Override

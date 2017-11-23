@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 abstract class ListManger {
 
-    static List<List<String>> getSessionQuestions(List<List<String>> allQuestions, String whichSubject, int amountOfQuestions) {
-        return (List<List<String>>) differentElements(filterBySubject(allQuestions, whichSubject), amountOfQuestions);
+    static Queue<List<String>> getSessionQuestions(List<List<String>> allQuestions, String whichSubject, int amountOfQuestions) {
+        return new LinkedList<>((List<List<String>>) differentElements(filterBySubject(allQuestions, whichSubject), amountOfQuestions));
     }
 
     static List<String> getSessionSubjects(List<String> allSubjects, int amountOfSubjects) {

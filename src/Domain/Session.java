@@ -3,6 +3,7 @@ package Domain;
 import static Domain.State.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Queue;
 
 public class Session implements Serializable {
 
@@ -12,7 +13,7 @@ public class Session implements Serializable {
 
     private List<String> allSubjects;
     private List<List<String>> allQuestions;
-    private List<List<String>> questionsThisRound;
+    private Queue<List<String>> questionsThisRound;
 
     private final int numberOfQuestions;
     private final int numberOfSubjects;
@@ -90,15 +91,15 @@ public class Session implements Serializable {
         return ListManger.getSessionSubjects(allSubjects, numberOfSubjects);
     }
 
-    public List<List<String>> getQuestions(String chosenSubject) {
-        return questionsThisRound = ListManger.getSessionQuestions(allQuestions, chosenSubject, numberOfQuestions);
+    public Queue<List<String>> getQuestions(String chosenSubject) {
+        return questionsThisRound = (Queue<List<String>>)ListManger.getSessionQuestions(allQuestions, chosenSubject, numberOfQuestions);
     }
     
-    public void setQuestionsThisRound(List<List<String>> roundQuestions) {
+    public void setQuestionsThisRound(Queue<List<String>> roundQuestions) {
         this.questionsThisRound = roundQuestions;
     }
 
-    public List<List<String>> getQuestionsThisRound() {
+    public Queue<List<String>> getQuestionsThisRound() {
         return questionsThisRound;
     }
     //questions and subjects end
