@@ -50,5 +50,9 @@ class QuestionPanel extends JPanel implements IPanel {
         setPanel();
         repaint();
     }
+    
+//    public void setAnswers(List<String> answers){
+//        
+//    }
 
 }
