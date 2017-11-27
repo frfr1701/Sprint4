@@ -169,7 +169,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == startPanel.newGame) {
 
-        } else if (ae.getSource() == startPanel.exitGame || ae.getSource() == categoryPanel.exitGame) {
+        } else if (ae.getSource() == startPanel.exitGame || ae.getSource() == categoryPanel.exitGame || ae.getSource()==resultPanel.exitGame) {
             System.exit(0);
         } else if (ae.getSource() == categoryPanel.goBack) {
 
@@ -191,15 +191,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
         } else if (ae.getSource() == colorSetterPanel.standard) {
             panelList.forEach(p -> p.setColor(backgroundColor));
         } else if (ae.getSource() == colorSetterPanel.goBack) {
-<<<<<<< HEAD:src/Client/GameFrame.java
-
-=======
-        
-        } else if (ae.getSource() == resultPanel.exitGame) {
-            System.exit(0);
-            
->>>>>>> eveline:src/Client/GamePanel.java
-        }
+        } 
         mastern.revalidate();
         mastern.repaint();
     }

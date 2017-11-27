@@ -55,8 +55,7 @@ public class ResultPanel extends JPanel implements IPanel {
    JButton b24 = new JButton();
    Color backgroundColor;
 
-   JButton bs = new JButton("Spela ");
-   JButton exitGame = new JButton("Ge upp");
+   JButton exitGame = new JButton("Avsluta");
 
    public ResultPanel(ActionListener al) {
       exitGame.addActionListener(al);
@@ -109,7 +108,6 @@ public class ResultPanel extends JPanel implements IPanel {
        p2.add(b24);
        add(p2);
 
-       p3.add(bs);
        p3.add(exitGame);
        add("South", p3);
        
