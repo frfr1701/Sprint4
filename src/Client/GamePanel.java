@@ -234,6 +234,7 @@ class GamePanel extends Client implements ActionListener, IPanel {
         } else if (ae.getSource() == colorSetterPanel.goBack) {
         
         } else if (ae.getSource() == resultPanel.exitGame) {
+            System.exit(0);
             
         }
         mastern.revalidate();
