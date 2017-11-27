@@ -38,16 +38,16 @@ public class Session implements Serializable {
         whichPlayer = !whichPlayer;
     }
 
-    public void givePointToPlayer() {
+    public void giveAnswerResultToPlayerList(boolean i) {
         if (whichPlayer) {
-            one.givePoint();
+            one.addAnswerToList(i);
         } else {
-            two.givePoint();
+            two.addAnswerToList(i);
         }
     }
     
-    public int getPointsFromPlayer() {
-        return whichPlayer ? one.getPoints() : two.getPoints();
+    public List<Boolean> getPointsFromPlayer() {
+        return whichPlayer ? one.getPlayerResultList() : two.getPlayerResultList();
     }
     //player end
 

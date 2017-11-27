@@ -2,11 +2,12 @@ package Client;
 
 import static Domain.State.MIDDLE;
 import java.awt.Color;
+import java.awt.Label;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-class GamePanel extends Client implements ActionListener, IPanel {
+class GameFrame extends Client implements ActionListener, IPanel {
 
     Queue panelQueue;
 
@@ -26,49 +27,27 @@ class GamePanel extends Client implements ActionListener, IPanel {
 
     @Override
     public void setGameStageGUI() {
-        switch (session.getGameState()) {
+        panelQueue = new LinkedList<>();
+        switch (state = session.getGameState()) {
             case FIRST:
-                panelQueue = new LinkedList<>();
                 panelQueue.add(new CategoryPanel(this));
-                for (int i = 0; i < session.getNumberOfQuestions(); i++) {
-                    panelQueue.add(new QuestionPanel(ma));
-                }
-                state = session.getGameState();
-
-                subjects = session.getSubjects();
-                mastern.add(currentPanel = categoryPanel = (CategoryPanel) (panelQueue.remove()));
-                categoryPanel.setPanel();
-                categoryPanel.setSubjects(subjects);
-
+                addQuestionPanelToQueue();
+                initFirstSubjectPanel();
                 session.setGameState(MIDDLE);
                 break;
             case MIDDLE:
-                panelQueue = new LinkedList<>();
-                for (int i = 0; i < session.getNumberOfQuestions(); i++) {
-                    panelQueue.add(new QuestionPanel(ma));
-                }
-                panelQueue.add(new CategoryPanel(this));
-                for (int i = 0; i < session.getNumberOfQuestions(); i++) {
-                    panelQueue.add(new QuestionPanel(ma));
-                }
-                state = session.getGameState();
+                addQuestionPanelToQueue();
 
-                mastern.add(currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove()));
-                questionPanel.setPanel();
-                questions = session.getQuestionsThisRound();
-                questionPanel.setQuestions(questions.remove());
+                panelQueue.add(new CategoryPanel(this));
+
+                addQuestionPanelToQueue();
+
+                initFirstQuestionPanel();
                 break;
             case FINAL:
-                panelQueue = new LinkedList<>();
-                for (int i = 0; i < session.getNumberOfQuestions(); i++) {
-                    panelQueue.add(new QuestionPanel(ma));
-                }
-                state = session.getGameState();
+                addQuestionPanelToQueue();
 
-                mastern.add(currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove()));
-                questionPanel.setPanel();
-                questions = session.getQuestionsThisRound();
-                questionPanel.setQuestions(questions.remove());
+                initFirstQuestionPanel();
                 break;
             case GAMECOMPLETE:
                 System.exit(0);
@@ -78,6 +57,26 @@ class GamePanel extends Client implements ActionListener, IPanel {
         }
         mastern.revalidate();
         mastern.repaint();
+    }
+
+    private void addQuestionPanelToQueue() {
+        for (int i = 0; i < session.getNumberOfQuestions(); i++) {
+            panelQueue.add(new QuestionPanel(ma));
+        }
+    }
+
+    private void initFirstSubjectPanel() {
+        subjects = session.getSubjects();
+        mastern.add(currentPanel = categoryPanel = (CategoryPanel) (panelQueue.remove()));
+        categoryPanel.setPanel();
+        categoryPanel.setSubjects(subjects);
+    }
+
+    private void initFirstQuestionPanel() {
+        mastern.add(currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove()));
+        questionPanel.setPanel();
+        questions = session.getQuestionsThisRound();
+        questionPanel.setQuestions(questions.remove());
     }
 
     @Override
@@ -104,30 +103,13 @@ class GamePanel extends Client implements ActionListener, IPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             if (e.getSource() == questionPanel.answer1) {
-                if (questionPanel.answer1.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
-                    questionPanel.answer1.setBackground(Color.GREEN);
-                } else {
-                    questionPanel.answer1.setBackground(Color.RED);
-                }
+                buttonColor(questionPanel.answer1);
             } else if (e.getSource() == questionPanel.answer2) {
-
-                if (questionPanel.answer2.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
-                    questionPanel.answer2.setBackground(Color.GREEN);
-                } else {
-                    questionPanel.answer2.setBackground(Color.RED);
-                }
+                buttonColor(questionPanel.answer2);
             } else if (e.getSource() == questionPanel.answer3) {
-                if (questionPanel.answer3.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
-                    questionPanel.answer3.setBackground(Color.GREEN);
-                } else {
-                    questionPanel.answer3.setBackground(Color.RED);
-                }
+                buttonColor(questionPanel.answer3);
             } else if (e.getSource() == questionPanel.answer4) {
-                if (questionPanel.answer4.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
-                    questionPanel.answer4.setBackground(Color.GREEN);
-                } else {
-                    questionPanel.answer4.setBackground(Color.RED);
-                }
+                buttonColor(questionPanel.answer4);
             }
             mastern.revalidate();
             mastern.repaint();
@@ -164,58 +146,35 @@ class GamePanel extends Client implements ActionListener, IPanel {
             mastern.revalidate();
             mastern.repaint();
         }
+
+        private void buttonColor(Label answer) {
+            if (answer.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
+                session.giveAnswerResultToPlayerList(true);
+                answer.setBackground(Color.GREEN);
+            } else {
+                session.giveAnswerResultToPlayerList(false);
+                answer.setBackground(Color.RED);
+            }
+        }
     };
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == startPanel.newGame) {
-            
+
         } else if (ae.getSource() == startPanel.exitGame || ae.getSource() == categoryPanel.exitGame) {
             System.exit(0);
         } else if (ae.getSource() == categoryPanel.goBack) {
-            
-        }
-        
-        
-        else if (ae.getSource() == categoryPanel.category1) {
-            mastern.remove(currentPanel);
-            categoryPanel.subject = categoryPanel.category1.getText();
-            questions = session.getQuestions(categoryPanel.subject);
-            session.setQuestionsThisRound(new LinkedList(questions));
 
-            currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove());
-            questionPanel.setQuestions(questions.remove());
-            questionPanel.setPanel();
-
-            mastern.add(currentPanel);
+        } else if (ae.getSource() == categoryPanel.category1) {
+            chooseCategory(categoryPanel.category1);
         } else if (ae.getSource() == categoryPanel.category2) {
-            mastern.remove(currentPanel);
-            currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove());
-
-            categoryPanel.subject = categoryPanel.category2.getText();
-            questions = session.getQuestions(categoryPanel.subject);
-            session.setQuestionsThisRound(new LinkedList(questions));
-            questionPanel.setQuestions(questions.remove());
-            questionPanel.setPanel();
-
-            mastern.add(currentPanel);
+            chooseCategory(categoryPanel.category2);
         } else if (ae.getSource() == categoryPanel.category3) {
-            mastern.remove(currentPanel);
-            currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove());
+            chooseCategory(categoryPanel.category3);
 
-            categoryPanel.subject = categoryPanel.category3.getText();
-            questions = session.getQuestions(categoryPanel.subject);
-            session.setQuestionsThisRound(new LinkedList(questions));
-            questionPanel.setQuestions(questions.remove());
-            questionPanel.setPanel();
+        } else if (ae.getSource() == startPanel.settings) {
 
-            mastern.add(currentPanel);
-        }
-        
-        
-        
-        else if (ae.getSource() == startPanel.settings) {
-            
         } else if (ae.getSource() == colorSetterPanel.black) {
             panelList.forEach(p -> p.setColor(Color.BLACK));
         } else if (ae.getSource() == colorSetterPanel.yellow) {
@@ -225,13 +184,34 @@ class GamePanel extends Client implements ActionListener, IPanel {
         } else if (ae.getSource() == colorSetterPanel.standard) {
             panelList.forEach(p -> p.setColor(backgroundColor));
         } else if (ae.getSource() == colorSetterPanel.goBack) {
-        
+
         }
         mastern.revalidate();
         mastern.repaint();
     }
 
+    void chooseCategory(JButton category) {
+        mastern.remove(currentPanel);
+        categoryPanel.subject = category.getText();
+        questions = session.getQuestions(categoryPanel.subject);
+        session.setQuestionsThisRound(new LinkedList(questions));
+
+        currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove());
+        questionPanel.setQuestions(questions.remove());
+        questionPanel.setPanel();
+
+        mastern.add(currentPanel);
+    }
+
     @Override
     public void setColor(Color backgroundColor) {
     }
+    
+//    private void checkAnswers() {
+//        questions.stream()
+//                .filter((question) -> (question.get(2).equalsIgnoreCase(answers.remove())))
+//                .forEach((correctAnswer) -> {
+//                    session.givePointToPlayer();
+//                });
+//    }
 }
