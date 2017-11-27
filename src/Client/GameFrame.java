@@ -25,6 +25,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
     Color standardColor = new Color(238, 238, 238);
     Color backgroundColor = new Color(175, 175, 200);
 
+
     @Override
     public void setGameStageGUI() {
         panelQueue = new LinkedList<>();
@@ -50,13 +51,18 @@ class GameFrame extends Client implements ActionListener, IPanel {
                 initFirstQuestionPanel();
                 break;
             case GAMECOMPLETE:
-                System.exit(0);
+                panelQueue = new LinkedList<>();
+                panelQueue.add(new  ResultPanel(this));
+                
+                mastern.add(currentPanel = resultPanel = (ResultPanel) (panelQueue.remove()));
+                resultPanel.setPanel();
                 break;
             default:
                 writeObject();
         }
         mastern.revalidate();
         mastern.repaint();
+
     }
 
     private void addQuestionPanelToQueue() {
@@ -88,6 +94,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
         mastern.setLocationRelativeTo(null);
         mastern.setDefaultCloseOperation(3);
 
+
         mastern.revalidate();
         mastern.repaint();
 
@@ -95,7 +102,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
         startPanel = new StartPanel(this);
         categoryPanel = new CategoryPanel(this);
         questionPanel = new QuestionPanel(ma);
-        resultPanel = new ResultPanel();
+        resultPanel = new ResultPanel(this);
 
     }
 
@@ -162,7 +169,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == startPanel.newGame) {
 
-        } else if (ae.getSource() == startPanel.exitGame || ae.getSource() == categoryPanel.exitGame) {
+        } else if (ae.getSource() == startPanel.exitGame || ae.getSource() == categoryPanel.exitGame || ae.getSource()==resultPanel.exitGame) {
             System.exit(0);
         } else if (ae.getSource() == categoryPanel.goBack) {
 
@@ -184,8 +191,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
         } else if (ae.getSource() == colorSetterPanel.standard) {
             panelList.forEach(p -> p.setColor(backgroundColor));
         } else if (ae.getSource() == colorSetterPanel.goBack) {
-
-        }
+        } 
         mastern.revalidate();
         mastern.repaint();
     }
