@@ -1,72 +1,48 @@
 package Client;
 
 import Domain.*;
-import static Domain.State.*;
 import java.io.*;
 import java.net.*;
 
 import java.util.*;
+import java.util.stream.*;
 
-class Client {
+abstract class Client implements IPanel{
 
     public static void main(String[] args) throws IOException {
-        Client start = new Client();
+        Client start = new GamePanel();
         start.Client();
     }
 
+    private final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
     private static final int PORTNUMBER = 44444;
     private static final String HOSTNAMNE = "127.0.0.1";
-    private final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-    private final List<String> answers = new ArrayList<>();
 
-    private Session session;
-    private List<String[]> questions;
+    private ObjectInputStream serverInput;
+    private Socket socketToServer;
+    ObjectOutputStream serverOutput;
+
+    Session session;
+    State state;
+
+    List<String> subjects;
+    Queue<List<String>> questions;
+    Queue<String> answers;
+
+    public Client() {
+        setPanel();
+    }
 
     private void Client() {
-        try (Socket socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
-                ObjectOutputStream serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
-                ObjectInputStream serverInput = new ObjectInputStream(socketToServer.getInputStream());) {
-            clientprotocol:
+        try {
+            socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
+            serverInput = new ObjectInputStream(socketToServer.getInputStream());
+            serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
+
             while ((session = (Session) serverInput.readObject()) != null) {
-                switch (session.getGameState()) {
-                    case FIRST:
-                        System.out.println(session.getSubjects());
-                        session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
-                        askQuestions();
-                        checkAnswers();
-
-                        session.setGameState(MIDDLE);
-                        serverOutput.writeObject(session);
-                        break;
-                    case MIDDLE:
-                        questions = session.getQuestionsThisRound();
-                        askQuestions();
-                        checkAnswers();
-                        //next round
-                        System.out.println(session.getSubjects());
-                        session.setQuestionsThisRound(questions = session.getQuestions(stdIn.readLine()));
-                        askQuestions();
-                        checkAnswers();
-
-                        session.setGameState(MIDDLE);
-                        serverOutput.writeObject(session);
-                        break;
-                    case FINAL:
-                        questions = session.getQuestionsThisRound();
-                        askQuestions();
-                        checkAnswers();
-
-                        session.setGameState(FINAL);
-                        serverOutput.writeObject(session);
-                        break;
-                    case GAMECOMPLETE:
-                        System.out.println(session.getPointsFromPlayer());
-                        socketToServer.close();
-                        break clientprotocol;
-                    default:
-                        serverOutput.writeObject(session);
-                }
+                setGameStageGUI();
             }
+
         } catch (UnknownHostException e) {
             System.out.println("Don't know about host " + HOSTNAMNE);
         } catch (IOException e) {
@@ -76,30 +52,39 @@ class Client {
         }
     }
 
-    private void checkAnswers() {
-        int index = 0;
-        for (String[] question : questions) {
-            if   (question[2].equalsIgnoreCase(answers.get(index++))) {
-                session.givePointToPlayer();
-            }
+    void writeObject() {
+        try {
+            serverOutput.writeObject(session);
+        } catch (IOException ex) {
+            System.out.println("IOException writeObject in client");
         }
-        answers.clear();
+    }
+
+    public void setGameStageGUI() {
+    }
+    
+    
+    private void checkAnswers() {
+        questions.stream()
+                .filter((question) -> (question.get(2).equalsIgnoreCase(answers.remove())))
+                .forEach((correctAnswer) -> {
+                    session.givePointToPlayer();
+                });
     }
 
     private void askQuestions() {
-        try {
-            for (String[] question : questions) {
-                System.out.println(question[1]);
-                List<String> temp=new ArrayList<String>();
-                for (int i = 2; i < question.length; i++) {
-                    temp.add(question[i]);
-                }
-                Collections.shuffle(temp);
-                temp.forEach((print) -> {System.out.println(print);});
+        questions.stream().map((question) -> {
+            question.stream().filter(string -> (question.indexOf(string) > 0)).collect(Collectors.toList())
+                    .stream().forEach(string -> {
+                        System.out.println(string);
+                    });
+            return question;
+        }).forEachOrdered((question) -> {
+            try {
                 answers.add(stdIn.readLine());
+            } catch (IOException ex) {
+                System.out.println("askQuestion IOException");
             }
-        } catch (IOException e) {
-            System.out.println("inputStreamReader IOException");
-        }
+        });
     }
 }

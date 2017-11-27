@@ -1,20 +1,27 @@
 package Client;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.event.MouseListener;
 import java.util.*;
 import javax.swing.*;
 
 class QuestionPanel extends JPanel implements IPanel {
     
-    Label question = new Label("Vem är längst av Jakob och?", Label.CENTER);
-    Label answer1 = new Label("1", Label.CENTER);
-    Label answer2 = new Label("Svar 2", Label.CENTER);
-    Label answer3 = new Label("Svar 3", Label.CENTER);
-    Label answer4 = new Label("Svar 4", Label.CENTER);
+    Label question = new Label("", Label.CENTER);
+    Label answer1 = new Label("", Label.CENTER);
+    Label answer2 = new Label("", Label.CENTER);
+    Label answer3 = new Label("", Label.CENTER);
+    Label answer4 = new Label("", Label.CENTER);
+    String correctAnswer = "";
     JPanel panel = new JPanel();
     JPanel panel2 = new JPanel();
-    Color backgroundColor = new Color(175, 175, 200);    
+    Color backgroundColor = new Color(175, 175, 200);   
+    
+    java.util.List<String> currentQuestion;
 
     public QuestionPanel(MouseListener ma) {
 
@@ -22,6 +29,7 @@ class QuestionPanel extends JPanel implements IPanel {
         answer2.addMouseListener(ma);
         answer3.addMouseListener(ma);
         answer4.addMouseListener(ma);
+        currentQuestion = new ArrayList<>();
         
     }
 
@@ -50,5 +58,17 @@ class QuestionPanel extends JPanel implements IPanel {
         setPanel();
         repaint();
     }
-
+    public void setQuestions(List<String> question){
+        
+        this.question.setText(question.get(1));
+        correctAnswer = question.get(2);
+        for (int i = 2; i < question.size(); i++) {
+            currentQuestion.add(question.get(i));
+        }
+        Collections.shuffle(currentQuestion);
+        answer1.setText(currentQuestion.get(0));
+        answer2.setText(currentQuestion.get(1));
+        answer3.setText(currentQuestion.get(2));
+        answer4.setText(currentQuestion.get(3));
+    }
 }

@@ -3,6 +3,7 @@ package Domain;
 import static Domain.State.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Queue;
 
 public class Session implements Serializable {
 
@@ -11,8 +12,8 @@ public class Session implements Serializable {
     private boolean whichPlayer;
 
     private List<String> allSubjects;
-    private List<String[]> allQuestions;
-    private List<String[]> questionsThisRound;
+    private List<List<String>> allQuestions;
+    private Queue<List<String>> questionsThisRound;
 
     private final int numberOfQuestions;
     private final int numberOfSubjects;
@@ -78,11 +79,16 @@ public class Session implements Serializable {
 
     //--------------------------------------------------------------------------
     //questions and subjects start
+
+    public int getNumberOfQuestions() {
+        return numberOfQuestions;
+    }
+
     public void setAllSubjects(List<String> allSubjects) {
         this.allSubjects = allSubjects;
     }
 
-    public void setAllQuestions(List<String[]> allQuestions) {
+    public void setAllQuestions(List<List<String>> allQuestions) {
         this.allQuestions = allQuestions;
     }
 
@@ -90,15 +96,15 @@ public class Session implements Serializable {
         return ListManger.getSessionSubjects(allSubjects, numberOfSubjects);
     }
 
-    public List<String[]> getQuestions(String chosenSubject) {
-        return questionsThisRound = ListManger.getSessionQuestions(allQuestions, chosenSubject, numberOfQuestions);
+    public Queue<List<String>> getQuestions(String chosenSubject) {
+        return (Queue<List<String>>)ListManger.getSessionQuestions(allQuestions, chosenSubject, numberOfQuestions);
     }
     
-    public void setQuestionsThisRound(List<String[]> roundQuestions) {
+    public void setQuestionsThisRound(Queue<List<String>> roundQuestions) {
         this.questionsThisRound = roundQuestions;
     }
 
-    public List<String[]> getQuestionsThisRound() {
+    public Queue<List<String>> getQuestionsThisRound() {
         return questionsThisRound;
     }
     //questions and subjects end
