@@ -11,7 +11,7 @@ import javax.swing.*;
 
 class QuestionPanel extends JPanel implements IPanel {
     
-    Label question = new Label("", Label.CENTER);
+    JLabel question = new JLabel("", JLabel.CENTER);
     Label answer1 = new Label("", Label.CENTER);
     Label answer2 = new Label("", Label.CENTER);
     Label answer3 = new Label("", Label.CENTER);
@@ -36,20 +36,25 @@ class QuestionPanel extends JPanel implements IPanel {
     @Override
     public void setPanel() {
         question.setPreferredSize(new Dimension(100, 200));
-        panel.setBackground(backgroundColor);
+        question.setBackground(Color.WHITE);
+        question.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        panel.setBackground(Color.WHITE);
         setLayout(new BorderLayout());
         panel.setLayout(new GridLayout(2, 2));
         add("North", panel2);
         add("Center", panel);
+        answer1.setBackground(Color.WHITE);
+        answer2.setBackground(Color.WHITE);
+        answer3.setBackground(Color.WHITE);
+        answer4.setBackground(Color.WHITE);
         panel.add(answer1);
         panel.add(answer2);
         panel.add(answer3);
         panel.add(answer4);
         panel2.setLayout(new BorderLayout());
         panel2.add("Center", question);
-        
-        setBorder(BorderFactory.createLineBorder((new Color(175, 175, 200)), 10));
-        panel2.setBorder(BorderFactory.createLineBorder((new Color(175, 175, 200)), 5));
+        panel2.setBackground(Color.WHITE);
+        setBorder(BorderFactory.createLineBorder(Color.BLUE, 20));
 
     }
     @Override

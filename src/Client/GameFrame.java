@@ -38,24 +38,16 @@ class GameFrame extends Client implements ActionListener, IPanel {
                 break;
             case MIDDLE:
                 addQuestionPanelToQueue();
-
                 panelQueue.add(new CategoryPanel(this));
-
                 addQuestionPanelToQueue();
-
                 initFirstQuestionPanel();
                 break;
             case FINAL:
                 addQuestionPanelToQueue();
-
                 initFirstQuestionPanel();
                 break;
             case GAMECOMPLETE:
-                panelQueue = new LinkedList<>();
-                panelQueue.add(new ResultPanel(this, session));
-                
-                mastern.add(currentPanel = resultPanel = (ResultPanel) (panelQueue.remove()));
-                resultPanel.setPanel();
+                initResultPanel();
                 break;
             default:
                 writeObject();
@@ -72,8 +64,8 @@ class GameFrame extends Client implements ActionListener, IPanel {
     }
 
     private void initFirstSubjectPanel() {
-        subjects = session.getSubjects();
         mastern.add(currentPanel = categoryPanel = (CategoryPanel) (panelQueue.remove()));
+        subjects = session.getSubjects();
         categoryPanel.setPanel();
         categoryPanel.setSubjects(subjects);
     }
@@ -84,19 +76,24 @@ class GameFrame extends Client implements ActionListener, IPanel {
         questions = session.getQuestionsThisRound();
         questionPanel.setQuestions(questions.remove());
     }
+    private void initResultPanel() {
+        panelQueue.add(new ResultPanel(this, session));
+        mastern.add(currentPanel = resultPanel = (ResultPanel) (panelQueue.remove()));
+        resultPanel.setPanel();
+    }
 
     @Override
     public void setPanel() {
         mastern = new JFrame();
+        
         mastern.setTitle("VÄRLDENS BÄSTA QUIZ!");
         mastern.setSize(450, 550);
         mastern.setVisible(true);
         mastern.setLocationRelativeTo(null);
         mastern.setDefaultCloseOperation(3);
-
-
         mastern.revalidate();
         mastern.repaint();
+        
 
         colorSetterPanel = new ColorSettingPanel(this);
         startPanel = new StartPanel(this);
@@ -171,8 +168,6 @@ class GameFrame extends Client implements ActionListener, IPanel {
 
         } else if (ae.getSource() == startPanel.exitGame || ae.getSource() == categoryPanel.exitGame || ae.getSource()==resultPanel.exitGame) {
             System.exit(0);
-        } else if (ae.getSource() == categoryPanel.goBack) {
-
         } else if (ae.getSource() == categoryPanel.category1) {
             chooseCategory(categoryPanel.category1);
         } else if (ae.getSource() == categoryPanel.category2) {

@@ -5,7 +5,6 @@ import java.io.*;
 import java.net.*;
 
 import java.util.*;
-import java.util.stream.*;
 
 abstract class Client implements IPanel{
 
@@ -36,7 +35,7 @@ abstract class Client implements IPanel{
             socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
             serverInput = new ObjectInputStream(socketToServer.getInputStream());
             serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
-
+            
             while ((session = (Session) serverInput.readObject()) != null) {
                 setGameStageGUI();
             }

@@ -25,6 +25,7 @@ public class ResultPanel extends JPanel implements IPanel {
     JLabel v2 = new JLabel("Motståndare");
     JTextField f1 = new JTextField();
     Color backgroundColor;
+    boolean buttonEnable = false;
 
     JButton exitGame = new JButton("Avsluta");
     private final Session session;
@@ -43,6 +44,8 @@ public class ResultPanel extends JPanel implements IPanel {
         for (int i = 0; i < bplayer1.length; i++) {
             bplayer1[i] = new JButton();
             bplayer2[i] = new JButton();
+            bplayer1[i].setBackground(Color.BLUE);
+            bplayer2[i].setBackground(Color.BLUE);
         }
         if (session.isWhichPlayer()) {
             one = session.getResultPlayer1();
@@ -71,34 +74,38 @@ public class ResultPanel extends JPanel implements IPanel {
         } else {
             f1.setText(session.getResultPlayer2().stream().filter(current -> current.equals(true)).count() + " - " + session.getResultPlayer1().stream().filter(current -> current.equals(true)).count());
         }
-        setBorder(BorderFactory.createLineBorder((new Color(175, 175, 200)), 10));
+        setBorder(BorderFactory.createLineBorder(Color.BLUE, 10));
         setLayout(new BorderLayout());
         p1.add(v1);
         p1.add(f1);
         f1.setEditable(false);
         p1.add(v2);
+        p1.setBackground(Color.BLUE);
         add("North", p1);
         p2.setLayout(new FlowLayout());
         p2.setLayout(new GridLayout(session.getNumberOfRounds(), session.getNumberOfQuestions() * 2 + 1));
+        p2.setBackground(Color.BLUE);
+        p3.setBackground(Color.BLUE);
         int player1 = 0;
         int player2 = 0;
         for (int i = 0; i < session.getNumberOfRounds(); i++) {
             for (int j = 0; j < session.getNumberOfQuestions(); j++) {
                 p2.add(bplayer1[player1++]);
             }
-            p2.add(new Label("Round " + (i+1), Label.CENTER));
+            p2.add(new Label("Round " + (i + 1), Label.CENTER));
             for (int j = 0; j < session.getNumberOfQuestions(); j++) {
                 p2.add(bplayer2[player2++]);
             }
         }
 
         add(p2);
-
         p3.add(exitGame);
+
         add("South", p3);
 
     }
 
+    @Override
     public void setColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
