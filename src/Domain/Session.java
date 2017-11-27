@@ -38,6 +38,10 @@ public class Session implements Serializable {
         whichPlayer = !whichPlayer;
     }
 
+    public boolean isWhichPlayer() {
+        return whichPlayer;
+    }
+
     public void giveAnswerResultToPlayerList(boolean i) {
         if (whichPlayer) {
             one.addAnswerToList(i);
@@ -48,6 +52,12 @@ public class Session implements Serializable {
     
     public List<Boolean> getPointsFromPlayer() {
         return whichPlayer ? one.getPlayerResultList() : two.getPlayerResultList();
+    }
+    public List<Boolean> getResultPlayer1() {
+        return one.getPlayerResultList();
+    }
+    public List<Boolean> getResultPlayer2() {
+        return two.getPlayerResultList();
     }
     //player end
 
@@ -75,6 +85,11 @@ public class Session implements Serializable {
     public boolean isFinalRound(){
         return roundCounter == numberOfRounds;
     }
+
+    public int getNumberOfRounds() {
+        return numberOfRounds;
+    }
+    
     //roundCounter end
 
     //--------------------------------------------------------------------------

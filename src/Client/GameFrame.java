@@ -52,7 +52,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
                 break;
             case GAMECOMPLETE:
                 panelQueue = new LinkedList<>();
-                panelQueue.add(new  ResultPanel(this));
+                panelQueue.add(new ResultPanel(this, session));
                 
                 mastern.add(currentPanel = resultPanel = (ResultPanel) (panelQueue.remove()));
                 resultPanel.setPanel();
@@ -102,7 +102,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
         startPanel = new StartPanel(this);
         categoryPanel = new CategoryPanel(this);
         questionPanel = new QuestionPanel(ma);
-        resultPanel = new ResultPanel(this);
+        resultPanel = new ResultPanel(this, session);
 
     }
 

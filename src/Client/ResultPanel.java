@@ -1,120 +1,106 @@
 package Client;
+
+import Domain.Session;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Label;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
 public class ResultPanel extends JPanel implements IPanel {
 
-   JPanel p1 = new JPanel();
-   JPanel p2 = new JPanel();
-   JPanel p3 = new JPanel();
+    JPanel p1 = new JPanel();
+    JPanel p2 = new JPanel();
+    JPanel p3 = new JPanel();
 
-   JPanel p5 = new JPanel();
-   JLabel v1 = new JLabel("User 1");
-   JLabel v2 = new JLabel("User 2");
-   JTextField f1 = new JTextField("0 - 0 ");
+    JPanel p5 = new JPanel();
+    JLabel v1 = new JLabel("                    Du");
+    JLabel v2 = new JLabel("Motståndare");
+    JTextField f1 = new JTextField();
+    Color backgroundColor;
 
-   JButton b1 = new JButton();
-   JButton b2 = new JButton();
-   JButton b3 = new JButton();
-   JLabel l1 = new JLabel("Round 1");
-   JButton b4 = new JButton();
-   JButton b5 = new JButton();
-   JButton b6 = new JButton();
+    JButton exitGame = new JButton("Avsluta");
+    private final Session session;
+    List<Boolean> one;
+    List<Boolean> two;
 
-   JButton b7 = new JButton();
-   JButton b8 = new JButton();
-   JButton b9 = new JButton();
-   JLabel l2 = new JLabel("Round 2");
-   JButton b10 = new JButton();
-   JButton b11 = new JButton();
-   JButton b12 = new JButton();
+    public ResultPanel(ActionListener al, Session session) {
+        exitGame.addActionListener(al);
+        this.session = session;
+    }
 
-   JButton b13 = new JButton();
-   JButton b14 = new JButton();
-   JButton b15 = new JButton();
-   JLabel l3 = new JLabel("Round 3");
-   JButton b16 = new JButton();
-   JButton b17 = new JButton();
-   JButton b18 = new JButton();
+    @Override
+    public void setPanel() {
+        JButton[] bplayer1 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
+        JButton[] bplayer2 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
+        for (int i = 0; i < bplayer1.length; i++) {
+            bplayer1[i] = new JButton();
+            bplayer2[i] = new JButton();
+        }
+        if (session.isWhichPlayer()) {
+            one = session.getResultPlayer1();
+            two = session.getResultPlayer2();
+        } else {
+            two = session.getResultPlayer1();
+            one = session.getResultPlayer2();
+        }
 
-   JButton b19 = new JButton();
-   JButton b20 = new JButton();
-   JButton b21 = new JButton();
-   JLabel l4 = new JLabel("Round 4");
-   JButton b22 = new JButton();
-   JButton b23 = new JButton();
-   JButton b24 = new JButton();
-   Color backgroundColor;
+        for (int i = 0; i < one.size(); i++) {
+            if (one.get(i)) {
+                bplayer1[i].setBackground(Color.GREEN);
+            } else {
+                bplayer1[i].setBackground(Color.RED);
+            }
+        }
+        for (int i = 0; i < two.size(); i++) {
+            if (two.get(i)) {
+                bplayer2[i].setBackground(Color.GREEN);
+            } else {
+                bplayer2[i].setBackground(Color.RED);
+            }
+        }
+        if (session.isWhichPlayer()) {
+            f1.setText(session.getResultPlayer1().stream().filter(current -> current.equals(true)).count() + " - " + session.getResultPlayer2().stream().filter(current -> current.equals(true)).count());
+        } else {
+            f1.setText(session.getResultPlayer2().stream().filter(current -> current.equals(true)).count() + " - " + session.getResultPlayer1().stream().filter(current -> current.equals(true)).count());
+        }
+        setBorder(BorderFactory.createLineBorder((new Color(175, 175, 200)), 10));
+        setLayout(new BorderLayout());
+        p1.add(v1);
+        p1.add(f1);
+        f1.setEditable(false);
+        p1.add(v2);
+        add("North", p1);
+        p2.setLayout(new FlowLayout());
+        p2.setLayout(new GridLayout(session.getNumberOfRounds(), session.getNumberOfQuestions() * 2 + 1));
+        int player1 = 0;
+        int player2 = 0;
+        for (int i = 0; i < session.getNumberOfRounds(); i++) {
+            for (int j = 0; j < session.getNumberOfQuestions(); j++) {
+                p2.add(bplayer1[player1++]);
+            }
+            p2.add(new Label("Round " + (i+1), Label.CENTER));
+            for (int j = 0; j < session.getNumberOfQuestions(); j++) {
+                p2.add(bplayer2[player2++]);
+            }
+        }
 
-   JButton exitGame = new JButton("Avsluta");
+        add(p2);
 
-   public ResultPanel(ActionListener al) {
-      exitGame.addActionListener(al);
-   }
+        p3.add(exitGame);
+        add("South", p3);
 
-   public void setPanel() {
-       setBorder(BorderFactory.createLineBorder((new Color(175, 175, 200)), 10));
-       setLayout(new BorderLayout());
-       p1.add(v1);
-       p1.add(f1);
-       f1.setEditable(false);
-       p1.add(v2);
-       add("North", p1);
-       p2.setLayout(new FlowLayout());
-       p2.setLayout(new GridLayout(4, 7));
+    }
 
-       p2.add(b1);
-       p2.add(b2);
-       p2.add(b3);
-       p2.add(l1);
-       p2.add(b4);
-       p2.add(b5);
-       p2.add(b6);
-       add(p2);
-
-       p2.add(b7);
-       p2.add(b8);
-       p2.add(b9);
-       p2.add(l2);
-       p2.add(b10);
-       p2.add(b11);
-       p2.add(b12);
-       add(p2);
-
-       p2.add(b13);
-       p2.add(b14);
-       p2.add(b15);
-       p2.add(l3);
-       p2.add(b16);
-       p2.add(b17);
-       p2.add(b18);
-       add(p2);
-
-       p2.add(b19);
-       p2.add(b20);
-       p2.add(b21);
-       p2.add(l4);
-       p2.add(b22);
-       p2.add(b23);
-       p2.add(b24);
-       add(p2);
-
-       p3.add(exitGame);
-       add("South", p3);
-       
-
-   }
-   public void setColor(Color backgroundColor){
-       this.backgroundColor = backgroundColor;
-   }
+    public void setColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
 
 }
