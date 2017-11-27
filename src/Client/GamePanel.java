@@ -23,19 +23,7 @@ class GamePanel extends Client implements ActionListener, IPanel {
 
     Color standardColor = new Color(238, 238, 238);
     Color backgroundColor = new Color(175, 175, 200);
-<<<<<<< HEAD
-    int correctAnswer;
-    JFrame mastern;
-    public GamePanel() {
-        this.mastern = new JFrame();
-        this.csp = new ColorSettingPanel(this);
-        this.sp = new StartPanel(this);
 
-        this.qp = new QuestionPanel(ma);
-        this.rp = new ResultPanel(this);
-        this.cp = new CategoryPanel(this);
-
-=======
 
     @Override
     public void setGameStageGUI() {
@@ -84,14 +72,18 @@ class GamePanel extends Client implements ActionListener, IPanel {
                 questionPanel.setQuestions(questions.remove());
                 break;
             case GAMECOMPLETE:
-                System.exit(0);
+                panelQueue = new LinkedList<>();
+                panelQueue.add(new  ResultPanel(this));
+                
+                mastern.add(currentPanel = resultPanel = (ResultPanel) (panelQueue.remove()));
+                resultPanel.setPanel();
                 break;
             default:
                 writeObject();
         }
         mastern.revalidate();
         mastern.repaint();
->>>>>>> Jakobgui
+
     }
 
     @Override
@@ -102,14 +94,8 @@ class GamePanel extends Client implements ActionListener, IPanel {
         mastern.setVisible(true);
         mastern.setLocationRelativeTo(null);
         mastern.setDefaultCloseOperation(3);
-<<<<<<< HEAD
-        mastern.add(sp);
-        sp.setPanel();
-//  mastern.add(rp);
-//        rp.setPanel();
-=======
 
->>>>>>> Jakobgui
+
         mastern.revalidate();
         mastern.repaint();
 
@@ -117,7 +103,7 @@ class GamePanel extends Client implements ActionListener, IPanel {
         startPanel = new StartPanel(this);
         categoryPanel = new CategoryPanel(this);
         questionPanel = new QuestionPanel(ma);
-        resultPanel = new ResultPanel();
+        resultPanel = new ResultPanel(this);
 
     }
 
@@ -247,6 +233,8 @@ class GamePanel extends Client implements ActionListener, IPanel {
             panelList.forEach(p -> p.setColor(backgroundColor));
         } else if (ae.getSource() == colorSetterPanel.goBack) {
         
+        } else if (ae.getSource() == resultPanel.exitGame) {
+            
         }
         mastern.revalidate();
         mastern.repaint();
