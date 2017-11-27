@@ -79,6 +79,11 @@ public class Session implements Serializable {
 
     //--------------------------------------------------------------------------
     //questions and subjects start
+
+    public int getNumberOfQuestions() {
+        return numberOfQuestions;
+    }
+
     public void setAllSubjects(List<String> allSubjects) {
         this.allSubjects = allSubjects;
     }
@@ -92,7 +97,7 @@ public class Session implements Serializable {
     }
 
     public Queue<List<String>> getQuestions(String chosenSubject) {
-        return questionsThisRound = (Queue<List<String>>)ListManger.getSessionQuestions(allQuestions, chosenSubject, numberOfQuestions);
+        return (Queue<List<String>>)ListManger.getSessionQuestions(allQuestions, chosenSubject, numberOfQuestions);
     }
     
     public void setQuestionsThisRound(Queue<List<String>> roundQuestions) {

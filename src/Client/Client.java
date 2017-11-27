@@ -39,7 +39,6 @@ abstract class Client implements IPanel{
             serverInput = new ObjectInputStream(socketToServer.getInputStream());
             serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
 
-            clientprotocol:
             while ((session = (Session) serverInput.readObject()) != null) {
                 setGameStageGUI();
             }
@@ -63,8 +62,6 @@ abstract class Client implements IPanel{
 
     public void setGameStageGUI() {
     }
-
-    ;
     
     
     private void checkAnswers() {

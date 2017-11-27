@@ -16,6 +16,7 @@ class QuestionPanel extends JPanel implements IPanel {
     Label answer2 = new Label("", Label.CENTER);
     Label answer3 = new Label("", Label.CENTER);
     Label answer4 = new Label("", Label.CENTER);
+    String correctAnswer = "";
     JPanel panel = new JPanel();
     JPanel panel2 = new JPanel();
     Color backgroundColor = new Color(175, 175, 200);   
@@ -28,6 +29,7 @@ class QuestionPanel extends JPanel implements IPanel {
         answer2.addMouseListener(ma);
         answer3.addMouseListener(ma);
         answer4.addMouseListener(ma);
+        currentQuestion = new ArrayList<>();
         
     }
 
@@ -57,11 +59,16 @@ class QuestionPanel extends JPanel implements IPanel {
         repaint();
     }
     public void setQuestions(List<String> question){
-        currentQuestion = question;
-        this.question.setText(currentQuestion.get(1));
-        answer1.setText(currentQuestion.get(2));
-        answer2.setText(currentQuestion.get(3));
-        answer3.setText(currentQuestion.get(4));
-        answer4.setText(currentQuestion.get(5));
+        
+        this.question.setText(question.get(1));
+        correctAnswer = question.get(2);
+        for (int i = 2; i < question.size(); i++) {
+            currentQuestion.add(question.get(i));
+        }
+        Collections.shuffle(currentQuestion);
+        answer1.setText(currentQuestion.get(0));
+        answer2.setText(currentQuestion.get(1));
+        answer3.setText(currentQuestion.get(2));
+        answer4.setText(currentQuestion.get(3));
     }
 }

@@ -22,7 +22,7 @@ class Protocol {
         c = new Config();
         numberOfRounds = c.getNumberOfRounds();
         numberOfSubjects = 3;
-        numberOfQuestions = 3;
+        numberOfQuestions = c.getQuestionsPerRound();
 
         qr = new QuestionReader();
         allSubjects = qr.getSubjects();
@@ -42,6 +42,11 @@ class Protocol {
                 session.setAllQuestions(allQuestions);
 
                 session.setGameState(FIRST);
+                session.changePlayer();
+                break;
+            case FIRST:
+                session.addToRoundCounter();
+                session.setGameState(MIDDLE);
                 session.changePlayer();
                 break;
             case MIDDLE:
