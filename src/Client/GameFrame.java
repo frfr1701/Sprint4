@@ -8,6 +8,8 @@ import javax.swing.*;
 class GameFrame extends Client implements ActionListener {
 
     private final Color standardColor;
+    private final Color redColor;
+    private final Color greenColor;
     private final JFrame mastern;
     private CategoryPanel categoryPanel;
 
@@ -15,11 +17,18 @@ class GameFrame extends Client implements ActionListener {
     private QuestionPanel questionPanel;
     private ResultPanel resultPanel;
     private JPanel currentPanel;
+    
 
     protected GameFrame() {
         mastern = new JFrame();
+<<<<<<< HEAD
         standardColor = new Color(238, 238, 238);
         mastern.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+=======
+        standardColor = new Color(238, 238, 238); 
+        redColor = new Color(210, 45, 45);
+        greenColor = new Color(131, 202, 57);
+>>>>>>> färgläggning
     }
 
     @Override
@@ -151,4 +160,19 @@ class GameFrame extends Client implements ActionListener {
         }
         RevalidateRepaint();
     }
+<<<<<<< HEAD
+=======
+
+    private void buttonColor(Label answer) {
+        if (answer.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
+            session.giveAnswerResultToPlayerList(true);
+            answer.setBackground(greenColor);
+        } else {
+            session.giveAnswerResultToPlayerList(false);
+            answer.setBackground(redColor);
+        }
+     
+    }
+
+>>>>>>> färgläggning
 }
