@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 import javax.swing.*;
 
 class QuestionPanel extends JPanel {
