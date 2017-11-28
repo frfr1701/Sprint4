@@ -77,10 +77,8 @@ class QuestionPanel extends JPanel {
             this.question.setText(question.get(1));
         }
         
-        currentQuestion = question.stream().filter(index -> index.indexOf(index)>1).collect(Collectors.toList());
-//        for (int i = 2; i < question.size(); i++) {
-//            currentQuestion.add(question.get(i));
-//        }
+        currentQuestion = question.stream().filter(index -> question.indexOf(index)>1).collect(Collectors.toList());
+
         Collections.shuffle(currentQuestion);
         answer1.setText(currentQuestion.get(0));
         answer2.setText(currentQuestion.get(1));
