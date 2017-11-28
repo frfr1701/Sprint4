@@ -10,27 +10,15 @@ class GameFrame extends Client implements ActionListener {
     private final Color standardColor;
     private final JFrame mastern;
     private CategoryPanel categoryPanel;
-<<<<<<< HEAD
+
     private QuestionPanel questionPanel;
     private ResultPanel resultPanel;
     private JPanel currentPanel;
-
-
-=======
-
-    
-    private QuestionPanel questionPanel;
-    private ResultPanel resultPanel;
-    private JPanel currentPanel;
->>>>>>> 7d9be279cf12f75c7a3624affdd3a6b967132c5a
 
     protected GameFrame() {
         mastern = new JFrame();
         standardColor = new Color(238, 238, 238);
-<<<<<<< HEAD
-=======
         mastern.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
->>>>>>> 7d9be279cf12f75c7a3624affdd3a6b967132c5a
     }
 
     @Override

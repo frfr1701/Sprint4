@@ -9,25 +9,6 @@ import java.util.List;
 public class ResultPanel extends JPanel {
 
     private final Session session;
-<<<<<<< HEAD
-    JPanel p1 = new JPanel();
-    JPanel p2 = new JPanel();
-    JPanel p3 = new JPanel();
-
-    JLabel v1 = new JLabel("                    Du");
-    JLabel v2 = new JLabel("Motståndare");
-    JTextField f1 = new JTextField();
-    
-    JButton exitGame = new JButton("Avsluta");
-    List<Boolean> one;
-    List<Boolean> two;
-    JButton[] bplayer1;
-    JButton[] bplayer2;
-
-    protected ResultPanel(ActionListener al, Session session) {
-        this.session = session;
-        exitGame.addActionListener(al);
-=======
     private final JPanel p1;
     private final JPanel p2;
     private final JPanel p3;
@@ -54,7 +35,6 @@ public class ResultPanel extends JPanel {
         v2 = new JLabel("Him");
         f1 = new JTextField();
         exitGame = new JButton("Avsluta");
->>>>>>> 7d9be279cf12f75c7a3624affdd3a6b967132c5a
         bplayer1 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
         bplayer2 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
     }
