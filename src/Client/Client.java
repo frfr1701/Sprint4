@@ -4,7 +4,6 @@ import Domain.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import javax.swing.JPanel;
 
 abstract class Client {
 
