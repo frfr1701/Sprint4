@@ -4,6 +4,7 @@ import Domain.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import javax.swing.JPanel;
 
 abstract class Client {
 
@@ -42,21 +43,26 @@ abstract class Client {
                         initSubjectPanel();
                         break;
                     case MIDDLE:
+                        removeCurrentPanel();
                         addQuestionPanelsToQueue();
                         addCategoryPanelToQueue();
                         addQuestionPanelsToQueue();
                         initQuestionPanel();
                         break;
                     case FINAL:
+                        removeCurrentPanel();
                         addQuestionPanelsToQueue();
                         initQuestionPanel();
                         break;
                     case GAMECOMPLETE:
+                        removeCurrentPanel();
                         addResultPanelToQueue();
                         initResultPanel();
                         break;
                     default:
                         writeObject();
+                        addResultPanelToQueue();
+                        initResultPanel();
                 }
                 RevalidateRepaint();
             }
@@ -92,4 +98,6 @@ abstract class Client {
     protected abstract void RevalidateRepaint();
 
     protected abstract void setPanel();
+    
+    protected abstract void removeCurrentPanel(); 
 }

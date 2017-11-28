@@ -5,26 +5,19 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-class GameFrame extends Client implements ActionListener{
+class GameFrame extends Client implements ActionListener {
 
-<<<<<<< HEAD
-    Queue panelQueue;
-    JFrame mastern;
-    ColorSettingPanel colorSetterPanel;
-    StartPanel startPanel;
-    CategoryPanel categoryPanel;
-    QuestionPanel questionPanel;
-    ResultPanel resultPanel;
-=======
     private final Color standardColor;
     private final JFrame mastern;
     private CategoryPanel categoryPanel;
+
+    @Override
+    protected void removeCurrentPanel() {
+        mastern.remove(currentPanel);
+    }
     private QuestionPanel questionPanel;
     private ResultPanel resultPanel;
     private JPanel currentPanel;
-
->>>>>>> Jakobtihi
-
 
     protected GameFrame() {
         mastern = new JFrame();
@@ -45,38 +38,7 @@ class GameFrame extends Client implements ActionListener{
     }
 
     @Override
-<<<<<<< HEAD
-    public void setGameStageGUI() {
-        panelQueue = new LinkedList<>();
-        switch (state = session.getGameState()) {
-            case FIRST:
-                panelQueue.add(new CategoryPanel(this));
-                addQuestionPanelToQueue();
-                initFirstSubjectPanel();
-                session.setGameState(MIDDLE);
-                panelQueue.add(new ResultPanel(this,session));
-                break;
-            case MIDDLE:
-                addQuestionPanelToQueue();
-                panelQueue.add(new CategoryPanel(this));
-                addQuestionPanelToQueue();
-                initFirstQuestionPanel();
-                break;
-            case FINAL:
-                addQuestionPanelToQueue();
-                initFirstQuestionPanel();
-                break;
-            case GAMECOMPLETE:
-                initResultPanel();
-                break;
-            case LOADGAME:
-                writeObject();   
-                initResultPanel();
-                break;
-        }
-=======
     protected void RevalidateRepaint() {
->>>>>>> Jakobtihi
         mastern.revalidate();
         mastern.repaint();
     }
@@ -148,20 +110,11 @@ class GameFrame extends Client implements ActionListener{
                 } else if (e.getSource() == questionPanel.answer4) {
                     questionPanel.answer4.setBackground(standardColor);
                 }
-
-<<<<<<< HEAD
-            } else if (session.getGameState() == MIDDLE && panelQueue.size() > session.getNumberOfQuestions()) {
-                subjects = session.getSubjects();
-                mastern.add(currentPanel = categoryPanel = (CategoryPanel) (panelQueue.remove()));
-                categoryPanel.setPanel();
-                categoryPanel.setSubjects(subjects);
-            }else {
-=======
             } else if (panelQueue.size() > session.getNumberOfQuestions()) {
                 initSubjectPanel();
             } else {
->>>>>>> Jakobtihi
                 writeObject();
+                addResultPanelToQueue();
                 initResultPanel();
             }
             RevalidateRepaint();
@@ -195,11 +148,4 @@ class GameFrame extends Client implements ActionListener{
             answer.setBackground(Color.RED);
         }
     }
-
-<<<<<<< HEAD
-    @Override
-    public void setColor(Color backgroundColor) {
-    }
-=======
->>>>>>> Jakobtihi
 }
