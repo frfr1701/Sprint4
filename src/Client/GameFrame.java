@@ -5,96 +5,80 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-class GameFrame extends Client implements ActionListener, IPanel {
+class GameFrame extends Client implements ActionListener{
 
-    JFrame mastern;
+    private final Color standardColor;
+    private final JFrame mastern;
+    private CategoryPanel categoryPanel;
+    private QuestionPanel questionPanel;
+    private ResultPanel resultPanel;
+    private JPanel currentPanel;
 
-    CategoryPanel categoryPanel;
-    QuestionPanel questionPanel;
-    ResultPanel resultPanel;
 
-    JPanel currentPanel;
-    Queue panelQueue;
 
-    Color standardColor = new Color(238, 238, 238);
-
-    @Override
-    public void setGameStageGUI() {
-        panelQueue = new LinkedList<>();
-        switch (state = session.getGameState()) {
-            case FIRST:
-                panelQueue.add(new CategoryPanel(this));
-                addQuestionPanelToQueue();
-
-                initFirstSubjectPanel();
-                break;
-            case MIDDLE:
-                addQuestionPanelToQueue();
-                panelQueue.add(new CategoryPanel(this));
-                addQuestionPanelToQueue();
-
-                initFirstQuestionPanel();
-                break;
-            case FINAL:
-                addQuestionPanelToQueue();
-
-                initFirstQuestionPanel();
-                break;
-            case GAMECOMPLETE:
-                initResultPanel();
-                break;
-            default:
-                writeObject();
-        }
-        mastern.revalidate();
-        mastern.repaint();
-
+    protected GameFrame() {
+        mastern = new JFrame();
+        standardColor = new Color(238, 238, 238);
     }
 
-    private void addQuestionPanelToQueue() {
+    @Override
+    protected void setPanel() {
+        IanWasHere();
+        mastern.setSize(450, 550);
+        mastern.setVisible(true);
+        mastern.setLocationRelativeTo(null);
+        RevalidateRepaint();
+    }
+
+    private void IanWasHere() {
+        mastern.setTitle("VÄRLDENS BÄSTA QUIZ!");
+    }
+
+    @Override
+    protected void RevalidateRepaint() {
+        mastern.revalidate();
+        mastern.repaint();
+    }
+
+    @Override
+    protected void addQuestionPanelsToQueue() {
         for (int i = 0; i < session.getNumberOfQuestions(); i++) {
             panelQueue.add(new QuestionPanel(ma));
         }
     }
 
-    private void initFirstSubjectPanel() {
+    @Override
+    protected void addCategoryPanelToQueue() {
+        panelQueue.add(new CategoryPanel(this));
+    }
+
+    @Override
+    protected void addResultPanelToQueue() {
+        panelQueue.add(new ResultPanel(this, session));
+    }
+
+    @Override
+    protected void initSubjectPanel() {
         mastern.add(currentPanel = categoryPanel = (CategoryPanel) (panelQueue.remove()));
         subjects = session.getSubjects();
         categoryPanel.setPanel();
         categoryPanel.setSubjects(subjects);
     }
 
-    private void initFirstQuestionPanel() {
+    @Override
+    protected void initQuestionPanel() {
         mastern.add(currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove()));
-        questionPanel.setPanel();
-        questions = session.getQuestionsThisRound();
         questionPanel.setQuestions(questions.remove());
+        questionPanel.setPanel();
     }
 
-    private void initResultPanel() {
-        panelQueue.add(new ResultPanel(this, session));
+    @Override
+    protected void initResultPanel() {
         mastern.add(currentPanel = resultPanel = (ResultPanel) (panelQueue.remove()));
         resultPanel.setPanel();
     }
 
-    @Override
-    public void setPanel() {
-        mastern = new JFrame();
-
-        mastern.setTitle("VÄRLDENS BÄSTA QUIZ!");
-        mastern.setSize(450, 550);
-        mastern.setVisible(true);
-        mastern.setLocationRelativeTo(null);
-        mastern.revalidate();
-        mastern.repaint();
-
-        categoryPanel = new CategoryPanel(this);
-        questionPanel = new QuestionPanel(ma);
-        resultPanel = new ResultPanel(this, session);
-
-    }
-
-    MouseListener ma = new MouseAdapter() {
+    private final MouseListener ma = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
             if (e.getSource() == questionPanel.answer1) {
@@ -106,18 +90,14 @@ class GameFrame extends Client implements ActionListener, IPanel {
             } else if (e.getSource() == questionPanel.answer4) {
                 buttonColor(questionPanel.answer4);
             }
-            mastern.revalidate();
-            mastern.repaint();
+            RevalidateRepaint();
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
             mastern.remove(currentPanel);
             if (questions.size() > 0) {
-                mastern.add(currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove()));
-                questionPanel.setPanel();
-                questionPanel.setQuestions(questions.remove());
-
+                initQuestionPanel();
                 if (e.getSource() == questionPanel.answer1) {
                     questionPanel.answer1.setBackground(standardColor);
                 } else if (e.getSource() == questionPanel.answer2) {
@@ -129,51 +109,40 @@ class GameFrame extends Client implements ActionListener, IPanel {
                 }
 
             } else if (panelQueue.size() > session.getNumberOfQuestions()) {
-                mastern.add(currentPanel = categoryPanel = (CategoryPanel) (panelQueue.remove()));
-                subjects = session.getSubjects();
-                categoryPanel.setPanel();
-                categoryPanel.setSubjects(subjects);
-
+                initSubjectPanel();
             } else {
                 writeObject();
             }
-
-            mastern.revalidate();
-            mastern.repaint();
-        }
-
-        private void buttonColor(Label answer) {
-            if (answer.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
-                session.giveAnswerResultToPlayerList(true);
-                answer.setBackground(Color.GREEN);
-            } else {
-                session.giveAnswerResultToPlayerList(false);
-                answer.setBackground(Color.RED);
-            }
+            RevalidateRepaint();
         }
     };
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == categoryPanel.exitGame || ae.getSource() == resultPanel.exitGame) {
-            System.exit(0);
-        } else if (ae.getSource() == categoryPanel.category1) {
-            chooseCategory(categoryPanel.category1);
-        } else if (ae.getSource() == categoryPanel.category2) {
-            chooseCategory(categoryPanel.category2);
-        } else if (ae.getSource() == categoryPanel.category3) {
-            chooseCategory(categoryPanel.category3);
-        }
-        mastern.revalidate();
-        mastern.repaint();
-    }
-
-    void chooseCategory(JButton category) {
         mastern.remove(currentPanel);
-        mastern.add(currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove()));
-
-        session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(category.getText())));
-        questionPanel.setQuestions(questions.remove());
-        questionPanel.setPanel();
+        if (ae.getSource() == categoryPanel.category1) {
+            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category1.getText())));
+            initQuestionPanel();
+        } else if (ae.getSource() == categoryPanel.category2) {
+            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category1.getText())));
+            initQuestionPanel();
+        } else if (ae.getSource() == categoryPanel.category3) {
+            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category1.getText())));
+            initQuestionPanel();
+        } else if (ae.getSource() == categoryPanel.exitGame || ae.getSource() == resultPanel.exitGame) {
+            System.exit(0);
+        }
+        RevalidateRepaint();
     }
+
+    private void buttonColor(Label answer) {
+        if (answer.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
+            session.giveAnswerResultToPlayerList(true);
+            answer.setBackground(Color.GREEN);
+        } else {
+            session.giveAnswerResultToPlayerList(false);
+            answer.setBackground(Color.RED);
+        }
+    }
+
 }
