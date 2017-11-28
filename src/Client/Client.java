@@ -68,7 +68,11 @@ abstract class Client {
         } catch (UnknownHostException e) {
             System.out.println("Don't know about host " + HOSTNAMNE);
         } catch (IOException e) {
-            System.out.println("Couldn't get I/O for the connection to " + HOSTNAMNE);
+            if(session.getGameState()==State.GAMECOMPLETE){
+                System.out.println("Challenge ended, both disconnected from the server");
+            }else{
+               System.out.println("Couldn't get I/O for the connection to " + HOSTNAMNE); 
+            }
         } catch (ClassNotFoundException e) {
             System.out.println("Couldn't find class " + HOSTNAMNE);
         }
