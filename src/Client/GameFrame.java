@@ -10,7 +10,6 @@ import javax.swing.*;
 class GameFrame extends Client implements ActionListener, IPanel {
 
     Queue panelQueue;
-
     JFrame mastern;
     ColorSettingPanel colorSetterPanel;
     StartPanel startPanel;
@@ -35,6 +34,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
                 addQuestionPanelToQueue();
                 initFirstSubjectPanel();
                 session.setGameState(MIDDLE);
+                panelQueue.add(new ResultPanel(this,session));
                 break;
             case MIDDLE:
                 addQuestionPanelToQueue();
@@ -49,12 +49,13 @@ class GameFrame extends Client implements ActionListener, IPanel {
             case GAMECOMPLETE:
                 initResultPanel();
                 break;
-            default:
-                writeObject();
+            case LOADGAME:
+                writeObject();   
+                initResultPanel();
+                break;
         }
         mastern.revalidate();
         mastern.repaint();
-
     }
 
     private void addQuestionPanelToQueue() {
@@ -142,9 +143,9 @@ class GameFrame extends Client implements ActionListener, IPanel {
                 mastern.add(currentPanel = categoryPanel = (CategoryPanel) (panelQueue.remove()));
                 categoryPanel.setPanel();
                 categoryPanel.setSubjects(subjects);
-
-            } else {
+            }else {
                 writeObject();
+                initResultPanel();
             }
 
             mastern.revalidate();
@@ -207,12 +208,4 @@ class GameFrame extends Client implements ActionListener, IPanel {
     @Override
     public void setColor(Color backgroundColor) {
     }
-    
-//    private void checkAnswers() {
-//        questions.stream()
-//                .filter((question) -> (question.get(2).equalsIgnoreCase(answers.remove())))
-//                .forEach((correctAnswer) -> {
-//                    session.givePointToPlayer();
-//                });
-//    }
 }
