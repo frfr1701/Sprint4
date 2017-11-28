@@ -3,10 +3,9 @@ package Client;
 import Domain.*;
 import java.io.*;
 import java.net.*;
-
 import java.util.*;
 
-abstract class Client implements IPanel{
+abstract class Client {
 
     public static void main(String[] args) throws IOException {
         Client start = new GameFrame();
@@ -15,31 +14,52 @@ abstract class Client implements IPanel{
     private static final int PORTNUMBER = 44444;
     private static final String HOSTNAMNE = "127.0.0.1";
 
-    private ObjectInputStream serverInput;
     private Socket socketToServer;
-    ObjectOutputStream serverOutput;
+    private ObjectInputStream serverInput;
+    private ObjectOutputStream serverOutput;
 
-    Session session;
-    State state;
+    protected Session session;
+    protected State state;
 
-    List<String> subjects;
-    Queue<List<String>> questions;
-    Queue<String> answers;
-
-    public Client() {
-        setPanel();
-    }
+    protected List<String> subjects;
+    protected Queue<List<String>> questions;
+    protected Queue<String> answers;
+    protected Queue panelQueue;
 
     private void Client() {
+        setPanel();
         try {
             socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
             serverInput = new ObjectInputStream(socketToServer.getInputStream());
             serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
-            
             while ((session = (Session) serverInput.readObject()) != null) {
-                setGameStageGUI();
+                panelQueue = new LinkedList<>();
+                questions = session.getQuestionsThisRound();
+                switch (state = session.getGameState()) {
+                    case FIRST:
+                        addCategoryPanelToQueue();
+                        addQuestionPanelsToQueue();
+                        initSubjectPanel();
+                        break;
+                    case MIDDLE:
+                        addQuestionPanelsToQueue();
+                        addCategoryPanelToQueue();
+                        addQuestionPanelsToQueue();
+                        initQuestionPanel();
+                        break;
+                    case FINAL:
+                        addQuestionPanelsToQueue();
+                        initQuestionPanel();
+                        break;
+                    case GAMECOMPLETE:
+                        addResultPanelToQueue();
+                        initResultPanel();
+                        break;
+                    default:
+                        writeObject();
+                }
+                RevalidateRepaint();
             }
-
         } catch (UnknownHostException e) {
             System.out.println("Don't know about host " + HOSTNAMNE);
         } catch (IOException e) {
@@ -49,7 +69,7 @@ abstract class Client implements IPanel{
         }
     }
 
-    void writeObject() {
+    protected void writeObject() {
         try {
             serverOutput.writeObject(session);
         } catch (IOException ex) {
@@ -57,5 +77,19 @@ abstract class Client implements IPanel{
         }
     }
 
-    public abstract void setGameStageGUI();
+    protected abstract void addQuestionPanelsToQueue();
+
+    protected abstract void addCategoryPanelToQueue();
+
+    protected abstract void addResultPanelToQueue();
+
+    protected abstract void initSubjectPanel();
+
+    protected abstract void initQuestionPanel();
+
+    protected abstract void initResultPanel();
+
+    protected abstract void RevalidateRepaint();
+
+    protected abstract void setPanel();
 }

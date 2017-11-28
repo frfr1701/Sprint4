@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import java.util.*;
 import javax.swing.*;
 
-class QuestionPanel extends JPanel implements IPanel {
+class QuestionPanel extends JPanel {
     
     JLabel question = new JLabel("", JLabel.CENTER);
     Label answer1 = new Label("", Label.CENTER);
@@ -23,7 +23,7 @@ class QuestionPanel extends JPanel implements IPanel {
     
     java.util.List<String> currentQuestion;
 
-    public QuestionPanel(MouseListener ma) {
+    protected QuestionPanel(MouseListener ma) {
 
         answer1.addMouseListener(ma);
         answer2.addMouseListener(ma);
@@ -33,8 +33,7 @@ class QuestionPanel extends JPanel implements IPanel {
         
     }
 
-    @Override
-    public void setPanel() {
+    protected void setPanel() {
         question.setPreferredSize(new Dimension(100, 200));
         question.setBackground(Color.WHITE);
         question.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -57,14 +56,7 @@ class QuestionPanel extends JPanel implements IPanel {
         setBorder(BorderFactory.createLineBorder(Color.BLUE, 20));
 
     }
-    @Override
-    public void setColor(Color backgroundColor){
-        this.backgroundColor = backgroundColor;
-        setPanel();
-        repaint();
-    }
-    public void setQuestions(List<String> question){
-        
+    protected void setQuestions(List<String> question){
         this.question.setText(question.get(1));
         correctAnswer = question.get(2);
         for (int i = 2; i < question.size(); i++) {

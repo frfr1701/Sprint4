@@ -29,7 +29,6 @@ class Protocol {
         allQuestions = qr.getQuestions();
     }
 
-
     protected Session getInitialSession() {
         return new Session(numberOfSubjects, numberOfQuestions, numberOfRounds);
     }
@@ -40,6 +39,10 @@ class Protocol {
             case LOADGAME:
                 session.setAllSubjects(allSubjects);
                 session.setAllQuestions(allQuestions);
+<<<<<<< HEAD
+=======
+
+>>>>>>> Jakobtihi
                 session.setGameState(FIRST);
                 session.changePlayer();
                 break;
@@ -49,13 +52,13 @@ class Protocol {
                 session.changePlayer();
                 break;
             case MIDDLE:
-                
+
                 if (session.isFinalRound()) {
                     session.setGameState(FINAL);
                     session.changePlayer();
                     break;
                 }
-                
+
                 session.addToRoundCounter();
                 session.changePlayer();
                 break;
