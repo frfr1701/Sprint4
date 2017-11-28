@@ -54,6 +54,8 @@ public class ResultPanel extends JPanel {
             bplayer2[i] = new JButton();
             bplayer1[i].setBackground(backgroundColor);
             bplayer2[i].setBackground(backgroundColor);
+            bplayer1[i].setOpaque(true);
+            bplayer2[i].setOpaque(true);
         }
         if (session.isWhichPlayer()) {
             one = session.getResultPlayer1();
