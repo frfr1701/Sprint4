@@ -1,8 +1,6 @@
 package Client;
 
-import static Domain.State.MIDDLE;
-import java.awt.Color;
-import java.awt.Label;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
@@ -87,9 +85,13 @@ class GameFrame extends Client implements ActionListener, IPanel {
         mastern.setSize(450, 550);
         mastern.setVisible(true);
         mastern.setLocationRelativeTo(null);
-        mastern.setDefaultCloseOperation(3);
         mastern.revalidate();
         mastern.repaint();
+
+        categoryPanel = new CategoryPanel(this);
+        questionPanel = new QuestionPanel(ma);
+        resultPanel = new ResultPanel(this, session);
+
     }
 
     MouseListener ma = new MouseAdapter() {
@@ -126,7 +128,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
                     questionPanel.answer4.setBackground(standardColor);
                 }
 
-            } else if (session.getGameState() == MIDDLE && panelQueue.size() > session.getNumberOfQuestions()) {
+            } else if (panelQueue.size() > session.getNumberOfQuestions()) {
                 mastern.add(currentPanel = categoryPanel = (CategoryPanel) (panelQueue.remove()));
                 subjects = session.getSubjects();
                 categoryPanel.setPanel();
