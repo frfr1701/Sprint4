@@ -12,17 +12,18 @@ public class ResultPanel extends JPanel{
     JPanel p1 = new JPanel();
     JPanel p2 = new JPanel();
     JPanel p3 = new JPanel();
-
-    JLabel v1 = new JLabel("                    Du");
-    JLabel v2 = new JLabel("Motståndare");
+    JLabel v1 = new JLabel("Jag                                  ");
+    JLabel v2 = new JLabel("                     Motståndare");
     JTextField f1 = new JTextField();
-    
+    Color backgroundColor = new Color(20, 134, 186);
+    Color redColor = new Color(210,45,45);
+    Color greenColor = new Color(131, 202, 57);
     JButton exitGame = new JButton("Avsluta");
     List<Boolean> one;
     List<Boolean> two;
     JButton[] bplayer1;
     JButton[] bplayer2;
-
+ 
     protected ResultPanel(ActionListener al, Session session) {
         this.session = session;
         exitGame.addActionListener(al);
@@ -31,14 +32,14 @@ public class ResultPanel extends JPanel{
     }
 
     protected void setPanel() {
-        setBorder(BorderFactory.createLineBorder(Color.BLUE, 10));
+        setBorder(BorderFactory.createLineBorder(backgroundColor, 10));
         setLayout(new BorderLayout());
 
         for (int i = 0; i < bplayer1.length; i++) {
             bplayer1[i] = new JButton();
             bplayer2[i] = new JButton();
-            bplayer1[i].setBackground(Color.BLUE);
-            bplayer2[i].setBackground(Color.BLUE);
+            bplayer1[i].setBackground(backgroundColor);
+            bplayer2[i].setBackground(backgroundColor);
         }
         if (session.isWhichPlayer()) {
             one = session.getResultPlayer1();
@@ -54,36 +55,41 @@ public class ResultPanel extends JPanel{
 
         for (int i = 0; i < one.size(); i++) {
             if (one.get(i)) {
-                bplayer1[i].setBackground(Color.GREEN);
+                bplayer1[i].setBackground(greenColor);
             } else {
-                bplayer1[i].setBackground(Color.RED);
+                bplayer1[i].setBackground(redColor);
             }
         }
         for (int i = 0; i < two.size(); i++) {
             if (two.get(i)) {
-                bplayer2[i].setBackground(Color.GREEN);
+                bplayer2[i].setBackground(greenColor);
             } else {
-                bplayer2[i].setBackground(Color.RED);
+                bplayer2[i].setBackground(redColor);
             }
         }
+       
+        v1.setForeground(Color.white);
+        v2.setForeground(Color.white);
         p1.add(v1);
         p1.add(f1);
         f1.setEditable(false);
         p1.add(v2);
-        p1.setBackground(Color.BLUE);
+        p1.setBackground(backgroundColor);
+        p1.setBorder(BorderFactory.createLineBorder(backgroundColor, 20));
         add("North", p1);
 
         p2.setLayout(new FlowLayout());
         p2.setLayout(new GridLayout(session.getNumberOfRounds(), session.getNumberOfQuestions() * 2 + 1));
-        p2.setBackground(Color.BLUE);
-        p3.setBackground(Color.BLUE);
+        p2.setBackground(backgroundColor);
+        p3.setBackground(backgroundColor);
+        p3.setBorder(BorderFactory.createLineBorder(backgroundColor, 20));
         int player1 = 0;
         int player2 = 0;
         for (int i = 0; i < session.getNumberOfRounds(); i++) {
             for (int j = 0; j < session.getNumberOfQuestions(); j++) {
                 p2.add(bplayer1[player1++]);
             }
-            p2.add(new Label("Round " + (i + 1), Label.CENTER));
+            p2.add(new Label("Round " + (i + 1), Label.CENTER ));
             for (int j = 0; j < session.getNumberOfQuestions(); j++) {
                 p2.add(bplayer2[player2++]);
             }

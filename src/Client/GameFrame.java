@@ -8,17 +8,22 @@ import javax.swing.*;
 class GameFrame extends Client implements ActionListener{
 
     private final Color standardColor;
+    private final Color redColor;
+    private final Color greenColor;
     private final JFrame mastern;
     private CategoryPanel categoryPanel;
     private QuestionPanel questionPanel;
     private ResultPanel resultPanel;
     private JPanel currentPanel;
+    
 
 
 
     protected GameFrame() {
         mastern = new JFrame();
-        standardColor = new Color(238, 238, 238);
+        standardColor = new Color(238, 238, 238); 
+        redColor = new Color(210, 45, 45);
+        greenColor = new Color(131, 202, 57);
     }
 
     @Override
@@ -138,11 +143,12 @@ class GameFrame extends Client implements ActionListener{
     private void buttonColor(Label answer) {
         if (answer.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
             session.giveAnswerResultToPlayerList(true);
-            answer.setBackground(Color.GREEN);
+            answer.setBackground(greenColor);
         } else {
             session.giveAnswerResultToPlayerList(false);
-            answer.setBackground(Color.RED);
+            answer.setBackground(redColor);
         }
+     
     }
 
 }

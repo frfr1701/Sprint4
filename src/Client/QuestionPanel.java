@@ -19,7 +19,9 @@ class QuestionPanel extends JPanel {
     String correctAnswer = "";
     JPanel panel = new JPanel();
     JPanel panel2 = new JPanel();
-    Color backgroundColor = new Color(175, 175, 200);   
+    Color backgroundColor = new Color(20, 134, 186);  
+
+    
     
     java.util.List<String> currentQuestion;
 
@@ -35,25 +37,30 @@ class QuestionPanel extends JPanel {
 
     protected void setPanel() {
         question.setPreferredSize(new Dimension(100, 200));
-        question.setBackground(Color.WHITE);
-        question.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        panel.setBackground(Color.WHITE);
+        question.setBackground(new Color(240,240,240));
+        
+        panel.setBackground(new Color(53,53,53));
+        panel.setBorder(BorderFactory.createLineBorder(backgroundColor, 5));
         setLayout(new BorderLayout());
         panel.setLayout(new GridLayout(2, 2));
         add("North", panel2);
         add("Center", panel);
-        answer1.setBackground(Color.WHITE);
-        answer2.setBackground(Color.WHITE);
-        answer3.setBackground(Color.WHITE);
-        answer4.setBackground(Color.WHITE);
+        answer1.setForeground(Color.WHITE);
+        answer2.setForeground(Color.WHITE);
+        answer3.setForeground(Color.WHITE);
+        answer4.setForeground(Color.WHITE);
+        
+        
         panel.add(answer1);
         panel.add(answer2);
         panel.add(answer3);
         panel.add(answer4);
+        panel2.setBackground(new Color(238,238,238));
         panel2.setLayout(new BorderLayout());
         panel2.add("Center", question);
-        panel2.setBackground(Color.WHITE);
-        setBorder(BorderFactory.createLineBorder(Color.BLUE, 20));
+        panel2.setBackground(new Color(242,242,242));
+        panel2.setBorder(BorderFactory.createLineBorder(backgroundColor, 5));
+        setBorder(BorderFactory.createLineBorder(backgroundColor, 20));
 
     }
     protected void setQuestions(List<String> question){
