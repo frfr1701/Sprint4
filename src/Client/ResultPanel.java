@@ -12,7 +12,7 @@ public class ResultPanel extends JPanel{
     JPanel p1 = new JPanel();
     JPanel p2 = new JPanel();
     JPanel p3 = new JPanel();
-    JLabel v1 = new JLabel("Jag                                  ");
+    JLabel v1 = new JLabel("Jag                                    ");
     JLabel v2 = new JLabel("                     Motståndare");
     JTextField f1 = new JTextField();
     Color backgroundColor = new Color(20, 134, 186);

@@ -20,6 +20,7 @@ class QuestionPanel extends JPanel {
     JPanel panel = new JPanel();
     JPanel panel2 = new JPanel();
     Color backgroundColor = new Color(20, 134, 186);  
+    final String html1 = "<html><body style='width: 100px>";
 
     
     
@@ -64,7 +65,7 @@ class QuestionPanel extends JPanel {
 
     }
     protected void setQuestions(List<String> question){
-        this.question.setText(question.get(1));
+        this.question.setText(html1+question.get(1));
         correctAnswer = question.get(2);
         for (int i = 2; i < question.size(); i++) {
             currentQuestion.add(question.get(i));
