@@ -20,7 +20,6 @@ class QuestionPanel extends JPanel {
     private List<String> currentQuestion;
 
     Color backgroundColor = new Color(20, 134, 186);
-    final String html1 = "<html><body style='width: 100px>";
 
     protected QuestionPanel(MouseListener ma) {
         answer4 = new Label("", Label.CENTER);
@@ -72,7 +71,7 @@ class QuestionPanel extends JPanel {
             String temp = question.get(1).substring(add);
             add += temp.indexOf(" ");
             temp = "<html>" + question.get(1).substring(0, add) + "<br>" + question.get(1).substring(add + 1) + "</html>";
-            this.question.setText(html1 + temp);
+            this.question.setText(temp);
         } else {
             this.question.setText(question.get(1));
         }
