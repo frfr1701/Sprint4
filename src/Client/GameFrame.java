@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-class GameFrame extends Client implements ActionListener{
+class GameFrame extends Client implements ActionListener {
 
     private final Color standardColor;
     private final JFrame mastern;
@@ -13,8 +13,6 @@ class GameFrame extends Client implements ActionListener{
     private QuestionPanel questionPanel;
     private ResultPanel resultPanel;
     private JPanel currentPanel;
-
-
 
     protected GameFrame() {
         mastern = new JFrame();
@@ -27,6 +25,7 @@ class GameFrame extends Client implements ActionListener{
         mastern.setSize(450, 550);
         mastern.setVisible(true);
         mastern.setLocationRelativeTo(null);
+        mastern.setDefaultCloseOperation(3);
         RevalidateRepaint();
     }
 
@@ -76,6 +75,16 @@ class GameFrame extends Client implements ActionListener{
     protected void initResultPanel() {
         mastern.add(currentPanel = resultPanel = (ResultPanel) (panelQueue.remove()));
         resultPanel.setPanel();
+    }
+
+    private void buttonColor(Label answer) {
+        if (answer.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
+            session.giveAnswerResultToPlayerList(true);
+            answer.setBackground(Color.GREEN);
+        } else {
+            session.giveAnswerResultToPlayerList(false);
+            answer.setBackground(Color.RED);
+        }
     }
 
     private final MouseListener ma = new MouseAdapter() {
@@ -134,15 +143,4 @@ class GameFrame extends Client implements ActionListener{
         }
         RevalidateRepaint();
     }
-
-    private void buttonColor(Label answer) {
-        if (answer.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
-            session.giveAnswerResultToPlayerList(true);
-            answer.setBackground(Color.GREEN);
-        } else {
-            session.giveAnswerResultToPlayerList(false);
-            answer.setBackground(Color.RED);
-        }
-    }
-
 }

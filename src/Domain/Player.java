@@ -2,12 +2,11 @@ package Domain;
 
 import Server.config.Config;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class Player implements Serializable {
     
-    private List<Boolean> result = new ArrayList<Boolean>();
+    private final List<Boolean> result = new ArrayList<>();
   
     void addAnswerToList(boolean i) {
         result.add(i);

@@ -2,8 +2,7 @@ package Domain;
 
 import static Domain.State.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Session implements Serializable {
 

@@ -12,9 +12,7 @@ abstract class ListManger {
     static List<String> getSessionSubjects(List<String> allSubjects, int amountOfSubjects) {
         return (List<String>) differentElements(allSubjects, amountOfSubjects);
     }
-    
-    
-    
+
     static List<?> differentElements(List<?> fromList, int antal) {
         Set UniqueElements = new HashSet();
         while (UniqueElements.size() < antal) {

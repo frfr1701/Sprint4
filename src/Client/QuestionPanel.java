@@ -1,12 +1,9 @@
 package Client;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Label;
+import java.awt.*;
 import java.awt.event.MouseListener;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 
 class QuestionPanel extends JPanel {
