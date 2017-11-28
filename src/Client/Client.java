@@ -11,7 +11,7 @@ abstract class Client {
         Client start = new GameFrame();
         start.Client();
     }
-    
+
     private static final int PORTNUMBER = 44444;
     private static final String HOSTNAMNE = "127.0.0.1";
 
