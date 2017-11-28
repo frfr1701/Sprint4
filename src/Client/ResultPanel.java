@@ -8,33 +8,32 @@ import java.util.List;
 
 public class ResultPanel extends JPanel{
 
+    private final Session session;
     JPanel p1 = new JPanel();
     JPanel p2 = new JPanel();
     JPanel p3 = new JPanel();
 
-    JPanel p5 = new JPanel();
     JLabel v1 = new JLabel("                    Du");
     JLabel v2 = new JLabel("Motståndare");
     JTextField f1 = new JTextField();
-    Color backgroundColor;
-    boolean buttonEnable = false;
-
+    
     JButton exitGame = new JButton("Avsluta");
-    private final Session session;
     List<Boolean> one;
     List<Boolean> two;
+    JButton[] bplayer1;
+    JButton[] bplayer2;
 
     protected ResultPanel(ActionListener al, Session session) {
-        exitGame.addActionListener(al);
         this.session = session;
+        exitGame.addActionListener(al);
+        bplayer1 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
+        bplayer2 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
     }
 
     protected void setPanel() {
         setBorder(BorderFactory.createLineBorder(Color.BLUE, 10));
         setLayout(new BorderLayout());
 
-        JButton[] bplayer1 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
-        JButton[] bplayer2 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
         for (int i = 0; i < bplayer1.length; i++) {
             bplayer1[i] = new JButton();
             bplayer2[i] = new JButton();
