@@ -34,14 +34,6 @@ class Server extends Thread {
                 Session = protocol.processSession(Session);
                 ClientTwoOutput.writeObject(Session);
 
-                if (Session.getGameState() == GAMECOMPLETE) {
-                    Session.changePlayer();
-                    ClientOneOutput.writeObject(Session);
-                    socketToClientOne.close();
-                    socketToClientTwo.close();
-                    break;
-                }
-
                 Session = (Session) ClientTwoInput.readObject();
 
                 Session = protocol.processSession(Session);

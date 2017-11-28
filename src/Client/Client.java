@@ -3,9 +3,10 @@ package Client;
 import Domain.*;
 import java.io.*;
 import java.net.*;
+
 import java.util.*;
 
-abstract class Client {
+abstract class Client{
 
     public static void main(String[] args) throws IOException {
         Client start = new GameFrame();
@@ -14,27 +15,29 @@ abstract class Client {
     private static final int PORTNUMBER = 44444;
     private static final String HOSTNAMNE = "127.0.0.1";
 
-    private Socket socketToServer;
     private ObjectInputStream serverInput;
-    private ObjectOutputStream serverOutput;
+    private Socket socketToServer;
+    ObjectOutputStream serverOutput;
 
-    protected Session session;
-    protected State state;
+    Session session;
+    State state;
 
-    protected List<String> subjects;
-    protected Queue<List<String>> questions;
-    protected Queue<String> answers;
-    protected Queue panelQueue;
+    List<String> subjects;
+    Queue<List<String>> questions;
+    Queue<String> answers;
+    Queue panelQueue;
 
     private void Client() {
-        setPanel();
         try {
             socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
             serverInput = new ObjectInputStream(socketToServer.getInputStream());
             serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
+            setPanel();
             while ((session = (Session) serverInput.readObject()) != null) {
+                
                 panelQueue = new LinkedList<>();
                 questions = session.getQuestionsThisRound();
+                
                 switch (state = session.getGameState()) {
                     case FIRST:
                         addCategoryPanelToQueue();
@@ -80,9 +83,9 @@ abstract class Client {
     protected abstract void addQuestionPanelsToQueue();
 
     protected abstract void addCategoryPanelToQueue();
-
+    
     protected abstract void addResultPanelToQueue();
-
+    
     protected abstract void initSubjectPanel();
 
     protected abstract void initQuestionPanel();
