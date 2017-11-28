@@ -12,7 +12,11 @@ class QuestionReader implements Serializable {
     private List<List<String>> questions;
 
     QuestionReader() {
-        dir = Paths.get("src\\Server\\Resources");
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            dir = Paths.get("src\\Server\\Resources");
+        }else{
+            dir = Paths.get("src/Server/Resources");
+        }
         questions = new ArrayList<>();
         subjects = new ArrayList<>();
         try {
