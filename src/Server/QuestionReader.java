@@ -6,12 +6,13 @@ import java.util.*;
 
 class QuestionReader implements Serializable {
 
-    private final Path dir = Paths.get("src\\Server\\Resources");
+    private final Path dir;
     private DirectoryStream<Path> directoryStream;
     private List<String> subjects;
     private List<List<String>> questions;
 
     QuestionReader() {
+        dir = Paths.get("src\\Server\\Resources");
         questions = new ArrayList<>();
         subjects = new ArrayList<>();
         try {
