@@ -70,12 +70,11 @@ class QuestionPanel extends JPanel {
             String temp = question.get(1).substring(add);
             add += temp.indexOf(" ");
             temp = "<html>" + question.get(1).substring(0, add) + "<br>" + question.get(1).substring(add + 1) + "</html>";
-            this.question.setText(temp);
+            this.question.setText(html1 + temp);
         } else {
             this.question.setText(question.get(1));
         }
-//        correctAnswer = question.get(2);
-//        this.question.setText(html1 + question.get(1));
+        correctAnswer = question.get(2);
 
         for (int i = 2; i < question.size(); i++) {
             currentQuestion.add(question.get(i));
