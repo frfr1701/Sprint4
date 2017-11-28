@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 class QuestionPanel extends JPanel {
@@ -75,11 +76,11 @@ class QuestionPanel extends JPanel {
         } else {
             this.question.setText(question.get(1));
         }
-
-        for (int i = 2; i < question.size(); i++) {
-            System.out.println("hej");
-            currentQuestion.add(question.get(i));
-        }
+        
+        currentQuestion = question.stream().filter(index -> index.indexOf(index)>1).collect(Collectors.toList());
+//        for (int i = 2; i < question.size(); i++) {
+//            currentQuestion.add(question.get(i));
+//        }
         Collections.shuffle(currentQuestion);
         answer1.setText(currentQuestion.get(0));
         answer2.setText(currentQuestion.get(1));
