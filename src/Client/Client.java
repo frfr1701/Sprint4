@@ -6,7 +6,7 @@ import java.net.*;
 
 import java.util.*;
 
-abstract class Client implements IPanel{
+abstract class Client{
 
     public static void main(String[] args) throws IOException {
         Client start = new GameFrame();
@@ -25,21 +25,44 @@ abstract class Client implements IPanel{
     List<String> subjects;
     Queue<List<String>> questions;
     Queue<String> answers;
-
-    public Client() {
-        setPanel();
-    }
+    Queue panelQueue;
 
     private void Client() {
         try {
             socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
             serverInput = new ObjectInputStream(socketToServer.getInputStream());
             serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
-            
+            setPanel();
             while ((session = (Session) serverInput.readObject()) != null) {
-                setGameStageGUI();
+                
+                panelQueue = new LinkedList<>();
+                questions = session.getQuestionsThisRound();
+                
+                switch (state = session.getGameState()) {
+                    case FIRST:
+                        addCategoryPanelToQueue();
+                        addQuestionPanelsToQueue();
+                        initSubjectPanel();
+                        break;
+                    case MIDDLE:
+                        addQuestionPanelsToQueue();
+                        addCategoryPanelToQueue();
+                        addQuestionPanelsToQueue();
+                        initQuestionPanel();
+                        break;
+                    case FINAL:
+                        addQuestionPanelsToQueue();
+                        initQuestionPanel();
+                        break;
+                    case GAMECOMPLETE:
+                        addResultPanelToQueue();
+                        initResultPanel();
+                        break;
+                    default:
+                        writeObject();
+                }
+                RevalidateRepaint();
             }
-
         } catch (UnknownHostException e) {
             System.out.println("Don't know about host " + HOSTNAMNE);
         } catch (IOException e) {
@@ -49,12 +72,27 @@ abstract class Client implements IPanel{
         }
     }
 
-    void writeObject() {
+    protected void writeObject() {
         try {
             serverOutput.writeObject(session);
         } catch (IOException ex) {
             System.out.println("IOException writeObject in client");
         }
     }
-    public abstract void setGameStageGUI();
+
+    protected abstract void addQuestionPanelsToQueue();
+
+    protected abstract void addCategoryPanelToQueue();
+    
+    protected abstract void addResultPanelToQueue();
+    
+    protected abstract void initSubjectPanel();
+
+    protected abstract void initQuestionPanel();
+
+    protected abstract void initResultPanel();
+
+    protected abstract void RevalidateRepaint();
+
+    protected abstract void setPanel();
 }

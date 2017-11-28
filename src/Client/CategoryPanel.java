@@ -1,14 +1,11 @@
 package Client;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-import java.util.*;
+import java.awt.event.*;
+import java.awt.*;
+import java.util.List;
 import javax.swing.*;
 
-public class CategoryPanel extends JPanel implements IPanel {
+public class CategoryPanel extends JPanel{
 
     JButton category1 = new JButton("");
     JButton category2 = new JButton("");
@@ -16,16 +13,15 @@ public class CategoryPanel extends JPanel implements IPanel {
     JButton exitGame = new JButton("Avsluta");
     JPanel panel = new JPanel();
     Color backgroundColor = new Color(175, 175, 200);
-    
-    public CategoryPanel(ActionListener al) {
+
+    protected CategoryPanel(ActionListener al) {
         category1.addActionListener(al);
         category2.addActionListener(al);
         category3.addActionListener(al);
         exitGame.addActionListener(al);
     }
 
-    @Override
-    public void setPanel() {
+    protected void setPanel() {
         setBackground(backgroundColor);
         panel.setBackground(backgroundColor);
         setLayout(new BorderLayout());
@@ -47,7 +43,7 @@ public class CategoryPanel extends JPanel implements IPanel {
         exitGame.setPreferredSize(new Dimension(50, 50));
     }
 
-    public void setSubjects(List<String> subjects){
+    protected void setSubjects(List<String> subjects) {
         category1.setText(subjects.get(0));
         category2.setText(subjects.get(1));
         category3.setText(subjects.get(2));
