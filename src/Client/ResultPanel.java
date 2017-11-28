@@ -4,19 +4,21 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 import Domain.Session;
+import Domain.State;
 import java.util.List;
 
-public class ResultPanel extends JPanel{
+public class ResultPanel extends JPanel {
 
     private final Session session;
     JPanel p1 = new JPanel();
     JPanel p2 = new JPanel();
     JPanel p3 = new JPanel();
 
-    JLabel v1 = new JLabel("                    Du");
-    JLabel v2 = new JLabel("Motståndare");
+
+    JLabel v1 = new JLabel("You");
+    JLabel v2 = new JLabel("Him");
     JTextField f1 = new JTextField();
-    
+
     JButton exitGame = new JButton("Avsluta");
     List<Boolean> one;
     List<Boolean> two;
@@ -43,13 +45,11 @@ public class ResultPanel extends JPanel{
         if (session.isWhichPlayer()) {
             one = session.getResultPlayer1();
             two = session.getResultPlayer2();
-            f1.setText(session.getResultPlayer1().stream().filter(current -> current.equals(true)).count()
-                    + " - " + session.getResultPlayer2().stream().filter(current -> current.equals(true)).count());
+            SetScoreAndSetWinnerInTheEnd();
         } else {
-            two = session.getResultPlayer1();
             one = session.getResultPlayer2();
-            f1.setText(session.getResultPlayer2().stream().filter(current -> current.equals(true)).count()
-                    + " - " + session.getResultPlayer1().stream().filter(current -> current.equals(true)).count());
+            two = session.getResultPlayer1();
+            SetScoreAndSetWinnerInTheEnd();
         }
 
         for (int i = 0; i < one.size(); i++) {
@@ -67,7 +67,7 @@ public class ResultPanel extends JPanel{
             }
         }
         p1.add(v1);
-        p1.add(f1);
+        p1.add(f1, BorderLayout.CENTER);
         f1.setEditable(false);
         p1.add(v2);
         p1.setBackground(Color.BLUE);
@@ -92,5 +92,24 @@ public class ResultPanel extends JPanel{
 
         p3.add(exitGame);
         add("South", p3);
+    }
+
+    void SetScoreAndSetWinnerInTheEnd() {
+        f1.setText(one.stream().filter(current -> current.equals(true)).count()
+                + " - " + two.stream().filter(current -> current.equals(true)).count());
+        if (session.getGameState() == State.GAMECOMPLETE) {
+            if (one.stream().filter(current -> current.equals(true)).count()
+                    > two.stream().filter(current -> current.equals(true)).count()) {
+                v1.setText("(Winner) You");
+                v2.setText("Him (Looser) ");
+            } else if (one.stream().filter(current -> current.equals(true)).count()
+                    < two.stream().filter(current -> current.equals(true)).count()) {
+                v1.setText("(Looser) You");
+                v2.setText("Him (Winner) ");
+            } else {
+                v1.setText("(Draw) You");
+                v2.setText("Him (Draw)");
+            }
+        }
     }
 }

@@ -39,7 +39,6 @@ class Protocol {
             case LOADGAME:
                 session.setAllSubjects(allSubjects);
                 session.setAllQuestions(allQuestions);
-
                 session.setGameState(FIRST);
                 session.changePlayer();
                 break;

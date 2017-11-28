@@ -10,6 +10,8 @@ class GameFrame extends Client implements ActionListener {
     private final Color standardColor;
     private final JFrame mastern;
     private CategoryPanel categoryPanel;
+
+    
     private QuestionPanel questionPanel;
     private ResultPanel resultPanel;
     private JPanel currentPanel;
@@ -17,6 +19,7 @@ class GameFrame extends Client implements ActionListener {
     protected GameFrame() {
         mastern = new JFrame();
         standardColor = new Color(238, 238, 238);
+        mastern.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
@@ -33,6 +36,11 @@ class GameFrame extends Client implements ActionListener {
         mastern.setTitle("VÄRLDENS BÄSTA QUIZ!");
     }
 
+    @Override
+    protected void removeCurrentPanel() {
+        mastern.remove(currentPanel);
+    }
+    
     @Override
     protected void RevalidateRepaint() {
         mastern.revalidate();
@@ -104,7 +112,7 @@ class GameFrame extends Client implements ActionListener {
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            mastern.remove(currentPanel);
+            removeCurrentPanel();
             if (questions.size() > 0) {
                 initQuestionPanel();
                 if (e.getSource() == questionPanel.answer1) {
@@ -116,11 +124,11 @@ class GameFrame extends Client implements ActionListener {
                 } else if (e.getSource() == questionPanel.answer4) {
                     questionPanel.answer4.setBackground(standardColor);
                 }
-
             } else if (panelQueue.size() > session.getNumberOfQuestions()) {
                 initSubjectPanel();
             } else {
                 writeObject();
+                initResultPanel();
             }
             RevalidateRepaint();
         }
@@ -128,15 +136,15 @@ class GameFrame extends Client implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        mastern.remove(currentPanel);
+        removeCurrentPanel();
         if (ae.getSource() == categoryPanel.category1) {
             session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category1.getText())));
             initQuestionPanel();
         } else if (ae.getSource() == categoryPanel.category2) {
-            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category1.getText())));
+            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category2.getText())));
             initQuestionPanel();
         } else if (ae.getSource() == categoryPanel.category3) {
-            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category1.getText())));
+            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category3.getText())));
             initQuestionPanel();
         } else if (ae.getSource() == categoryPanel.exitGame || ae.getSource() == resultPanel.exitGame) {
             System.exit(0);

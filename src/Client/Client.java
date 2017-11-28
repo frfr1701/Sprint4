@@ -11,6 +11,7 @@ abstract class Client {
         Client start = new GameFrame();
         start.Client();
     }
+    
     private static final int PORTNUMBER = 44444;
     private static final String HOSTNAMNE = "127.0.0.1";
 
@@ -32,6 +33,7 @@ abstract class Client {
             socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
             serverInput = new ObjectInputStream(socketToServer.getInputStream());
             serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
+            Game:
             while ((session = (Session) serverInput.readObject()) != null) {
                 panelQueue = new LinkedList<>();
                 questions = session.getQuestionsThisRound();
@@ -39,24 +41,32 @@ abstract class Client {
                     case FIRST:
                         addCategoryPanelToQueue();
                         addQuestionPanelsToQueue();
+                        addResultPanelToQueue();
                         initSubjectPanel();
                         break;
                     case MIDDLE:
+                        removeCurrentPanel();
                         addQuestionPanelsToQueue();
                         addCategoryPanelToQueue();
                         addQuestionPanelsToQueue();
+                        addResultPanelToQueue();
                         initQuestionPanel();
                         break;
                     case FINAL:
+                        removeCurrentPanel();
                         addQuestionPanelsToQueue();
+                        addResultPanelToQueue();
                         initQuestionPanel();
                         break;
                     case GAMECOMPLETE:
+                        removeCurrentPanel();
                         addResultPanelToQueue();
                         initResultPanel();
-                        break;
+                        break Game;
                     default:
                         writeObject();
+                        addResultPanelToQueue();
+                        initResultPanel();
                 }
                 RevalidateRepaint();
             }
@@ -67,6 +77,7 @@ abstract class Client {
         } catch (ClassNotFoundException e) {
             System.out.println("Couldn't find class " + HOSTNAMNE);
         }
+        RevalidateRepaint();
     }
 
     protected void writeObject() {
@@ -88,6 +99,8 @@ abstract class Client {
     protected abstract void initQuestionPanel();
 
     protected abstract void initResultPanel();
+
+    protected abstract void removeCurrentPanel();
 
     protected abstract void RevalidateRepaint();
 
