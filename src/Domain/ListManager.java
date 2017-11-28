@@ -30,9 +30,4 @@ abstract class ListManger {
     static List<List<String>> filterBySubject(List<List<String>> fromList, String filterByThisSubject) {
         return fromList.stream().filter(indexOfList -> indexOfList.get(0).equalsIgnoreCase(filterByThisSubject)).collect(Collectors.toList());
     }
-
-    static List shuffleList(List shuffleMe) {
-        Collections.shuffle(shuffleMe);
-        return shuffleMe;
-    }
 }

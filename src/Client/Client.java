@@ -5,16 +5,13 @@ import java.io.*;
 import java.net.*;
 
 import java.util.*;
-import java.util.stream.*;
 
 abstract class Client implements IPanel{
 
     public static void main(String[] args) throws IOException {
-        Client start = new GamePanel();
+        Client start = new GameFrame();
         start.Client();
     }
-
-    private final BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
     private static final int PORTNUMBER = 44444;
     private static final String HOSTNAMNE = "127.0.0.1";
 
@@ -38,7 +35,7 @@ abstract class Client implements IPanel{
             socketToServer = new Socket(HOSTNAMNE, PORTNUMBER);
             serverInput = new ObjectInputStream(socketToServer.getInputStream());
             serverOutput = new ObjectOutputStream(socketToServer.getOutputStream());
-
+            
             while ((session = (Session) serverInput.readObject()) != null) {
                 setGameStageGUI();
             }
@@ -59,32 +56,5 @@ abstract class Client implements IPanel{
             System.out.println("IOException writeObject in client");
         }
     }
-
-    public void setGameStageGUI() {
-    }
-    
-    
-    private void checkAnswers() {
-        questions.stream()
-                .filter((question) -> (question.get(2).equalsIgnoreCase(answers.remove())))
-                .forEach((correctAnswer) -> {
-                    session.givePointToPlayer();
-                });
-    }
-
-    private void askQuestions() {
-        questions.stream().map((question) -> {
-            question.stream().filter(string -> (question.indexOf(string) > 0)).collect(Collectors.toList())
-                    .stream().forEach(string -> {
-                        System.out.println(string);
-                    });
-            return question;
-        }).forEachOrdered((question) -> {
-            try {
-                answers.add(stdIn.readLine());
-            } catch (IOException ex) {
-                System.out.println("askQuestion IOException");
-            }
-        });
-    }
+    public abstract void setGameStageGUI();
 }
