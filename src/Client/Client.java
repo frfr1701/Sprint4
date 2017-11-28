@@ -26,7 +26,9 @@ abstract class Client implements IPanel{
     State state;
 
     List<String> subjects;
+    
     Queue<List<String>> questions;
+    
     Queue<String> answers;
 
     public Client() {

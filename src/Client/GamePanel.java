@@ -179,11 +179,11 @@ class GamePanel extends Client implements ActionListener, IPanel {
         
         else if (ae.getSource() == categoryPanel.category1) {
             mastern.remove(currentPanel);
-            categoryPanel.subject = categoryPanel.category1.getText();
+            currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove());
+
+            categoryPanel.subject = categoryPanel.getSubject();
             questions = session.getQuestions(categoryPanel.subject);
             session.setQuestionsThisRound(new LinkedList(questions));
-
-            currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove());
             questionPanel.setQuestions(questions.remove());
             questionPanel.setPanel();
 
@@ -192,7 +192,7 @@ class GamePanel extends Client implements ActionListener, IPanel {
             mastern.remove(currentPanel);
             currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove());
 
-            categoryPanel.subject = categoryPanel.category2.getText();
+            categoryPanel.subject = categoryPanel.getSubject();
             questions = session.getQuestions(categoryPanel.subject);
             session.setQuestionsThisRound(new LinkedList(questions));
             questionPanel.setQuestions(questions.remove());
@@ -203,7 +203,7 @@ class GamePanel extends Client implements ActionListener, IPanel {
             mastern.remove(currentPanel);
             currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove());
 
-            categoryPanel.subject = categoryPanel.category3.getText();
+            categoryPanel.subject = categoryPanel.getSubject();
             questions = session.getQuestions(categoryPanel.subject);
             session.setQuestionsThisRound(new LinkedList(questions));
             questionPanel.setQuestions(questions.remove());
