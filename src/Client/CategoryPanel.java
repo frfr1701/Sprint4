@@ -5,16 +5,23 @@ import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 
-public class CategoryPanel extends JPanel{
+public class CategoryPanel extends JPanel {
 
-    JButton category1 = new JButton("");
-    JButton category2 = new JButton("");
-    JButton category3 = new JButton("");
-    JButton exitGame = new JButton("Avsluta");
-    JPanel panel = new JPanel();
-    Color backgroundColor = new Color(175, 175, 200);
+    private final Color backgroundColor;
+    private final JPanel panel;
+    protected JButton category1;
+    protected JButton category2;
+    protected JButton category3;
+    protected JButton exitGame;
 
     protected CategoryPanel(ActionListener al) {
+        backgroundColor = new Color(175, 175, 200);
+        panel = new JPanel();
+        category1 = new JButton();
+        category2 = new JButton();
+        category3 = new JButton();
+        exitGame = new JButton("Avsluta");
+
         category1.addActionListener(al);
         category2.addActionListener(al);
         category3.addActionListener(al);

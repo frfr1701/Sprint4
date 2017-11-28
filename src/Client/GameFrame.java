@@ -5,20 +5,32 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-class GameFrame extends Client implements ActionListener{
+class GameFrame extends Client implements ActionListener {
 
     private final Color standardColor;
     private final JFrame mastern;
     private CategoryPanel categoryPanel;
+<<<<<<< HEAD
     private QuestionPanel questionPanel;
     private ResultPanel resultPanel;
     private JPanel currentPanel;
 
 
+=======
+
+    
+    private QuestionPanel questionPanel;
+    private ResultPanel resultPanel;
+    private JPanel currentPanel;
+>>>>>>> 7d9be279cf12f75c7a3624affdd3a6b967132c5a
 
     protected GameFrame() {
         mastern = new JFrame();
         standardColor = new Color(238, 238, 238);
+<<<<<<< HEAD
+=======
+        mastern.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+>>>>>>> 7d9be279cf12f75c7a3624affdd3a6b967132c5a
     }
 
     @Override
@@ -27,6 +39,7 @@ class GameFrame extends Client implements ActionListener{
         mastern.setSize(450, 550);
         mastern.setVisible(true);
         mastern.setLocationRelativeTo(null);
+        mastern.setDefaultCloseOperation(3);
         RevalidateRepaint();
     }
 
@@ -34,6 +47,11 @@ class GameFrame extends Client implements ActionListener{
         mastern.setTitle("VÄRLDENS BÄSTA QUIZ!");
     }
 
+    @Override
+    protected void removeCurrentPanel() {
+        mastern.remove(currentPanel);
+    }
+    
     @Override
     protected void RevalidateRepaint() {
         mastern.revalidate();
@@ -78,6 +96,16 @@ class GameFrame extends Client implements ActionListener{
         resultPanel.setPanel();
     }
 
+    private void buttonColor(Label answer) {
+        if (answer.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
+            session.giveAnswerResultToPlayerList(true);
+            answer.setBackground(Color.GREEN);
+        } else {
+            session.giveAnswerResultToPlayerList(false);
+            answer.setBackground(Color.RED);
+        }
+    }
+
     private final MouseListener ma = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
@@ -95,7 +123,7 @@ class GameFrame extends Client implements ActionListener{
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            mastern.remove(currentPanel);
+            removeCurrentPanel();
             if (questions.size() > 0) {
                 initQuestionPanel();
                 if (e.getSource() == questionPanel.answer1) {
@@ -107,11 +135,11 @@ class GameFrame extends Client implements ActionListener{
                 } else if (e.getSource() == questionPanel.answer4) {
                     questionPanel.answer4.setBackground(standardColor);
                 }
-
             } else if (panelQueue.size() > session.getNumberOfQuestions()) {
                 initSubjectPanel();
             } else {
                 writeObject();
+                initResultPanel();
             }
             RevalidateRepaint();
         }
@@ -119,30 +147,19 @@ class GameFrame extends Client implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        mastern.remove(currentPanel);
+        removeCurrentPanel();
         if (ae.getSource() == categoryPanel.category1) {
             session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category1.getText())));
             initQuestionPanel();
         } else if (ae.getSource() == categoryPanel.category2) {
-            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category1.getText())));
+            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category2.getText())));
             initQuestionPanel();
         } else if (ae.getSource() == categoryPanel.category3) {
-            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category1.getText())));
+            session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(categoryPanel.category3.getText())));
             initQuestionPanel();
         } else if (ae.getSource() == categoryPanel.exitGame || ae.getSource() == resultPanel.exitGame) {
             System.exit(0);
         }
         RevalidateRepaint();
     }
-
-    private void buttonColor(Label answer) {
-        if (answer.getText().equalsIgnoreCase(questionPanel.correctAnswer)) {
-            session.giveAnswerResultToPlayerList(true);
-            answer.setBackground(Color.GREEN);
-        } else {
-            session.giveAnswerResultToPlayerList(false);
-            answer.setBackground(Color.RED);
-        }
-    }
-
 }

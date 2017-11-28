@@ -1,36 +1,37 @@
 package Client;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Label;
+import java.awt.*;
 import java.awt.event.MouseListener;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 
 class QuestionPanel extends JPanel {
-    
-    JLabel question = new JLabel("", JLabel.CENTER);
-    Label answer1 = new Label("", Label.CENTER);
-    Label answer2 = new Label("", Label.CENTER);
-    Label answer3 = new Label("", Label.CENTER);
-    Label answer4 = new Label("", Label.CENTER);
-    String correctAnswer = "";
-    JPanel panel = new JPanel();
-    JPanel panel2 = new JPanel();
-    Color backgroundColor = new Color(175, 175, 200);   
-    
-    java.util.List<String> currentQuestion;
+
+    private final JPanel panel;
+    private final JPanel panel2;
+    private final JLabel question;
+    protected Label answer1;
+    protected Label answer2;
+    protected Label answer3;
+    protected Label answer4;
+    protected String correctAnswer;
+    private List<String> currentQuestion;
+
 
     protected QuestionPanel(MouseListener ma) {
+        answer4 = new Label("", Label.CENTER);
+        answer3 = new Label("", Label.CENTER);
+        answer2 = new Label("", Label.CENTER);
+        answer1 = new Label("", Label.CENTER);
+        question = new JLabel("", JLabel.CENTER);
+        panel2 = new JPanel();
+        panel = new JPanel();
 
         answer1.addMouseListener(ma);
         answer2.addMouseListener(ma);
         answer3.addMouseListener(ma);
         answer4.addMouseListener(ma);
-        currentQuestion = new ArrayList<>();
-        
     }
 
     protected void setPanel() {
@@ -56,9 +57,18 @@ class QuestionPanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.BLUE, 20));
 
     }
-    protected void setQuestions(List<String> question){
-        this.question.setText(question.get(1));
-        correctAnswer = question.get(2);
+
+    protected void setQuestions(List<String> question) {
+        if (question.get(1).length() > 45) {
+            int add = question.get(1).length() / 2;
+            String temp = question.get(1).substring(add);
+            add += temp.indexOf(" ");
+            temp = "<html>" + question.get(1).substring(0, add) + "<br>" + question.get(1).substring(add + 1) + "</html>";
+            this.question.setText(temp);
+        } else {
+            this.question.setText(question.get(1));
+        }
+        correctAnswer=question.get(2);
         for (int i = 2; i < question.size(); i++) {
             currentQuestion.add(question.get(i));
         }

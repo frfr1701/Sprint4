@@ -1,29 +1,25 @@
 package Server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 
 class ServerListener {
 
-    private Server server;
     private final ServerSocket socketToServer;
-    
+    private Socket socketToClientOne;
+    private Socket socketToClientTwo;
+    private Server server;
 
     ServerListener() throws IOException {
         this.socketToServer = new ServerSocket(44444);
     }
 
-    private void start() {
+    private void start() throws IOException {
         while (true) {
-            try {
-                Socket socketToClientOne = socketToServer.accept();
-                Socket socketToClientTwo = socketToServer.accept();
-                server = new Server(socketToClientOne, socketToClientTwo);
-                server.start();
-            } catch (IOException e) {
-                System.out.println("IOexception i serverListener");
-            }
+            socketToClientOne = socketToServer.accept();
+            socketToClientTwo = socketToServer.accept();
+            server = new Server(socketToClientOne, socketToClientTwo);
+            server.start();
         }
     }
 

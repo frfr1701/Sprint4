@@ -2,8 +2,7 @@ package Domain;
 
 import static Domain.State.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Session implements Serializable {
 
@@ -33,6 +32,7 @@ public class Session implements Serializable {
     }
 
     //--------------------------------------------------------------------------
+   
     //player start
     public void changePlayer() {
         whichPlayer = !whichPlayer;
@@ -62,6 +62,7 @@ public class Session implements Serializable {
     //player end
 
     //--------------------------------------------------------------------------
+   
     //gamestate start
     public void setGameState(State gameState) {
         this.gameState = gameState;
@@ -73,6 +74,7 @@ public class Session implements Serializable {
     //gamestate end
 
     //--------------------------------------------------------------------------
+    
     //roundCounter start
     public void addToRoundCounter() {
         roundCounter++;
@@ -89,12 +91,11 @@ public class Session implements Serializable {
     public int getNumberOfRounds() {
         return numberOfRounds;
     }
-    
     //roundCounter end
 
     //--------------------------------------------------------------------------
+   
     //questions and subjects start
-
     public int getNumberOfQuestions() {
         return numberOfQuestions;
     }
