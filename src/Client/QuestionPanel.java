@@ -10,7 +10,7 @@ import java.util.*;
 import javax.swing.*;
 
 class QuestionPanel extends JPanel {
-    
+
     JLabel question = new JLabel("", JLabel.CENTER);
     Label answer1 = new Label("", Label.CENTER);
     Label answer2 = new Label("", Label.CENTER);
@@ -19,8 +19,8 @@ class QuestionPanel extends JPanel {
     String correctAnswer = "";
     JPanel panel = new JPanel();
     JPanel panel2 = new JPanel();
-    Color backgroundColor = new Color(175, 175, 200);   
-    
+    Color backgroundColor = new Color(175, 175, 200);
+
     java.util.List<String> currentQuestion;
 
     protected QuestionPanel(MouseListener ma) {
@@ -30,7 +30,7 @@ class QuestionPanel extends JPanel {
         answer3.addMouseListener(ma);
         answer4.addMouseListener(ma);
         currentQuestion = new ArrayList<>();
-        
+
     }
 
     protected void setPanel() {
@@ -56,9 +56,18 @@ class QuestionPanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.BLUE, 20));
 
     }
-    protected void setQuestions(List<String> question){
-        this.question.setText(question.get(1));
-        correctAnswer = question.get(2);
+
+    protected void setQuestions(List<String> question) {
+        if (question.get(1).length() > 45) {
+            int add = question.get(1).length() / 2;
+            String temp = question.get(1).substring(add);
+            add += temp.indexOf(" ");
+            temp = "<html>" + question.get(1).substring(0, add) + "<br>" + question.get(1).substring(add + 1) + "</html>";
+            this.question.setText(temp);
+        } else {
+            this.question.setText(question.get(1));
+        }
+        correctAnswer=question.get(2);
         for (int i = 2; i < question.size(); i++) {
             currentQuestion.add(question.get(i));
         }
