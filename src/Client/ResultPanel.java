@@ -13,8 +13,8 @@ public class ResultPanel extends JPanel{
     JPanel p2 = new JPanel();
     JPanel p3 = new JPanel();
 
-    JLabel v1 = new JLabel("                    Du");
-    JLabel v2 = new JLabel("Motståndare");
+    JLabel v1 = new JLabel("You");
+    JLabel v2 = new JLabel("Him");
     JTextField f1 = new JTextField();
     
     JButton exitGame = new JButton("Avsluta");
@@ -67,7 +67,7 @@ public class ResultPanel extends JPanel{
             }
         }
         p1.add(v1);
-        p1.add(f1);
+        p1.add(f1,BorderLayout.CENTER);
         f1.setEditable(false);
         p1.add(v2);
         p1.setBackground(Color.BLUE);

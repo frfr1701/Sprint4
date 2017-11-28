@@ -22,6 +22,7 @@ class GameFrame extends Client implements ActionListener {
     protected GameFrame() {
         mastern = new JFrame();
         standardColor = new Color(238, 238, 238);
+        mastern.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
