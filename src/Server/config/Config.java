@@ -8,8 +8,8 @@ public class Config {
     private final Integer numberOfRounds;
     private final Integer questionsPerRound;
     private final Properties properties;
-    
-    public Config(){
+
+    public Config() {
         properties = new Properties();
         try {
             properties.load(new FileInputStream("src/Server/config/Config.properties"));
@@ -17,8 +17,8 @@ public class Config {
             System.out.println("fel vid inläsning av config filen");
             System.out.println(e.getCause());
         }
-        numberOfRounds =  Integer.valueOf(properties.getProperty("numberOfRounds", "2"));
-        questionsPerRound =  Integer.valueOf(properties.getProperty("questionsPerRound", "3"));
+        numberOfRounds = Integer.valueOf(properties.getProperty("numberOfRounds", "2"));
+        questionsPerRound = Integer.valueOf(properties.getProperty("questionsPerRound", "3"));
     }
 
     public Integer getNumberOfRounds() {

@@ -20,7 +20,6 @@ class ServerListener {
             socketToClientTwo = socketToServer.accept();
             server = new Server(socketToClientOne, socketToClientTwo);
             server.start();
-
         }
     }
 
