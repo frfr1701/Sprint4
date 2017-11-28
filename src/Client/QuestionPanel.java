@@ -65,6 +65,7 @@ class QuestionPanel extends JPanel {
     }
 
     protected void setQuestions(List<String> question) {
+        correctAnswer = question.get(2);
         if (question.get(1).length() > 45) {
             int add = question.get(1).length() / 2;
             String temp = question.get(1).substring(add);
@@ -74,9 +75,9 @@ class QuestionPanel extends JPanel {
         } else {
             this.question.setText(question.get(1));
         }
-        correctAnswer = question.get(2);
 
         for (int i = 2; i < question.size(); i++) {
+            System.out.println("hej");
             currentQuestion.add(question.get(i));
         }
         Collections.shuffle(currentQuestion);
