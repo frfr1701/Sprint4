@@ -8,26 +8,30 @@ import javax.swing.*;
 
 class QuestionPanel extends JPanel {
 
-    JLabel question = new JLabel("", JLabel.CENTER);
-    Label answer1 = new Label("", Label.CENTER);
-    Label answer2 = new Label("", Label.CENTER);
-    Label answer3 = new Label("", Label.CENTER);
-    Label answer4 = new Label("", Label.CENTER);
-    String correctAnswer = "";
-    JPanel panel = new JPanel();
-    JPanel panel2 = new JPanel();
-    Color backgroundColor = new Color(175, 175, 200);
+    private final JPanel panel;
+    private final JPanel panel2;
+    private final JLabel question;
+    protected Label answer1;
+    protected Label answer2;
+    protected Label answer3;
+    protected Label answer4;
+    protected String correctAnswer;
+    private List<String> currentQuestion;
 
-    java.util.List<String> currentQuestion;
 
     protected QuestionPanel(MouseListener ma) {
+        answer4 = new Label("", Label.CENTER);
+        answer3 = new Label("", Label.CENTER);
+        answer2 = new Label("", Label.CENTER);
+        answer1 = new Label("", Label.CENTER);
+        question = new JLabel("", JLabel.CENTER);
+        panel2 = new JPanel();
+        panel = new JPanel();
 
         answer1.addMouseListener(ma);
         answer2.addMouseListener(ma);
         answer3.addMouseListener(ma);
         answer4.addMouseListener(ma);
-        currentQuestion = new ArrayList<>();
-
     }
 
     protected void setPanel() {

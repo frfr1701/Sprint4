@@ -3,31 +3,38 @@ package Client;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
-import Domain.Session;
-import Domain.State;
+import Domain.*;
 import java.util.List;
 
 public class ResultPanel extends JPanel {
 
     private final Session session;
-    JPanel p1 = new JPanel();
-    JPanel p2 = new JPanel();
-    JPanel p3 = new JPanel();
+    private final JPanel p1;
+    private final JPanel p2;
+    private final JPanel p3;
 
 
-    JLabel v1 = new JLabel("You");
-    JLabel v2 = new JLabel("Him");
-    JTextField f1 = new JTextField();
+    private final JLabel v1;
+    private final JLabel v2;
+    private final JTextField f1;
 
-    JButton exitGame = new JButton("Avsluta");
-    List<Boolean> one;
-    List<Boolean> two;
-    JButton[] bplayer1;
-    JButton[] bplayer2;
+    protected JButton exitGame;
+    private List<Boolean> one;
+    private List<Boolean> two;
+    private final JButton[] bplayer1;
+    private final JButton[] bplayer2;
 
-    protected ResultPanel(ActionListener al, Session session) {
-        this.session = session;
+    protected ResultPanel(ActionListener al, Session gameSession) {
         exitGame.addActionListener(al);
+        session = gameSession;
+        
+        p1 = new JPanel();
+        p2 = new JPanel();
+        p3 = new JPanel();
+        v1 = new JLabel("You");
+        v2 = new JLabel("Him");
+        f1 = new JTextField();
+        exitGame = new JButton("Avsluta");
         bplayer1 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
         bplayer2 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
     }
@@ -94,7 +101,7 @@ public class ResultPanel extends JPanel {
         add("South", p3);
     }
 
-    void SetScoreAndSetWinnerInTheEnd() {
+    private void SetScoreAndSetWinnerInTheEnd() {
         f1.setText(one.stream().filter(current -> current.equals(true)).count()
                 + " - " + two.stream().filter(current -> current.equals(true)).count());
         if (session.getGameState() == State.GAMECOMPLETE) {
