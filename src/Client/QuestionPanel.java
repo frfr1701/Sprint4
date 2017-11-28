@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.*;
 
 class QuestionPanel extends JPanel {
-<<<<<<< HEAD
 
     private final JPanel panel;
     private final JPanel panel2;
@@ -19,23 +18,8 @@ class QuestionPanel extends JPanel {
     protected String correctAnswer;
     private List<String> currentQuestion;
 
-=======
-    
-    JLabel question = new JLabel("", JLabel.CENTER);
-    Label answer1 = new Label("", Label.CENTER);
-    Label answer2 = new Label("", Label.CENTER);
-    Label answer3 = new Label("", Label.CENTER);
-    Label answer4 = new Label("", Label.CENTER);
-    String correctAnswer = "";
-    JPanel panel = new JPanel();
-    JPanel panel2 = new JPanel();
-    Color backgroundColor = new Color(20, 134, 186);  
+    Color backgroundColor = new Color(20, 134, 186);
     final String html1 = "<html><body style='width: 100px>";
-
-    
-    
-    java.util.List<String> currentQuestion;
->>>>>>> färgläggning
 
     protected QuestionPanel(MouseListener ma) {
         answer4 = new Label("", Label.CENTER);
@@ -54,9 +38,9 @@ class QuestionPanel extends JPanel {
 
     protected void setPanel() {
         question.setPreferredSize(new Dimension(100, 200));
-        question.setBackground(new Color(240,240,240));
-        
-        panel.setBackground(new Color(53,53,53));
+        question.setBackground(new Color(240, 240, 240));
+
+        panel.setBackground(new Color(53, 53, 53));
         panel.setBorder(BorderFactory.createLineBorder(backgroundColor, 5));
         setLayout(new BorderLayout());
         panel.setLayout(new GridLayout(2, 2));
@@ -66,21 +50,19 @@ class QuestionPanel extends JPanel {
         answer2.setForeground(Color.WHITE);
         answer3.setForeground(Color.WHITE);
         answer4.setForeground(Color.WHITE);
-        
-        
+
         panel.add(answer1);
         panel.add(answer2);
         panel.add(answer3);
         panel.add(answer4);
-        panel2.setBackground(new Color(238,238,238));
+        panel2.setBackground(new Color(238, 238, 238));
         panel2.setLayout(new BorderLayout());
         panel2.add("Center", question);
-        panel2.setBackground(new Color(242,242,242));
+        panel2.setBackground(new Color(242, 242, 242));
         panel2.setBorder(BorderFactory.createLineBorder(backgroundColor, 5));
         setBorder(BorderFactory.createLineBorder(backgroundColor, 20));
 
     }
-<<<<<<< HEAD
 
     protected void setQuestions(List<String> question) {
         if (question.get(1).length() > 45) {
@@ -92,12 +74,9 @@ class QuestionPanel extends JPanel {
         } else {
             this.question.setText(question.get(1));
         }
-        correctAnswer=question.get(2);
-=======
-    protected void setQuestions(List<String> question){
-        this.question.setText(html1+question.get(1));
-        correctAnswer = question.get(2);
->>>>>>> färgläggning
+//        correctAnswer = question.get(2);
+//        this.question.setText(html1 + question.get(1));
+
         for (int i = 2; i < question.size(); i++) {
             currentQuestion.add(question.get(i));
         }

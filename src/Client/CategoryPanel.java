@@ -7,25 +7,15 @@ import javax.swing.*;
 
 public class CategoryPanel extends JPanel {
 
-<<<<<<< HEAD
     private final Color backgroundColor;
     private final JPanel panel;
     protected JButton category1;
     protected JButton category2;
     protected JButton category3;
     protected JButton exitGame;
-=======
-    JButton category1 = new JButton("");
-    JButton category2 = new JButton("");
-    JButton category3 = new JButton("");
-    JButton exitGame = new JButton("Avsluta");
-    JPanel panel = new JPanel();
-    Color backgroundColor = new Color(20, 134, 186);
-    Color redColor = new Color(210, 45, 45);
->>>>>>> färgläggning
 
     protected CategoryPanel(ActionListener al) {
-        backgroundColor = new Color(175, 175, 200);
+        backgroundColor = new Color(20, 134, 186);
         panel = new JPanel();
         category1 = new JButton();
         category2 = new JButton();

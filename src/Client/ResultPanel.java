@@ -8,46 +8,27 @@ import java.util.List;
 
 public class ResultPanel extends JPanel {
 
+    private final Color backgroundColor;
+    private final Color redColor;
+    private final Color greenColor;
+
     private final Session session;
-<<<<<<< HEAD
     private final JPanel p1;
     private final JPanel p2;
     private final JPanel p3;
-
-
     private final JLabel v1;
     private final JLabel v2;
     private final JTextField f1;
-
-    protected JButton exitGame;
     private List<Boolean> one;
     private List<Boolean> two;
     private final JButton[] bplayer1;
     private final JButton[] bplayer2;
 
+    protected JButton exitGame;
+
     protected ResultPanel(ActionListener al, Session gameSession) {
-=======
-    JPanel p1 = new JPanel();
-    JPanel p2 = new JPanel();
-    JPanel p3 = new JPanel();
-    JLabel v1 = new JLabel("Jag                                    ");
-    JLabel v2 = new JLabel("                     Motståndare");
-    JTextField f1 = new JTextField();
-    Color backgroundColor = new Color(20, 134, 186);
-    Color redColor = new Color(210,45,45);
-    Color greenColor = new Color(131, 202, 57);
-    JButton exitGame = new JButton("Avsluta");
-    List<Boolean> one;
-    List<Boolean> two;
-    JButton[] bplayer1;
-    JButton[] bplayer2;
- 
-    protected ResultPanel(ActionListener al, Session session) {
-        this.session = session;
->>>>>>> färgläggning
-        exitGame.addActionListener(al);
         session = gameSession;
-        
+
         p1 = new JPanel();
         p2 = new JPanel();
         p3 = new JPanel();
@@ -57,6 +38,11 @@ public class ResultPanel extends JPanel {
         exitGame = new JButton("Avsluta");
         bplayer1 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
         bplayer2 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
+        exitGame.addActionListener(al);
+
+        greenColor = new Color(131, 202, 57);
+        redColor = new Color(210, 45, 45);
+        backgroundColor = new Color(20, 134, 186);
     }
 
     protected void setPanel() {
@@ -93,7 +79,7 @@ public class ResultPanel extends JPanel {
                 bplayer2[i].setBackground(redColor);
             }
         }
-       
+
         v1.setForeground(Color.white);
         v2.setForeground(Color.white);
         p1.add(v1);
@@ -115,7 +101,7 @@ public class ResultPanel extends JPanel {
             for (int j = 0; j < session.getNumberOfQuestions(); j++) {
                 p2.add(bplayer1[player1++]);
             }
-            p2.add(new Label("Round " + (i + 1), Label.CENTER ));
+            p2.add(new Label("Round " + (i + 1), Label.CENTER));
             for (int j = 0; j < session.getNumberOfQuestions(); j++) {
                 p2.add(bplayer2[player2++]);
             }
