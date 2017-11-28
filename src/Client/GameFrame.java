@@ -7,17 +7,18 @@ import javax.swing.*;
 
 class GameFrame extends Client implements ActionListener{
 
-    JFrame mastern;
-    CategoryPanel categoryPanel;
-    QuestionPanel questionPanel;
-    ResultPanel resultPanel;
+    private final Color standardColor;
+    private final JFrame mastern;
+    private CategoryPanel categoryPanel;
+    private QuestionPanel questionPanel;
+    private ResultPanel resultPanel;
+    private JPanel currentPanel;
 
-    JPanel currentPanel;
 
-    Color standardColor = new Color(238, 238, 238);
 
     protected GameFrame() {
         mastern = new JFrame();
+        standardColor = new Color(238, 238, 238);
     }
 
     @Override
