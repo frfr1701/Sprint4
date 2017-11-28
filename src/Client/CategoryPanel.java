@@ -8,10 +8,6 @@ import java.awt.event.ActionListener;
 import java.util.*;
 import javax.swing.*;
 
-/**
- *
- * @author Ian
- */
 public class CategoryPanel extends JPanel implements IPanel {
 
     JButton category1 = new JButton("");
@@ -21,8 +17,6 @@ public class CategoryPanel extends JPanel implements IPanel {
     JPanel panel = new JPanel();
     Color backgroundColor = new Color(175, 175, 200);
     
-    String subject = "";
-
     public CategoryPanel(ActionListener al) {
         category1.addActionListener(al);
         category2.addActionListener(al);
@@ -53,20 +47,9 @@ public class CategoryPanel extends JPanel implements IPanel {
         exitGame.setPreferredSize(new Dimension(50, 50));
     }
 
-    @Override
-    public void setColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-        setPanel();
-        repaint();
-
-    }
     public void setSubjects(List<String> subjects){
         category1.setText(subjects.get(0));
         category2.setText(subjects.get(1));
         category3.setText(subjects.get(2));
-    }
-
-    String getSubject() {
-        return subject;
     }
 }

@@ -9,22 +9,16 @@ import javax.swing.*;
 
 class GameFrame extends Client implements ActionListener, IPanel {
 
-    Queue panelQueue;
-
     JFrame mastern;
-    ColorSettingPanel colorSetterPanel;
-    StartPanel startPanel;
+
     CategoryPanel categoryPanel;
     QuestionPanel questionPanel;
     ResultPanel resultPanel;
 
     JPanel currentPanel;
-
-    List<IPanel> panelList;
+    Queue panelQueue;
 
     Color standardColor = new Color(238, 238, 238);
-    Color backgroundColor = new Color(175, 175, 200);
-
 
     @Override
     public void setGameStageGUI() {
@@ -33,17 +27,19 @@ class GameFrame extends Client implements ActionListener, IPanel {
             case FIRST:
                 panelQueue.add(new CategoryPanel(this));
                 addQuestionPanelToQueue();
+
                 initFirstSubjectPanel();
-                session.setGameState(MIDDLE);
                 break;
             case MIDDLE:
                 addQuestionPanelToQueue();
                 panelQueue.add(new CategoryPanel(this));
                 addQuestionPanelToQueue();
+
                 initFirstQuestionPanel();
                 break;
             case FINAL:
                 addQuestionPanelToQueue();
+
                 initFirstQuestionPanel();
                 break;
             case GAMECOMPLETE:
@@ -76,6 +72,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
         questions = session.getQuestionsThisRound();
         questionPanel.setQuestions(questions.remove());
     }
+
     private void initResultPanel() {
         panelQueue.add(new ResultPanel(this, session));
         mastern.add(currentPanel = resultPanel = (ResultPanel) (panelQueue.remove()));
@@ -85,7 +82,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
     @Override
     public void setPanel() {
         mastern = new JFrame();
-        
+
         mastern.setTitle("VÄRLDENS BÄSTA QUIZ!");
         mastern.setSize(450, 550);
         mastern.setVisible(true);
@@ -93,14 +90,6 @@ class GameFrame extends Client implements ActionListener, IPanel {
         mastern.setDefaultCloseOperation(3);
         mastern.revalidate();
         mastern.repaint();
-        
-
-        colorSetterPanel = new ColorSettingPanel(this);
-        startPanel = new StartPanel(this);
-        categoryPanel = new CategoryPanel(this);
-        questionPanel = new QuestionPanel(ma);
-        resultPanel = new ResultPanel(this, session);
-
     }
 
     MouseListener ma = new MouseAdapter() {
@@ -121,7 +110,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            mastern.remove(questionPanel);
+            mastern.remove(currentPanel);
             if (questions.size() > 0) {
                 mastern.add(currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove()));
                 questionPanel.setPanel();
@@ -138,8 +127,8 @@ class GameFrame extends Client implements ActionListener, IPanel {
                 }
 
             } else if (session.getGameState() == MIDDLE && panelQueue.size() > session.getNumberOfQuestions()) {
-                subjects = session.getSubjects();
                 mastern.add(currentPanel = categoryPanel = (CategoryPanel) (panelQueue.remove()));
+                subjects = session.getSubjects();
                 categoryPanel.setPanel();
                 categoryPanel.setSubjects(subjects);
 
@@ -164,9 +153,7 @@ class GameFrame extends Client implements ActionListener, IPanel {
 
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == startPanel.newGame) {
-
-        } else if (ae.getSource() == startPanel.exitGame || ae.getSource() == categoryPanel.exitGame || ae.getSource()==resultPanel.exitGame) {
+        if (ae.getSource() == categoryPanel.exitGame || ae.getSource() == resultPanel.exitGame) {
             System.exit(0);
         } else if (ae.getSource() == categoryPanel.category1) {
             chooseCategory(categoryPanel.category1);
@@ -174,45 +161,17 @@ class GameFrame extends Client implements ActionListener, IPanel {
             chooseCategory(categoryPanel.category2);
         } else if (ae.getSource() == categoryPanel.category3) {
             chooseCategory(categoryPanel.category3);
-
-        } else if (ae.getSource() == startPanel.settings) {
-
-        } else if (ae.getSource() == colorSetterPanel.black) {
-            panelList.forEach(p -> p.setColor(Color.BLACK));
-        } else if (ae.getSource() == colorSetterPanel.yellow) {
-            panelList.forEach(p -> p.setColor(Color.YELLOW));
-        } else if (ae.getSource() == colorSetterPanel.red) {
-            panelList.forEach(p -> p.setColor(Color.RED));
-        } else if (ae.getSource() == colorSetterPanel.standard) {
-            panelList.forEach(p -> p.setColor(backgroundColor));
-        } else if (ae.getSource() == colorSetterPanel.goBack) {
-        } 
+        }
         mastern.revalidate();
         mastern.repaint();
     }
 
     void chooseCategory(JButton category) {
         mastern.remove(currentPanel);
-        categoryPanel.subject = category.getText();
-        questions = session.getQuestions(categoryPanel.subject);
-        session.setQuestionsThisRound(new LinkedList(questions));
+        mastern.add(currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove()));
 
-        currentPanel = questionPanel = (QuestionPanel) (panelQueue.remove());
+        session.setQuestionsThisRound(new LinkedList(questions = session.getQuestions(category.getText())));
         questionPanel.setQuestions(questions.remove());
         questionPanel.setPanel();
-
-        mastern.add(currentPanel);
     }
-
-    @Override
-    public void setColor(Color backgroundColor) {
-    }
-    
-//    private void checkAnswers() {
-//        questions.stream()
-//                .filter((question) -> (question.get(2).equalsIgnoreCase(answers.remove())))
-//                .forEach((correctAnswer) -> {
-//                    session.givePointToPlayer();
-//                });
-//    }
 }

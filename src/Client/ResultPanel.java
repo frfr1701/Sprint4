@@ -104,10 +104,4 @@ public class ResultPanel extends JPanel implements IPanel {
         add("South", p3);
 
     }
-
-    @Override
-    public void setColor(Color backgroundColor) {
-        this.backgroundColor = backgroundColor;
-    }
-
 }

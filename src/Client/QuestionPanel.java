@@ -57,14 +57,7 @@ class QuestionPanel extends JPanel implements IPanel {
         setBorder(BorderFactory.createLineBorder(Color.BLUE, 20));
 
     }
-    @Override
-    public void setColor(Color backgroundColor){
-        this.backgroundColor = backgroundColor;
-        setPanel();
-        repaint();
-    }
     public void setQuestions(List<String> question){
-        
         this.question.setText(question.get(1));
         correctAnswer = question.get(2);
         for (int i = 2; i < question.size(); i++) {

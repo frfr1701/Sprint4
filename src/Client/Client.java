@@ -56,6 +56,5 @@ abstract class Client implements IPanel{
             System.out.println("IOException writeObject in client");
         }
     }
-
     public abstract void setGameStageGUI();
 }
