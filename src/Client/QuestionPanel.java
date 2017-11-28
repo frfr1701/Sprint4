@@ -9,6 +9,7 @@ import javax.swing.*;
 
 class QuestionPanel extends JPanel {
 
+    private final Color backgroundColor;
     private final JPanel panel;
     private final JPanel panel2;
     private final JLabel question;
@@ -19,9 +20,9 @@ class QuestionPanel extends JPanel {
     protected String correctAnswer;
     private List<String> currentQuestion;
 
-    Color backgroundColor = new Color(20, 134, 186);
 
     protected QuestionPanel(MouseListener ma) {
+        backgroundColor = new Color(20, 134, 186);
         answer4 = new Label("", Label.CENTER);
         answer3 = new Label("", Label.CENTER);
         answer2 = new Label("", Label.CENTER);
