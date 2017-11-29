@@ -2,8 +2,7 @@ package Domain;
 
 import static Domain.State.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Session implements Serializable {
 
@@ -33,9 +32,14 @@ public class Session implements Serializable {
     }
 
     //--------------------------------------------------------------------------
+   
     //player start
     public void changePlayer() {
         whichPlayer = !whichPlayer;
+    }
+
+    public boolean isWhichPlayer() {
+        return whichPlayer;
     }
 
     public void giveAnswerResultToPlayerList(boolean i) {
@@ -49,9 +53,16 @@ public class Session implements Serializable {
     public List<Boolean> getPointsFromPlayer() {
         return whichPlayer ? one.getPlayerResultList() : two.getPlayerResultList();
     }
+    public List<Boolean> getResultPlayer1() {
+        return one.getPlayerResultList();
+    }
+    public List<Boolean> getResultPlayer2() {
+        return two.getPlayerResultList();
+    }
     //player end
 
     //--------------------------------------------------------------------------
+   
     //gamestate start
     public void setGameState(State gameState) {
         this.gameState = gameState;
@@ -63,6 +74,7 @@ public class Session implements Serializable {
     //gamestate end
 
     //--------------------------------------------------------------------------
+    
     //roundCounter start
     public void addToRoundCounter() {
         roundCounter++;
@@ -75,11 +87,15 @@ public class Session implements Serializable {
     public boolean isFinalRound(){
         return roundCounter == numberOfRounds;
     }
+
+    public int getNumberOfRounds() {
+        return numberOfRounds;
+    }
     //roundCounter end
 
     //--------------------------------------------------------------------------
+   
     //questions and subjects start
-
     public int getNumberOfQuestions() {
         return numberOfQuestions;
     }

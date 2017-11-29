@@ -6,12 +6,17 @@ import java.util.*;
 
 class QuestionReader implements Serializable {
 
-    private final Path dir = Paths.get("src\\Server\\Resources");
+    private final Path dir;
     private DirectoryStream<Path> directoryStream;
     private List<String> subjects;
     private List<List<String>> questions;
 
     QuestionReader() {
+        if (System.getProperty("os.name").toLowerCase().contains("win")) {
+            dir = Paths.get("src\\Server\\Resources");
+        }else{
+            dir = Paths.get("src/Server/Resources");
+        }
         questions = new ArrayList<>();
         subjects = new ArrayList<>();
         try {
@@ -25,10 +30,10 @@ class QuestionReader implements Serializable {
             System.out.println(ex.getCause());
         }
     }
+    
     private List<List<String>> fileReader(Path p) {
         String[] tempArray = new String[6];
         List<List<String>> tempList = new ArrayList<>();
-
         try (BufferedReader br = new BufferedReader(Files.newBufferedReader(p))) {
             while (((tempArray[1] = br.readLine()) != null)
                     && ((tempArray[2] = br.readLine()) != null)
