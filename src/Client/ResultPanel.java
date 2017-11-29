@@ -32,8 +32,8 @@ public class ResultPanel extends JPanel {
         p1 = new JPanel();
         p2 = new JPanel();
         p3 = new JPanel();
-        v1 = new JLabel("You");
-        v2 = new JLabel("Him");
+        v1 = new JLabel("            You");
+        v2 = new JLabel("Opponent");
         f1 = new JTextField();
         exitGame = new JButton("Avsluta");
         bplayer1 = new JButton[session.getNumberOfRounds() * session.getNumberOfQuestions()];
@@ -120,15 +120,15 @@ public class ResultPanel extends JPanel {
         if (session.getGameState() == State.GAMECOMPLETE) {
             if (one.stream().filter(current -> current.equals(true)).count()
                     > two.stream().filter(current -> current.equals(true)).count()) {
-                v1.setText("(Winner) You");
-                v2.setText("Him (Looser) ");
+                v1.setText("            (Winner) You");
+                v2.setText("Opponent (Looser) ");
             } else if (one.stream().filter(current -> current.equals(true)).count()
                     < two.stream().filter(current -> current.equals(true)).count()) {
-                v1.setText("(Looser) You");
-                v2.setText("Him (Winner) ");
+                v1.setText("            (Looser) You");
+                v2.setText("Opponent (Winner) ");
             } else {
-                v1.setText("(Draw) You");
-                v2.setText("Him (Draw)");
+                v1.setText("            (Draw) You");
+                v2.setText("Opponent (Draw)");
             }
         }
     }
